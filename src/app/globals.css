@@ -49,82 +49,202 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --background: oklch(0.12 0.005 260);
+  --foreground: oklch(0.93 0 0);
+  --card: oklch(0.15 0.005 260);
+  --card-foreground: oklch(0.93 0 0);
+  --popover: oklch(0.15 0.005 260);
+  --popover-foreground: oklch(0.93 0 0);
+  --primary: oklch(0.88 0 0);
+  --primary-foreground: oklch(0.12 0 0);
+  --secondary: oklch(0.2 0.005 260);
+  --secondary-foreground: oklch(0.88 0 0);
+  --muted: oklch(0.18 0.005 260);
+  --muted-foreground: oklch(0.65 0 0);
+  --accent: oklch(0.2 0.005 260);
+  --accent-foreground: oklch(0.88 0 0);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: oklch(0.55 0 0);
+  --chart-1: oklch(0.7 0.15 250);
+  --chart-2: oklch(0.65 0.15 150);
+  --chart-3: oklch(0.6 0.15 30);
+  --chart-4: oklch(0.65 0.15 320);
+  --chart-5: oklch(0.6 0.15 60);
+  --radius: 0.5rem;
+  --sidebar: oklch(0.13 0.005 260);
+  --sidebar-foreground: oklch(0.88 0 0);
+  --sidebar-primary: oklch(0.7 0.15 250);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
+  --sidebar-accent: oklch(0.2 0.005 260);
+  --sidebar-accent-foreground: oklch(0.88 0 0);
+  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-ring: oklch(0.55 0 0);
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* Mood-reactive CSS vars — updated from React via inline style */
+  --mood-hue: 220;
+  --mood-chroma: 0.04;
+  --arousal-speed: 8s;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+  html,
   body {
     @apply bg-background text-foreground;
+    height: 100dvh;
+    overflow: hidden;
   }
   html {
     @apply font-sans;
   }
+}
+
+/* Mood-reactive gradient background */
+@keyframes mood-breathe {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.08);
+  }
+}
+
+.mood-bg {
+  position: relative;
+  background: oklch(0.12 0.005 260);
+}
+
+.mood-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 90% 40% at 50% -5%,
+    oklch(0.22 var(--mood-chroma) var(--mood-hue) / 0.4),
+    transparent 70%
+  );
+  animation: mood-breathe var(--arousal-speed, 8s) ease-in-out infinite;
+  transition: background 4s ease;
+  z-index: 0;
+}
+
+.mood-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 60% 30% at 50% 100%,
+    oklch(0.15 var(--mood-chroma) var(--mood-hue) / 0.25),
+    transparent 60%
+  );
+  transition: background 4s ease;
+  z-index: 0;
+}
+
+.mood-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Heartbeat pulse animation */
+@keyframes heartbeat-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.82);
+  }
+}
+
+.heartbeat-dot {
+  animation: heartbeat-pulse var(--arousal-speed, 8s) ease-in-out infinite;
+}
+
+/* Thought fade-in */
+@keyframes thought-appear {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.thought-enter {
+  animation: thought-appear 0.5s ease forwards;
+}
+
+/* Emotion pill glow */
+.emotion-pill-glow {
+  box-shadow: 0 0 6px currentColor;
+}
+
+/* High-intensity emotion pulse */
+@keyframes emotion-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 4px currentColor;
+  }
+  50% {
+    box-shadow:
+      0 0 12px currentColor,
+      0 0 24px currentColor;
+  }
+}
+
+.emotion-intense {
+  animation: emotion-pulse 2s ease-in-out infinite;
+}
+
+/* Monospace utility */
+.mono {
+  font-family: var(--font-geist-mono, ui-monospace, monospace);
+  font-size: 0.8rem;
+  letter-spacing: 0.025em;
+}
+
+/* Copyable ID */
+.copyable-id {
+  cursor: pointer;
+  transition:
+    opacity 0.15s,
+    background-color 0.15s;
+}
+.copyable-id:hover {
+  background-color: oklch(1 0 0 / 8%);
+}
+
+/* Drive fill animation */
+.drive-fill {
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Thin scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: oklch(1 0 0 / 18%);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(1 0 0 / 28%);
 }
