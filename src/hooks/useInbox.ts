@@ -47,6 +47,26 @@ export function useInbox() {
       setItems((prev) =>
         prev.some((p) => p.id === item.id) ? prev : [item, ...prev],
       );
+      if (
+        item.priority === "urgent" &&
+        typeof window !== "undefined" &&
+        (window as unknown as { __TAURI_INTERNALS__?: unknown })
+          .__TAURI_INTERNALS__
+      ) {
+        void (async () => {
+          const { sendNotification, requestPermission, isPermissionGranted } =
+            await import("@tauri-apps/plugin-notification");
+          if (!(await isPermissionGranted())) {
+            if ((await requestPermission()) !== "granted") return;
+          }
+          sendNotification({
+            title: `Urgent · ${item.senderName ?? item.sender}`,
+            body: item.subject
+              ? `${item.subject} — ${item.preview.slice(0, 80)}`
+              : item.preview.slice(0, 120),
+          });
+        })();
+      }
     } else if (last.type === "inbox:item_updated") {
       const updated = last.payload as InboxItem;
       setItems((prev) =>
