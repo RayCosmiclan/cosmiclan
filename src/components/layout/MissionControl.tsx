@@ -31,7 +31,7 @@ export function MissionControl() {
         </h2>
         <div className="grid grid-cols-4 gap-3">
           {AGENTS.map((a) => {
-            const state = fleetState.agents[a.id];
+            const state = fleetState[a.id];
             const valence = state?.emotionalState?.mood?.valence;
             return (
               <div
