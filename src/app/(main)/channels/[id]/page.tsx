@@ -37,10 +37,11 @@ export default function Page() {
         {agentMembers.length > 0 && (
           <div className="flex items-center gap-1.5">
             {agentMembers.map((memberId) => {
+              const normalized = memberId.toLowerCase().replace(/\s+/g, "");
               const agent = AGENTS.find(
                 (a) =>
-                  a.id === memberId ||
-                  a.name.toLowerCase().replace(/\s+/g, "") === memberId,
+                  a.id === normalized ||
+                  a.name.toLowerCase().replace(/\s+/g, "") === normalized,
               );
               if (!agent) return null;
               return (
