@@ -1,15 +1,28 @@
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
+"use client";
+
+import { useParams } from "next/navigation";
+import { useChannel } from "@/hooks/useChannel";
+import { MessageList } from "@/components/chat/MessageList";
+import { Composer } from "@/components/chat/Composer";
+
+export default function Page() {
+  const { id } = useParams<{ id: string }>();
+  const { messages, channel, send } = useChannel(id);
   return (
-    <div className="mx-auto max-w-4xl p-6">
-      <h1 className="text-2xl font-semibold text-[var(--foreground)]">#{id}</h1>
-      <div className="mt-6 rounded-lg border border-[var(--border)] bg-[var(--surface-2)] p-8 text-sm text-[var(--muted-fg)]">
-        Stream D wires channel messages + composer.
-      </div>
+    <div className="flex h-full flex-col">
+      <header className="border-b border-[var(--border)] px-5 py-4 flex-shrink-0">
+        <h1 className="text-base font-semibold">#{channel?.name ?? id}</h1>
+        {channel?.description && (
+          <p className="text-xs text-[var(--muted-fg)] mt-0.5">
+            {channel.description}
+          </p>
+        )}
+      </header>
+      <MessageList messages={messages} />
+      <Composer
+        onSend={send}
+        placeholder={`Message #${channel?.name ?? id}...`}
+      />
     </div>
   );
 }
