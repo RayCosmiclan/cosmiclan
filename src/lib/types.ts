@@ -132,6 +132,21 @@ export interface AbilityRequest {
   addressedAt?: number;
 }
 
+export type CapabilityStatus =
+  | "connected"
+  | "disconnected"
+  | "errored"
+  | "stub"
+  | "unknown";
+
+export interface AgentCapability {
+  id: string;
+  name: string;
+  description: string;
+  status: CapabilityStatus;
+  detail?: string;
+}
+
 export interface SoulSummary {
   name: string;
   description: string;
@@ -177,6 +192,7 @@ export interface StateSnapshot {
     recentEpisodes: EpisodicMemory[];
     soul: SoulSummary;
     abilityRequests: AbilityRequest[];
+    capabilities?: AgentCapability[];
   };
   history: WsEvent[];
 }
@@ -216,6 +232,7 @@ export interface MartyState {
   recentEpisodes: EpisodicMemory[];
   soul: SoulSummary | null;
   abilityRequests: AbilityRequest[];
+  capabilities: AgentCapability[];
   events: WsEvent[];
   thoughts: Array<WsEvent & { payload: MonologueOutput }>;
   actions: Array<

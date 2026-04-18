@@ -25,6 +25,7 @@ function createDefaultState(): MartyState {
     recentEpisodes: [],
     soul: null,
     abilityRequests: [],
+    capabilities: [],
     events: [],
     thoughts: [],
     actions: [],
@@ -72,6 +73,7 @@ export function useAgentSocket(agent: AgentConfig) {
             recentEpisodes: snapshot.data.recentEpisodes,
             soul: snapshot.data.soul,
             abilityRequests: snapshot.data.abilityRequests,
+            capabilities: snapshot.data.capabilities ?? [],
             events: snapshot.history,
             thoughts: snapshot.history
               .filter((e) => e.type === "thought:produced")

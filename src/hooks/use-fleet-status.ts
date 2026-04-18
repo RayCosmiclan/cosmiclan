@@ -20,6 +20,7 @@ function createDefaultState(): MartyState {
     recentEpisodes: [],
     soul: null,
     abilityRequests: [],
+    capabilities: [],
     events: [],
     thoughts: [],
     actions: [],
@@ -88,6 +89,7 @@ export function useFleetStatus(): FleetState {
               recentEpisodes: snapshot.data.recentEpisodes,
               soul: snapshot.data.soul,
               abilityRequests: snapshot.data.abilityRequests,
+              capabilities: snapshot.data.capabilities ?? [],
               events: snapshot.history.slice(-50),
               thoughts: snapshot.history
                 .filter((e) => e.type === "thought:produced")

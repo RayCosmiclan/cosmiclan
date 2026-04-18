@@ -1,7 +1,12 @@
 "use client";
 
 import { useMemo } from "react";
-import type { MartyState, AbilityRequest } from "@/lib/types";
+import type {
+  MartyState,
+  AbilityRequest,
+  AgentCapability,
+  CapabilityStatus,
+} from "@/lib/types";
 import { CopyableId } from "@/components/copyable-id";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -31,13 +36,6 @@ function formatDate(ts: number): string {
   });
 }
 
-type CapabilityStatus =
-  | "connected"
-  | "disconnected"
-  | "errored"
-  | "stub"
-  | "unknown";
-
 interface Capability {
   name: string;
   description: string;
@@ -51,7 +49,33 @@ interface CapabilityCategory {
   items: Capability[];
 }
 
-const CAPABILITY_MAP: CapabilityCategory[] = [
+// Categorization of capability IDs. Status comes live from state.capabilities.
+const CATEGORY_BY_ID: Record<string, string> = {
+  "claude-service": "Cognition",
+  "memory-system": "Cognition",
+  "goals-system": "Cognition",
+  "inbox-triage": "Cognition",
+  "discord-adapter": "Communication",
+  "telegram-adapter": "Communication",
+  "twitter-adapter": "Communication",
+  "whatsapp-adapter": "Communication",
+  "outlook-adapter": "Communication",
+  "google-workspace": "Integrations",
+  "browser-sessions": "Integrations",
+  "image-generation": "Media",
+  "video-generation": "Media",
+  "voice-synthesis": "Media",
+};
+
+const CATEGORY_COLORS: Record<string, string> = {
+  Communication: "#93c5fd",
+  Media: "#fde68a",
+  Integrations: "#86efac",
+  Cognition: "#c4b5fd",
+  Other: "#d4d4d8",
+};
+
+const FALLBACK_MAP: CapabilityCategory[] = [
   {
     label: "Communication",
     color: "#93c5fd",
@@ -169,34 +193,34 @@ const REQUEST_STATUS_STYLES: Record<
 };
 
 function resolveStatus(
-  capability: string,
+  capabilityId: string,
+  live: AgentCapability[],
   requests: AbilityRequest[],
-): CapabilityStatus {
-  // Check for addressed requests (approved capabilities)
+): { status: CapabilityStatus; detail?: string } {
+  const hit = live.find((c) => c.id === capabilityId);
+  if (hit) return { status: hit.status, detail: hit.detail };
+  // Fallback to ability-request heuristic
   const hasAddressedRequest = requests.some(
-    (r) => r.capability === capability && r.status === "addressed",
+    (r) => r.capability === capabilityId && r.status === "addressed",
   );
-  if (hasAddressedRequest) return "connected";
-
-  // If there's an open request for this capability, it's disconnected/missing
+  if (hasAddressedRequest) return { status: "connected" };
   const hasOpenRequest = requests.some(
-    (r) => r.capability === capability && r.status === "open",
+    (r) => r.capability === capabilityId && r.status === "open",
   );
-  if (hasOpenRequest) return "disconnected";
-
-  return "unknown";
+  if (hasOpenRequest) return { status: "disconnected" };
+  return { status: "unknown" };
 }
 
 function CapabilityRow({
   item,
-  categoryColor,
+  live,
   requests,
 }: {
   item: Capability;
-  categoryColor: string;
+  live: AgentCapability[];
   requests: AbilityRequest[];
 }) {
-  const status = resolveStatus(item.capability, requests);
+  const { status, detail } = resolveStatus(item.capability, live, requests);
   const style = STATUS_STYLES[status];
 
   return (
@@ -213,10 +237,17 @@ function CapabilityRow({
 
       {/* Name + description */}
       <div className="flex-1 min-w-0">
-        <span className="text-base text-[oklch(0.80_0_0)]">{item.name}</span>
-        <span className="ml-2 text-sm text-[oklch(0.50_0_0)]">
-          {item.description}
-        </span>
+        <div className="flex items-baseline">
+          <span className="text-base text-[oklch(0.80_0_0)]">{item.name}</span>
+          <span className="ml-2 text-sm text-[oklch(0.50_0_0)]">
+            {item.description}
+          </span>
+        </div>
+        {detail && (
+          <div className="text-xs text-[oklch(0.45_0_0)] mt-0.5 truncate">
+            {detail}
+          </div>
+        )}
       </div>
 
       {/* Status label */}
@@ -279,7 +310,7 @@ function AbilityRequestCard({ request }: { request: AbilityRequest }) {
 }
 
 export function AbilitiesTab({ state }: AbilitiesTabProps) {
-  const { abilityRequests, connected } = state;
+  const { abilityRequests, connected, capabilities } = state;
 
   const openRequests = useMemo(
     () => abilityRequests.filter((r) => r.status === "open"),
@@ -290,6 +321,36 @@ export function AbilitiesTab({ state }: AbilitiesTabProps) {
     () => [...abilityRequests].sort((a, b) => b.createdAt - a.createdAt),
     [abilityRequests],
   );
+
+  // Prefer live capabilities when available; fall back to static map
+  const liveMap = useMemo<CapabilityCategory[]>(() => {
+    if (!capabilities || capabilities.length === 0) return FALLBACK_MAP;
+    const grouped: Record<string, Capability[]> = {};
+    for (const c of capabilities) {
+      const label = CATEGORY_BY_ID[c.id] ?? "Other";
+      if (!grouped[label]) grouped[label] = [];
+      grouped[label]!.push({
+        capability: c.id,
+        name: c.name,
+        description: c.description,
+        status: c.status,
+      });
+    }
+    const order = [
+      "Cognition",
+      "Communication",
+      "Integrations",
+      "Media",
+      "Other",
+    ];
+    return order
+      .filter((k) => grouped[k])
+      .map((label) => ({
+        label,
+        color: CATEGORY_COLORS[label] ?? "#d4d4d8",
+        items: grouped[label]!,
+      }));
+  }, [capabilities]);
 
   return (
     <div className="flex h-full overflow-hidden">
@@ -307,7 +368,7 @@ export function AbilitiesTab({ state }: AbilitiesTabProps) {
             )}
           </div>
 
-          {CAPABILITY_MAP.map((category) => (
+          {liveMap.map((category) => (
             <div key={category.label}>
               <h4
                 className="text-xs font-medium mb-3 uppercase tracking-wider"
@@ -320,7 +381,7 @@ export function AbilitiesTab({ state }: AbilitiesTabProps) {
                   <CapabilityRow
                     key={item.capability}
                     item={item}
-                    categoryColor={category.color}
+                    live={capabilities ?? []}
                     requests={abilityRequests}
                   />
                 ))}
