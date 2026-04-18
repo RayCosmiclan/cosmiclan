@@ -2,7 +2,7 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:is([data-theme="dark"] *));
 
 @theme inline {
   --color-background: var(--background);
@@ -48,24 +48,74 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-:root {
-  --background: oklch(0.12 0.005 260);
+/* ─── Light theme (default) ──────────────────────────────────────────────── */
+:root,
+:root[data-theme="light"] {
+  --background: oklch(0.99 0.003 80);
+  --surface-2: oklch(0.97 0.005 80);
+  --surface-3: oklch(0.94 0.007 80);
+  --foreground: oklch(0.18 0.01 260);
+  --muted-fg: oklch(0.45 0.01 260);
+  --card: oklch(0.97 0.005 80);
+  --card-foreground: oklch(0.18 0.01 260);
+  --popover: oklch(0.97 0.005 80);
+  --popover-foreground: oklch(0.18 0.01 260);
+  --primary: oklch(0.18 0.01 260);
+  --primary-foreground: oklch(0.99 0.003 80);
+  --secondary: oklch(0.94 0.007 80);
+  --secondary-foreground: oklch(0.18 0.01 260);
+  --muted: oklch(0.94 0.007 80);
+  --muted-foreground: oklch(0.45 0.01 260);
+  --accent: oklch(0.55 0.15 260);
+  --accent-foreground: oklch(0.99 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.9 0.005 80);
+  --input: oklch(0.9 0.005 80);
+  --ring: oklch(0.55 0.15 260);
+  --chart-1: oklch(0.7 0.15 250);
+  --chart-2: oklch(0.65 0.15 150);
+  --chart-3: oklch(0.6 0.15 30);
+  --chart-4: oklch(0.65 0.15 320);
+  --chart-5: oklch(0.6 0.15 60);
+  --radius: 0.5rem;
+  --sidebar: oklch(0.97 0.005 80);
+  --sidebar-foreground: oklch(0.18 0.01 260);
+  --sidebar-primary: oklch(0.55 0.15 260);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.94 0.007 80);
+  --sidebar-accent-foreground: oklch(0.18 0.01 260);
+  --sidebar-border: oklch(0.9 0.005 80);
+  --sidebar-ring: oklch(0.55 0.15 260);
+
+  /* Mood-reactive CSS vars — updated from React via inline style */
+  --mood-hue: 220;
+  --mood-chroma: 0.04;
+  --arousal-speed: 8s;
+  --mood-intensity: 0.4;
+}
+
+/* ─── Dark theme ─────────────────────────────────────────────────────────── */
+:root[data-theme="dark"] {
+  --background: oklch(0.15 0.01 260);
+  --surface-2: oklch(0.19 0.012 250);
+  --surface-3: oklch(0.24 0.014 250);
   --foreground: oklch(0.93 0 0);
-  --card: oklch(0.15 0.005 260);
+  --muted-fg: oklch(0.7 0.01 260);
+  --card: oklch(0.19 0.012 250);
   --card-foreground: oklch(0.93 0 0);
-  --popover: oklch(0.15 0.005 260);
+  --popover: oklch(0.19 0.012 250);
   --popover-foreground: oklch(0.93 0 0);
   --primary: oklch(0.88 0 0);
-  --primary-foreground: oklch(0.12 0 0);
-  --secondary: oklch(0.2 0.005 260);
+  --primary-foreground: oklch(0.15 0.01 260);
+  --secondary: oklch(0.24 0.014 250);
   --secondary-foreground: oklch(0.88 0 0);
-  --muted: oklch(0.18 0.005 260);
-  --muted-foreground: oklch(0.65 0 0);
-  --accent: oklch(0.2 0.005 260);
-  --accent-foreground: oklch(0.88 0 0);
+  --muted: oklch(0.22 0.012 250);
+  --muted-foreground: oklch(0.7 0.01 260);
+  --accent: oklch(0.75 0.18 260);
+  --accent-foreground: oklch(0.1 0.01 260);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 14%);
+  --border: oklch(0.28 0.01 260);
+  --input: oklch(0.28 0.01 260);
   --ring: oklch(0.55 0 0);
   --chart-1: oklch(0.7 0.15 250);
   --chart-2: oklch(0.65 0.15 150);
@@ -73,19 +123,56 @@
   --chart-4: oklch(0.65 0.15 320);
   --chart-5: oklch(0.6 0.15 60);
   --radius: 0.5rem;
-  --sidebar: oklch(0.13 0.005 260);
+  --sidebar: oklch(0.17 0.01 260);
   --sidebar-foreground: oklch(0.88 0 0);
-  --sidebar-primary: oklch(0.7 0.15 250);
+  --sidebar-primary: oklch(0.75 0.18 260);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.2 0.005 260);
+  --sidebar-accent: oklch(0.24 0.014 250);
   --sidebar-accent-foreground: oklch(0.88 0 0);
-  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-border: oklch(0.28 0.01 260);
   --sidebar-ring: oklch(0.55 0 0);
 
   /* Mood-reactive CSS vars — updated from React via inline style */
   --mood-hue: 220;
   --mood-chroma: 0.04;
   --arousal-speed: 8s;
+  --mood-intensity: 0.4;
+}
+
+/* System-preference dark (when no data-theme attribute is set) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --background: oklch(0.15 0.01 260);
+    --surface-2: oklch(0.19 0.012 250);
+    --surface-3: oklch(0.24 0.014 250);
+    --foreground: oklch(0.93 0 0);
+    --muted-fg: oklch(0.7 0.01 260);
+    --card: oklch(0.19 0.012 250);
+    --card-foreground: oklch(0.93 0 0);
+    --popover: oklch(0.19 0.012 250);
+    --popover-foreground: oklch(0.93 0 0);
+    --primary: oklch(0.88 0 0);
+    --primary-foreground: oklch(0.15 0.01 260);
+    --secondary: oklch(0.24 0.014 250);
+    --secondary-foreground: oklch(0.88 0 0);
+    --muted: oklch(0.22 0.012 250);
+    --muted-foreground: oklch(0.7 0.01 260);
+    --accent: oklch(0.75 0.18 260);
+    --accent-foreground: oklch(0.1 0.01 260);
+    --destructive: oklch(0.577 0.245 27.325);
+    --border: oklch(0.28 0.01 260);
+    --input: oklch(0.28 0.01 260);
+    --ring: oklch(0.55 0 0);
+    --sidebar: oklch(0.17 0.01 260);
+    --sidebar-foreground: oklch(0.88 0 0);
+    --sidebar-primary: oklch(0.75 0.18 260);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.24 0.014 250);
+    --sidebar-accent-foreground: oklch(0.88 0 0);
+    --sidebar-border: oklch(0.28 0.01 260);
+    --sidebar-ring: oklch(0.55 0 0);
+    --mood-intensity: 0.4;
+  }
 }
 
 @layer base {
@@ -103,7 +190,7 @@
   }
 }
 
-/* Mood-reactive gradient background */
+/* ─── Mood-reactive gradient background ─────────────────────────────────── */
 @keyframes mood-breathe {
   0%,
   100% {
@@ -118,9 +205,10 @@
 
 .mood-bg {
   position: relative;
-  background: oklch(0.12 0.005 260);
+  background: var(--background);
 }
 
+/* Mood intensity capped at 40% via --mood-intensity var */
 .mood-bg::before {
   content: "";
   position: absolute;
@@ -128,7 +216,10 @@
   pointer-events: none;
   background: radial-gradient(
     ellipse 90% 40% at 50% -5%,
-    oklch(0.22 var(--mood-chroma) var(--mood-hue) / 0.4),
+    oklch(
+      0.22 var(--mood-chroma) var(--mood-hue) /
+        calc(0.4 * var(--mood-intensity, 0.4))
+    ),
     transparent 70%
   );
   animation: mood-breathe var(--arousal-speed, 8s) ease-in-out infinite;
@@ -143,7 +234,10 @@
   pointer-events: none;
   background: radial-gradient(
     ellipse 60% 30% at 50% 100%,
-    oklch(0.15 var(--mood-chroma) var(--mood-hue) / 0.25),
+    oklch(
+      0.15 var(--mood-chroma) var(--mood-hue) /
+        calc(0.25 * var(--mood-intensity, 0.4))
+    ),
     transparent 60%
   );
   transition: background 4s ease;
@@ -155,7 +249,7 @@
   z-index: 1;
 }
 
-/* Heartbeat pulse animation */
+/* ─── Heartbeat pulse animation ──────────────────────────────────────────── */
 @keyframes heartbeat-pulse {
   0%,
   100% {
@@ -172,7 +266,7 @@
   animation: heartbeat-pulse var(--arousal-speed, 8s) ease-in-out infinite;
 }
 
-/* Thought fade-in */
+/* ─── Thought fade-in ────────────────────────────────────────────────────── */
 @keyframes thought-appear {
   from {
     opacity: 0;
@@ -188,12 +282,11 @@
   animation: thought-appear 0.5s ease forwards;
 }
 
-/* Emotion pill glow */
+/* ─── Emotion effects ────────────────────────────────────────────────────── */
 .emotion-pill-glow {
   box-shadow: 0 0 6px currentColor;
 }
 
-/* High-intensity emotion pulse */
 @keyframes emotion-pulse {
   0%,
   100% {
@@ -210,14 +303,13 @@
   animation: emotion-pulse 2s ease-in-out infinite;
 }
 
-/* Monospace utility */
+/* ─── Utilities ──────────────────────────────────────────────────────────── */
 .mono {
   font-family: var(--font-geist-mono, ui-monospace, monospace);
   font-size: 0.8rem;
   letter-spacing: 0.025em;
 }
 
-/* Copyable ID */
 .copyable-id {
   cursor: pointer;
   transition:
@@ -228,12 +320,10 @@
   background-color: oklch(1 0 0 / 8%);
 }
 
-/* Drive fill animation */
 .drive-fill {
   transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Thin scrollbar */
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
