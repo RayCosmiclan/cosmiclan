@@ -1,26 +1,32 @@
-import { AGENTS } from "@/lib/agents";
-import { notFound } from "next/navigation";
+"use client";
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ agent: string }>;
-}) {
-  const { agent } = await params;
+import { useParams } from "next/navigation";
+import { AGENTS } from "@/lib/agents";
+import { useConversation } from "@/hooks/useConversation";
+import { MessageList } from "@/components/chat/MessageList";
+import { Composer } from "@/components/chat/Composer";
+
+export default function Page() {
+  const { agent } = useParams<{ agent: string }>();
   const a = AGENTS.find(
     (x) =>
-      x.name.toLowerCase().replace(/\s+/g, "") === agent.toLowerCase() ||
-      x.id === agent.toLowerCase(),
+      x.id === agent?.toLowerCase() ||
+      x.name.toLowerCase().replace(/\s+/g, "") === agent?.toLowerCase(),
   );
-  if (!a) notFound();
+  if (!a)
+    return <div className="p-6 text-[var(--muted-fg)]">Unknown agent.</div>;
+  const { messages, send } = useConversation(a.name);
   return (
-    <div className="mx-auto max-w-3xl p-6">
-      <h1 className="text-2xl font-semibold text-[var(--foreground)]">
-        Conversation with {a.name}
-      </h1>
-      <div className="mt-6 rounded-lg border border-[var(--border)] bg-[var(--surface-2)] p-8 text-sm text-[var(--muted-fg)]">
-        Stream D fills this in with comms.db thread + composer.
-      </div>
+    <div className="flex h-full flex-col">
+      <header className="border-b border-[var(--border)] px-5 py-4 flex items-center gap-3 flex-shrink-0">
+        <div
+          className="w-8 h-8 rounded-full flex-shrink-0"
+          style={{ backgroundColor: a.color }}
+        />
+        <h1 className="text-base font-semibold">{a.name}</h1>
+      </header>
+      <MessageList messages={messages} />
+      <Composer onSend={send} placeholder={`Message ${a.name}...`} />
     </div>
   );
 }
