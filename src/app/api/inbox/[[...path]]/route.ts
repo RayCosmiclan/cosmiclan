@@ -21,17 +21,13 @@ async function proxy(req: NextRequest, segs: string[]) {
   });
 }
 
-export const GET = (
-  req: NextRequest,
-  { params }: { params: Promise<{ path: string[] }> },
-) => params.then((p) => proxy(req, p.path ?? []));
+type RouteContext = { params: Promise<{ path?: string[] }> };
 
-export const POST = (
-  req: NextRequest,
-  { params }: { params: Promise<{ path: string[] }> },
-) => params.then((p) => proxy(req, p.path ?? []));
+export const GET = (req: NextRequest, { params }: RouteContext) =>
+  params.then((p) => proxy(req, p.path ?? []));
 
-export const DELETE = (
-  req: NextRequest,
-  { params }: { params: Promise<{ path: string[] }> },
-) => params.then((p) => proxy(req, p.path ?? []));
+export const POST = (req: NextRequest, { params }: RouteContext) =>
+  params.then((p) => proxy(req, p.path ?? []));
+
+export const DELETE = (req: NextRequest, { params }: RouteContext) =>
+  params.then((p) => proxy(req, p.path ?? []));
