@@ -1,4 +1,4 @@
-// Types mirroring marty-framework for dashboard consumption
+// Types mirroring fleet-runtime for dashboard consumption
 
 export interface AgentConfig {
   id: string;
