@@ -9,8 +9,8 @@ interface AgentSelectorProps {
   activeAgent: AgentConfig;
   connectionStatus: Record<string, boolean>;
   onSelect: (agent: AgentConfig) => void;
-  fleetOpen: boolean;
-  onToggleFleet: () => void;
+  clanOpen: boolean;
+  onToggleClan: () => void;
   homeOpen: boolean;
   onToggleHome: () => void;
 }
@@ -19,8 +19,8 @@ export function AgentSelector({
   activeAgent,
   connectionStatus,
   onSelect,
-  fleetOpen,
-  onToggleFleet,
+  clanOpen,
+  onToggleClan,
   homeOpen,
   onToggleHome,
 }: AgentSelectorProps) {
@@ -117,14 +117,14 @@ export function AgentSelector({
         HOME
       </button>
       <button
-        onClick={onToggleFleet}
+        onClick={onToggleClan}
         className={`mono text-xs px-2.5 py-1 rounded-md border transition-all ${
-          fleetOpen
+          clanOpen
             ? "border-[oklch(0.7_0.12_250/60%)] text-[oklch(0.7_0.12_250)] bg-[oklch(0.7_0.12_250/10%)]"
             : "border-[oklch(1_0_0/10%)] text-[oklch(0.45_0_0)] hover:border-[oklch(1_0_0/18%)] hover:text-[oklch(0.55_0_0)]"
         }`}
       >
-        FLEET
+        CLAN
       </button>
     </div>
   );

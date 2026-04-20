@@ -5,7 +5,7 @@ export default function Page() {
         Notifications
       </h1>
       <p className="text-sm text-[var(--muted-fg)]">
-        Configure how and when Cosmicfleet alerts you to agent activity.
+        Configure how and when Cosmiclan alerts you to agent activity.
       </p>
       <div className="rounded-lg border border-[var(--border)] bg-[var(--surface-2)] p-6 text-sm text-[var(--muted-fg)]">
         Notification preferences — Stream D.

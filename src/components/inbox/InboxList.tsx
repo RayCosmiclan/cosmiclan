@@ -9,7 +9,7 @@ export function InboxList() {
   if (items.length === 0) {
     return (
       <div className="rounded-lg border border-dashed border-[var(--border)] p-10 text-center text-[var(--muted-fg)]">
-        Inbox clear. Fleet has handled the rest.
+        Inbox clear. Clan has handled the rest.
       </div>
     );
   }

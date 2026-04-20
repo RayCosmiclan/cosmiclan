@@ -27,18 +27,18 @@ function createDefaultState(): MartyState {
   };
 }
 
-type FleetState = Record<string, MartyState>;
+type ClanState = Record<string, MartyState>;
 
-function createDefaultFleet(): FleetState {
-  const fleet: FleetState = {};
+function createDefaultClan(): ClanState {
+  const clan: ClanState = {};
   for (const agent of AGENTS) {
-    fleet[agent.id] = createDefaultState();
+    clan[agent.id] = createDefaultState();
   }
-  return fleet;
+  return clan;
 }
 
-export function useFleetStatus(): FleetState {
-  const [fleet, setFleet] = useState<FleetState>(createDefaultFleet);
+export function useClanStatus(): ClanState {
+  const [clan, setClan] = useState<ClanState>(createDefaultClan);
   const wsRefs = useRef<Record<string, WebSocket | null>>({});
   const reconnectRefs = useRef<
     Record<string, ReturnType<typeof setTimeout> | null>
@@ -53,14 +53,14 @@ export function useFleetStatus(): FleetState {
 
     ws.onopen = () => {
       delayRefs.current[agentId] = 1000;
-      setFleet((prev) => ({
+      setClan((prev) => ({
         ...prev,
         [agentId]: { ...prev[agentId], connected: true },
       }));
     };
 
     ws.onclose = () => {
-      setFleet((prev) => ({
+      setClan((prev) => ({
         ...prev,
         [agentId]: { ...prev[agentId], connected: false },
       }));
@@ -78,7 +78,7 @@ export function useFleetStatus(): FleetState {
 
         if (data.type === "state:snapshot") {
           const snapshot = data as StateSnapshot;
-          setFleet((prev) => ({
+          setClan((prev) => ({
             ...prev,
             [agentId]: {
               ...prev[agentId],
@@ -107,9 +107,9 @@ export function useFleetStatus(): FleetState {
           return;
         }
 
-        // For fleet, only track emotion changes, thoughts, and actions (lightweight)
+        // For clan, only track emotion changes, thoughts, and actions (lightweight)
         if (data.type === "emotion:changed") {
-          setFleet((prev) => ({
+          setClan((prev) => ({
             ...prev,
             [agentId]: {
               ...prev[agentId],
@@ -119,7 +119,7 @@ export function useFleetStatus(): FleetState {
         }
 
         if (data.type === "thought:produced") {
-          setFleet((prev) => {
+          setClan((prev) => {
             const thoughts = [
               ...prev[agentId].thoughts,
               data as WsEvent & { payload: MonologueOutput },
@@ -136,7 +136,7 @@ export function useFleetStatus(): FleetState {
           data.type === "action:decided" ||
           data.type === "action:completed"
         ) {
-          setFleet((prev) => {
+          setClan((prev) => {
             const actions = [
               ...prev[agentId].actions,
               data as MartyState["actions"][number],
@@ -169,5 +169,5 @@ export function useFleetStatus(): FleetState {
     };
   }, [connectAgent]);
 
-  return fleet;
+  return clan;
 }

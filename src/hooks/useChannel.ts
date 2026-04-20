@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useFleetStatus } from "./use-fleet-status";
+import { useClanStatus } from "./use-clan-status";
 
 interface Msg {
   id: string;
@@ -21,7 +21,7 @@ interface ChannelInfo {
 export function useChannel(channelId: string) {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [channel, setChannel] = useState<ChannelInfo | null>(null);
-  const fleet = useFleetStatus();
+  const clan = useClanStatus();
   const seenIds = useRef(new Set<string>());
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export function useChannel(channelId: string) {
 
   useEffect(() => {
     // Watch all agent states for new channel messages
-    for (const agentState of Object.values(fleet)) {
+    for (const agentState of Object.values(clan)) {
       const events = agentState.events;
       if (!events.length) continue;
       const last = events[events.length - 1]!;
@@ -78,7 +78,7 @@ export function useChannel(channelId: string) {
       ]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fleet, channelId]);
+  }, [clan, channelId]);
 
   async function send(content: string) {
     const r = await fetch("/api/channel-send", {

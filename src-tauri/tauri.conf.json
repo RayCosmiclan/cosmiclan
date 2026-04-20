@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Cosmicfleet",
+  "productName": "Cosmiclan",
   "version": "0.1.0",
-  "identifier": "com.gabrielaxy.cosmicfleet",
+  "identifier": "com.gabrielaxy.cosmiclan",
   "build": {
     "frontendDist": "http://localhost:3000",
     "devUrl": "http://localhost:3000"
@@ -11,7 +11,7 @@
     "windows": [
       {
         "label": "main",
-        "title": "Cosmicfleet",
+        "title": "Cosmiclan",
         "width": 1280,
         "height": 800,
         "resizable": true,
@@ -19,7 +19,7 @@
       },
       {
         "label": "popover",
-        "title": "Cosmicfleet Popover",
+        "title": "Cosmiclan Popover",
         "url": "http://localhost:3000/menubar",
         "width": 400,
         "height": 600,

@@ -5,7 +5,7 @@ export default function Page() {
         Profile
       </h1>
       <p className="text-sm text-[var(--muted-fg)]">
-        Your identity inside Cosmicfleet. Used as sender label in agent
+        Your identity inside Cosmiclan. Used as sender label in agent
         conversations.
       </p>
       <form className="space-y-4">

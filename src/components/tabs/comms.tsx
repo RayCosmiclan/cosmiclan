@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { CopyableId } from "@/components/copyable-id";
 import { AGENTS, GABRIEL_CONFIG, getAgent } from "@/lib/agents";
-import { useFleetStatus } from "@/hooks/use-fleet-status";
+import { useClanStatus } from "@/hooks/use-clan-status";
 import type { AgentConfig, OutgoingAction } from "@/lib/types";
 
 interface CommsTabProps {
@@ -254,7 +254,7 @@ function ThreadSidebar({
 }
 
 export function CommsTab({ activeAgent }: CommsTabProps) {
-  const fleetState = useFleetStatus();
+  const clanState = useClanStatus();
   const [activeThread, setActiveThread] = useState<string | null>(null);
   const [search, setSearch] = useState("");
 
@@ -263,7 +263,7 @@ export function CommsTab({ activeAgent }: CommsTabProps) {
     const msgs: CommsMessage[] = [];
 
     for (const agent of AGENTS) {
-      const agentState = fleetState[agent.id];
+      const agentState = clanState[agent.id];
       if (!agentState) continue;
 
       for (const action of agentState.actions) {
@@ -281,7 +281,7 @@ export function CommsTab({ activeAgent }: CommsTabProps) {
           // Try to find which agent this is replying to
           for (const otherAgent of AGENTS) {
             if (otherAgent.id === agent.id) continue;
-            const otherState = fleetState[otherAgent.id];
+            const otherState = clanState[otherAgent.id];
             if (!otherState) continue;
             const isTarget = otherState.actions.some(
               (a) => a.id === payload.replyToId,
@@ -312,7 +312,7 @@ export function CommsTab({ activeAgent }: CommsTabProps) {
     }
 
     return msgs.sort((a, b) => a.timestamp - b.timestamp);
-  }, [fleetState]);
+  }, [clanState]);
 
   // Group messages into threads
   const { threads, threadMessages } = useMemo(() => {
@@ -381,8 +381,8 @@ export function CommsTab({ activeAgent }: CommsTabProps) {
   }, [selectedThread, threadMessages, search]);
 
   const connectedCount = useMemo(
-    () => AGENTS.filter((a) => fleetState[a.id]?.connected).length,
-    [fleetState],
+    () => AGENTS.filter((a) => clanState[a.id]?.connected).length,
+    [clanState],
   );
 
   // Empty state: no messages at all

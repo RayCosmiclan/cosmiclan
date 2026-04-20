@@ -5,10 +5,10 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { AGENTS } from "@/lib/agents";
 import { CopyableId } from "@/components/copyable-id";
-import { useFleetStatus } from "@/hooks/use-fleet-status";
+import { useClanStatus } from "@/hooks/use-clan-status";
 import type { AgentConfig, MartyState } from "@/lib/types";
 
-interface FleetOverviewProps {
+interface ClanOverviewProps {
   activeAgentId: string;
   onSelectAgent: (agent: AgentConfig) => void;
 }
@@ -162,7 +162,7 @@ function MiniAgentCard({
       {/* Active ring */}
       {isActive && (
         <motion.div
-          layoutId="fleet-active-ring"
+          layoutId="clan-active-ring"
           className="absolute inset-0 rounded-lg border-2 pointer-events-none"
           style={{ borderColor: agent.colorHex + "60" }}
           transition={{
@@ -176,11 +176,11 @@ function MiniAgentCard({
   );
 }
 
-export function FleetOverview({
+export function ClanOverview({
   activeAgentId,
   onSelectAgent,
-}: FleetOverviewProps) {
-  const fleetState = useFleetStatus();
+}: ClanOverviewProps) {
+  const clanState = useClanStatus();
 
   return (
     <div className="p-5 bg-[oklch(0.10_0.005_260/90%)] backdrop-blur-sm">
@@ -189,7 +189,7 @@ export function FleetOverview({
           <MiniAgentCard
             key={agent.id}
             agent={agent}
-            state={fleetState[agent.id]}
+            state={clanState[agent.id]}
             isActive={agent.id === activeAgentId}
             onClick={() => onSelectAgent(agent)}
           />

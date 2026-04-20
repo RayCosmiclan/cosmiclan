@@ -1,18 +1,18 @@
 "use client";
 import Link from "next/link";
-import { useFleetStatus } from "@/hooks/use-fleet-status";
+import { useClanStatus } from "@/hooks/use-clan-status";
 import { useInbox } from "@/hooks/useInbox";
 import { AGENTS } from "@/lib/agents";
 
 export function MissionControl() {
-  const fleetState = useFleetStatus();
+  const clanState = useClanStatus();
   const { items } = useInbox();
   const topPending = items
     .filter((i) => i.priority === "urgent" || i.priority === "important")
     .slice(0, 5);
 
   const activeGoals = AGENTS.flatMap((a) => {
-    const goals = fleetState[a.id]?.goalState?.goals ?? [];
+    const goals = clanState[a.id]?.goalState?.goals ?? [];
     return goals
       .filter(
         (g: { status?: string }) =>
@@ -29,7 +29,7 @@ export function MissionControl() {
   }).slice(0, 8);
 
   const recentThoughts = AGENTS.flatMap((a) => {
-    const thoughts = fleetState[a.id]?.thoughts ?? [];
+    const thoughts = clanState[a.id]?.thoughts ?? [];
     return thoughts
       .slice(-3)
       .map(
@@ -56,7 +56,7 @@ export function MissionControl() {
         <h1 className="text-2xl font-semibold text-[var(--foreground)]">
           Mission Control
         </h1>
-        <p className="text-sm text-[var(--muted-fg)]">The fleet at a glance.</p>
+        <p className="text-sm text-[var(--muted-fg)]">The clan at a glance.</p>
       </header>
 
       <section>
@@ -75,7 +75,7 @@ export function MissionControl() {
         </div>
         {topPending.length === 0 ? (
           <div className="rounded-lg border border-dashed border-[var(--border)] bg-[var(--surface-2)] p-6 text-center text-sm text-[var(--muted-fg)]">
-            Inbox clear. Fleet has handled the rest.
+            Inbox clear. Clan has handled the rest.
           </div>
         ) : (
           <div className="space-y-2">
@@ -122,11 +122,11 @@ export function MissionControl() {
 
       <section>
         <h2 className="mb-3 text-sm font-medium uppercase tracking-wide text-[var(--muted-fg)]">
-          Fleet pulse
+          Clan pulse
         </h2>
         <div className="grid grid-cols-4 gap-3">
           {AGENTS.map((a) => {
-            const state = fleetState[a.id];
+            const state = clanState[a.id];
             const connected = state?.connected ?? false;
             const valence = state?.emotionalState?.mood?.valence;
             const topEmotion = state?.emotionalState?.activeEmotions?.[0];
@@ -214,7 +214,7 @@ export function MissionControl() {
         </h2>
         {recentThoughts.length === 0 ? (
           <div className="rounded-lg border border-dashed border-[var(--border)] bg-[var(--surface-2)] p-6 text-center text-sm text-[var(--muted-fg)]">
-            No recent fleet activity.
+            No recent clan activity.
           </div>
         ) : (
           <div className="space-y-2">

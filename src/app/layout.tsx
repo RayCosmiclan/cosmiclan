@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Cosmicfleet",
-  description: "Mission control for Gabriel's 8-agent fleet",
+  title: "Cosmiclan",
+  description: "Mission control for Gabriel's 8-agent clan",
 };
 
 export default function RootLayout({

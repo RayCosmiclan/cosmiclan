@@ -12,10 +12,10 @@ import type {
   MonologueOutput,
 } from "@/lib/types";
 
-type FleetState = Record<string, MartyState>;
+type ClanState = Record<string, MartyState>;
 
 interface HomeViewProps {
-  fleetState: FleetState;
+  clanState: ClanState;
   onSelectAgent: (agent: AgentConfig) => void;
 }
 
@@ -57,11 +57,11 @@ interface CommsMessage {
   content: string;
 }
 
-function extractCommsMessages(fleetState: FleetState): CommsMessage[] {
+function extractCommsMessages(clanState: ClanState): CommsMessage[] {
   const msgs: CommsMessage[] = [];
 
   for (const agent of AGENTS) {
-    const agentState = fleetState[agent.id];
+    const agentState = clanState[agent.id];
     if (!agentState) continue;
 
     for (const action of agentState.actions) {
@@ -76,7 +76,7 @@ function extractCommsMessages(fleetState: FleetState): CommsMessage[] {
       if (payload.replyToId) {
         for (const otherAgent of AGENTS) {
           if (otherAgent.id === agent.id) continue;
-          const otherState = fleetState[otherAgent.id];
+          const otherState = clanState[otherAgent.id];
           if (!otherState) continue;
           const isTarget = otherState.actions.some(
             (a) => a.id === payload.replyToId,
@@ -197,11 +197,11 @@ interface AggregatedAbilityRequest extends AbilityRequest {
   agentColor: string;
 }
 
-function AbilityRequestsSection({ fleetState }: { fleetState: FleetState }) {
+function AbilityRequestsSection({ clanState }: { clanState: ClanState }) {
   const openRequests = useMemo(() => {
     const reqs: AggregatedAbilityRequest[] = [];
     for (const agent of AGENTS) {
-      const state = fleetState[agent.id];
+      const state = clanState[agent.id];
       if (!state) continue;
       for (const req of state.abilityRequests) {
         if (req.status === "open") {
@@ -215,7 +215,7 @@ function AbilityRequestsSection({ fleetState }: { fleetState: FleetState }) {
       }
     }
     return reqs.sort((a, b) => b.createdAt - a.createdAt);
-  }, [fleetState]);
+  }, [clanState]);
 
   if (openRequests.length === 0) {
     return (
@@ -342,7 +342,7 @@ function LatestComms({ messages }: { messages: CommsMessage[] }) {
 
 /* ── Recent Thoughts ───────────────────────────────────────── */
 
-function RecentThoughts({ fleetState }: { fleetState: FleetState }) {
+function RecentThoughts({ clanState }: { clanState: ClanState }) {
   const latestThoughts = useMemo(() => {
     const thoughts: Array<{
       id: string;
@@ -355,7 +355,7 @@ function RecentThoughts({ fleetState }: { fleetState: FleetState }) {
     }> = [];
 
     for (const agent of AGENTS) {
-      const state = fleetState[agent.id];
+      const state = clanState[agent.id];
       if (!state?.thoughts?.length) continue;
       const last = state.thoughts[state.thoughts.length - 1];
       const payload = last.payload as MonologueOutput;
@@ -371,7 +371,7 @@ function RecentThoughts({ fleetState }: { fleetState: FleetState }) {
     }
 
     return thoughts.sort((a, b) => b.timestamp - a.timestamp);
-  }, [fleetState]);
+  }, [clanState]);
 
   if (latestThoughts.length === 0) {
     return (
@@ -459,15 +459,15 @@ function Section({
 
 /* ── Main HomeView ─────────────────────────────────────────── */
 
-export function HomeView({ fleetState }: HomeViewProps) {
+export function HomeView({ clanState }: HomeViewProps) {
   const allMessages = useMemo(
-    () => extractCommsMessages(fleetState),
-    [fleetState],
+    () => extractCommsMessages(clanState),
+    [clanState],
   );
 
   const connectedCount = useMemo(
-    () => AGENTS.filter((a) => fleetState[a.id]?.connected).length,
-    [fleetState],
+    () => AGENTS.filter((a) => clanState[a.id]?.connected).length,
+    [clanState],
   );
 
   return (
@@ -490,13 +490,13 @@ export function HomeView({ fleetState }: HomeViewProps) {
         <DraftsPanel />
 
         {/* Ability Requests */}
-        <AbilityRequestsSection fleetState={fleetState} />
+        <AbilityRequestsSection clanState={clanState} />
 
         {/* Latest Comms */}
         <LatestComms messages={allMessages} />
 
         {/* Recent Thoughts */}
-        <RecentThoughts fleetState={fleetState} />
+        <RecentThoughts clanState={clanState} />
       </div>
     </div>
   );

@@ -10,7 +10,7 @@ const ITEMS = [
   { href: "/settings/autonomy", label: "Autonomy rules" },
   { href: "/settings/notifications", label: "Notifications" },
   { href: "/settings/appearance", label: "Appearance" },
-  { href: "/settings/fleet", label: "Fleet" },
+  { href: "/settings/clan", label: "Clan" },
 ];
 
 export default function SettingsLayout({ children }: { children: ReactNode }) {

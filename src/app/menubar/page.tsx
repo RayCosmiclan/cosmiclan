@@ -22,7 +22,7 @@ export default function Page() {
     <div className="flex h-screen flex-col bg-[var(--background)]">
       <header className="flex items-center justify-between border-b border-[var(--border)] px-4 py-3">
         <div>
-          <div className="text-sm font-semibold">Cosmicfleet</div>
+          <div className="text-sm font-semibold">Cosmiclan</div>
           <div className="text-xs text-[var(--muted-fg)]">
             {items.length} pending
           </div>

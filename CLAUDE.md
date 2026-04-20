@@ -1,8 +1,8 @@
-# Cosmicfleet
+# Cosmiclan
 
-Mission control for Gabriel's 8-agent fleet. Browser-first web app today, Tauri desktop (macOS `.dmg`) next year. You work with your fleet here — send messages, triage inbox, participate in channels, watch consciousness — instead of just watching it.
+Mission control for Gabriel's 8-agent clan. Browser-first web app today, Tauri desktop (macOS `.dmg`) next year. You work with your clan here — send messages, triage inbox, participate in channels, watch consciousness — instead of just watching it.
 
-**Location:** `~/Documents/agents/cosmicfleet/`
+**Location:** `~/Documents/agents/cosmiclan/`
 **URL:** `http://localhost:3000`
 **Tech stack:** Next.js 16 (App Router), React 19, Tailwind 4, shadcn (base-ui), Framer Motion, next-themes
 
@@ -22,17 +22,17 @@ npm run start  # production server
 
 | Route | Purpose |
 |-------|---------|
-| `/` | Mission Control — needs-you-now inbox preview, fleet pulse, active goals, today feed |
+| `/` | Mission Control — needs-you-now inbox preview, clan pulse, active goals, today feed |
 | `/inbox` | Unified triage queue (WhatsApp, Gmail, Outlook, agent requests) |
 | `/conversations/[agent]` | 1:1 chat with an agent — history from `comms.db`, live replies via WS |
-| `/channels/[id]` | Group chat in a seeded channel (#fleet, #revenue, #creative, #tech, #health, #ideas) |
+| `/channels/[id]` | Group chat in a seeded channel (#clan, #revenue, #creative, #tech, #health, #ideas) |
 | `/agents/[name]` | Agent deep-dive — 8 tabs (Mind, Emotions, Drives, Memory, Actions, Soul, Abilities, Comms) |
 | `/settings` | Profile |
 | `/settings/connections` | Connected channels (Gmail session, Outlook MSAL, WhatsApp pair) |
 | `/settings/autonomy` | Per-sender / per-domain / per-category autonomy rules |
 | `/settings/notifications` | macOS notification prefs + quiet hours |
 | `/settings/appearance` | Theme toggle (Light / Dark / System) |
-| `/settings/fleet` | Start / stop / status for each agent |
+| `/settings/clan` | Start / stop / status for each agent |
 | `/menubar` | Tauri popover-only view (compact inbox) |
 
 ---
@@ -59,7 +59,7 @@ Perception adapter (Baileys / Gmail Atom / Graph delta) emits message:received
 
 ### WebSocket connection
 - `useAgentSocket(agent)` — single agent, full `MartyState`
-- `useFleetStatus()` — all 8 agents simultaneously, lightweight state
+- `useClanStatus()` — all 8 agents simultaneously, lightweight state
 - On connect: `state:snapshot`. After: incremental events (`emotion:changed`, `thought:produced`, `action:*`, `goal:*`, `ability:requested`, `comms:received`, `inbox:item_pending`, `inbox:item_updated`)
 - Auto-reconnect with exponential backoff (1s → 30s)
 - 5000-event buffer per agent
@@ -72,7 +72,7 @@ Perception adapter (Baileys / Gmail Atom / Graph delta) emits message:received
 | Component | Purpose |
 |-----------|---------|
 | `Sidebar` | Persistent left rail — 6 top-nav items + Settings |
-| `MissionControl` | Home view — inbox preview + fleet pulse + active goals + today feed |
+| `MissionControl` | Home view — inbox preview + clan pulse + active goals + today feed |
 | `ThemeProvider` | next-themes wrapper, `data-theme` attribute |
 | `ThemeToggle` | Light/Dark/System buttons |
 
@@ -97,7 +97,7 @@ Mind · Emotions · Drives · Memory · Actions · Soul · Abilities · Comms
 | Hook | Purpose |
 |------|---------|
 | `useAgentSocket` | Connect to one agent's WS |
-| `useFleetStatus` | Connect to all 8 simultaneously |
+| `useClanStatus` | Connect to all 8 simultaneously |
 | `useTimeline` | Replay past state from event buffer |
 | `useConversation` | 1:1 chat — history fetch + live WS events + send |
 | `useChannel` | Group chat — history + live + send |
@@ -159,7 +159,7 @@ WS base URL configurable via `NEXT_PUBLIC_WS_BASE_URL` (default `ws://localhost`
 
 ## Tauri Integration
 
-- **Source:** `cosmicfleet/src-tauri/` (Rust/Tauri 2 shell)
+- **Source:** `cosmiclan/src-tauri/` (Rust/Tauri 2 shell)
 - **Dev:** Next.js at `:3000`, Tauri webview points to same URL
 - **Prod (v1.1 next year):** static export + bundled `.dmg`
 - **Menu bar tray:** `set_badge(count)` command exposed to JS; click toggles popover
@@ -200,17 +200,17 @@ WS base URL configurable via `NEXT_PUBLIC_WS_BASE_URL` (default `ws://localhost`
 
 ## How to Add a New Channel
 
-1. Run `fleet-runtime/scripts/seed-channels.ts` after appending to the `SEED` array (or insert directly into `comms.db`)
+1. Run `clan-runtime/scripts/seed-channels.ts` after appending to the `SEED` array (or insert directly into `comms.db`)
 2. Members list as JSON array; `gabriel` must be included for you to see messages
 
 ---
 
 ## Runtime dependency
 
-The app assumes the fleet runtime is running:
+The app assumes the clan runtime is running:
 
 - At least one agent process (typically Marty on `:3400`) must be up for `/inbox`, `/conversations/*`, and `/api/send` to do anything meaningful.
 - `~/Documents/agents/comms.db` must exist (it does — shared runtime DB).
-- Marty's `memory.db` must have the `pending_items`, `autonomy_rules`, `known_senders` tables (run `fleet-runtime/scripts/migrate-inbox-schema.ts` once per fresh install).
+- Marty's `memory.db` must have the `pending_items`, `autonomy_rules`, `known_senders` tables (run `clan-runtime/scripts/migrate-inbox-schema.ts` once per fresh install).
 
-Boot the fleet with `bash ~/Documents/agents/start-all.sh`.
+Boot the clan with `bash ~/Documents/agents/start-all.sh`.

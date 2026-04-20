@@ -23,7 +23,7 @@ export function Sidebar({ pendingCount }: { pendingCount?: number }) {
   return (
     <aside className="flex h-screen w-60 shrink-0 flex-col border-r border-[var(--border)] bg-[var(--surface-2)]">
       <div className="p-4 text-base font-semibold tracking-tight text-[var(--foreground)]">
-        Cosmicfleet
+        Cosmiclan
       </div>
       <nav className="flex flex-1 flex-col overflow-y-auto px-2 pb-4">
         {TOP_NAV.map((item) => {

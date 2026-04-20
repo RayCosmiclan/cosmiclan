@@ -1,4 +1,4 @@
-// Types mirroring fleet-runtime for dashboard consumption
+// Types mirroring clan-runtime for dashboard consumption
 
 export interface AgentConfig {
   id: string;
