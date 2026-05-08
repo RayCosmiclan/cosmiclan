@@ -8,7 +8,7 @@ export default function Page() {
         Link external services so agents can read and send on your behalf.
       </p>
       <div className="rounded-lg border border-[var(--border)] bg-[var(--surface-2)] p-6 text-sm text-[var(--muted-fg)]">
-        WhatsApp, Gmail, Outlook connectors — Stream D.
+        WhatsApp, Gmail, Outlook connectors. Stream D.
       </div>
     </div>
   );

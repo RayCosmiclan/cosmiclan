@@ -8,7 +8,7 @@ export default function Page() {
         Configure how and when Cosmiclan alerts you to agent activity.
       </p>
       <div className="rounded-lg border border-[var(--border)] bg-[var(--surface-2)] p-6 text-sm text-[var(--muted-fg)]">
-        Notification preferences — Stream D.
+        Notification preferences. Stream D.
       </div>
     </div>
   );

@@ -223,6 +223,30 @@ export interface Draft {
   rejectionReason?: string;
 }
 
+export type AgentStatusKind =
+  | "idle"
+  | "thinking"
+  | "acting"
+  | "monitoring"
+  | "perceiving"
+  | "error";
+
+export interface AgentStatus {
+  kind: AgentStatusKind;
+  /** Unix ms — when the agent entered this status */
+  since: number;
+  /** Short human-facing label, e.g. "Thinking on heartbeat tick" */
+  label?: string;
+  meta?: {
+    nextTickAt?: number;
+    actionType?: string;
+    channel?: string;
+    issueId?: string;
+    workerId?: string;
+    [key: string]: unknown;
+  };
+}
+
 export interface MartyState {
   connected: boolean;
   emotionalState: EmotionalState | null;
@@ -240,4 +264,78 @@ export interface MartyState {
       payload: OutgoingAction & { success?: boolean; blockedReason?: string };
     }
   >;
+  /** Current activity — drives the dashboard "currently doing" pill. */
+  status: AgentStatus | null;
+}
+
+// ----------------------------------------------------------
+// Threads of Operation — mirrored from clan-runtime
+// See agents/docs/superpowers/specs/2026-04-25-threads-of-operation-design.md
+// ----------------------------------------------------------
+
+export type ThreadStatus =
+  | "active"
+  | "paused-for-input"
+  | "idle-watching"
+  | "completed"
+  | "cancelled";
+
+export type ThreadMessageKind =
+  | "monologue"
+  | "question"
+  | "reply"
+  | "system"
+  | "action_summary"
+  | "worker_dispatched"
+  | "worker_analysis"
+  | "worker_completed"
+  | "worker_failed";
+
+export type ThreadMessageSender = "agent" | "gabriel" | "system" | "worker";
+
+export interface ThreadMessage {
+  id: string;
+  threadId: string;
+  sender: ThreadMessageSender;
+  kind: ThreadMessageKind;
+  content: string;
+  metadata?: Record<string, unknown>;
+  timestamp: number;
+}
+
+export interface ThreadWorker {
+  id: string;
+  threadId: string;
+  workerSessionId?: string | null;
+  workDir?: string | null;
+  status:
+    | "dispatched"
+    | "analysis_ready"
+    | "completed"
+    | "failed"
+    | "rejected";
+  spawnedAt: number;
+  completedAt?: number | null;
+  summary?: string | null;
+}
+
+export type ThreadSubscribedSource =
+  | { kind: "whatsapp"; chatJid: string }
+  | { kind: "rax-issues"; sourceApp: "rax-dev" | "rax-ops" | "rax-prod" }
+  | { kind: "fix-completion" }
+  | { kind: "gmail"; account: string; query?: string };
+
+export interface ThreadOfOperation {
+  id: string;
+  agentId: string;
+  title: string;
+  status: ThreadStatus;
+  currentActivity: string;
+  goalId?: string | null;
+  workingMemory: string;
+  subscribedSources: ThreadSubscribedSource[];
+  pendingQuestion?: string | null;
+  createdAt: number;
+  lastActivityAt: number;
+  completedAt?: number | null;
 }

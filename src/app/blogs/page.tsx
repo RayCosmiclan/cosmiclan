@@ -1,0 +1,147 @@
+import Link from "next/link";
+import Image from "next/image";
+import { BLOG_COPY } from "@/components/public/cosmiclan-site-data";
+import { BlogIndexClock } from "@/components/public/blog-index-clock";
+import { listBlogPosts } from "@/lib/blog";
+import { getLocaleFromRequest } from "@/lib/locale";
+import styles from "@/components/public/cosmiclan-blog.module.css";
+
+const MARQUEE_PHRASES = {
+  default: [
+    "Notes",
+    "Field journal",
+    "Operating system",
+    "Loops",
+    "Throughput",
+  ],
+  id: ["Catatan", "Jurnal lapangan", "Operating system", "Loop", "Throughput"],
+};
+
+export default async function BlogsPage() {
+  const locale = await getLocaleFromRequest();
+  const copy = BLOG_COPY[locale];
+  const posts = await listBlogPosts(locale);
+
+  const dateFormatter = new Intl.DateTimeFormat(
+    locale === "id" ? "id-ID" : "en-IN",
+    { day: "2-digit", month: "short", year: "numeric" },
+  );
+
+  const marqueeText = [...MARQUEE_PHRASES[locale === "id" ? "id" : "default"]]
+    .concat([...MARQUEE_PHRASES[locale === "id" ? "id" : "default"]])
+    .map((p, i, arr) => (
+      <span key={i}>
+        {i % 2 === 0 ? <em>{p}</em> : p}
+        {i < arr.length - 1 ? " · " : ""}
+      </span>
+    ));
+
+  return (
+    <main className={styles.blogPage} data-variant="index">
+      <div className={styles.ambientField} aria-hidden="true" />
+
+      <nav className={styles.nav} aria-label="Cosmiclan navigation">
+        <div className={styles.navGroup}>
+          <Link href="/">{copy.workLabel}</Link>
+          <Link href="/about">{copy.aboutLabel}</Link>
+          <Link href="/blogs" aria-current="page">
+            {copy.blogsLabel}
+          </Link>
+        </div>
+        <BlogIndexClock locale={locale} />
+        <div className={styles.navGroup}>
+          <Link href="mailto:gabriel@cosmiclan.com">{copy.contactLabel}</Link>
+        </div>
+      </nav>
+
+      <header className={styles.indexHero}>
+        <p className={styles.kicker}>{copy.indexKicker}</p>
+        <h1 className={styles.indexHeading}>{copy.indexHeading}</h1>
+        <p className={styles.indexLede}>{copy.indexLede}</p>
+      </header>
+
+      <div className={styles.blogMarquee} aria-hidden="true">
+        <span>{marqueeText}</span>
+        <span>{marqueeText}</span>
+      </div>
+
+      {posts.length === 0 ? (
+        <section className={styles.emptyState}>
+          <h2>{copy.emptyHeading}</h2>
+          <p>{copy.emptyBody}</p>
+        </section>
+      ) : (
+        <ol className={styles.indexList}>
+          {posts.map((post, i) => (
+            <li
+              key={post.slug}
+              className={styles.indexRow}
+              style={
+                post.hue !== undefined
+                  ? ({
+                      "--accent-hue": String(post.hue),
+                    } as React.CSSProperties)
+                  : undefined
+              }
+            >
+              <Link href={`/blogs/${post.slug}`} className={styles.indexLink}>
+                <span className={styles.indexNumber}>
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div className={styles.indexCover}>
+                  {post.cover ? (
+                    <Image
+                      src={post.cover}
+                      alt=""
+                      fill
+                      sizes="(max-width: 920px) 90vw, 240px"
+                    />
+                  ) : (
+                    <div className={styles.indexCoverFallback} />
+                  )}
+                  <span className={styles.indexCoverMark}>
+                    {post.tags[0] ?? copy.indexKicker}
+                  </span>
+                </div>
+                <div className={styles.indexBody}>
+                  <span className={styles.indexMeta}>
+                    {post.date ? dateFormatter.format(new Date(post.date)) : ""}
+                    <span aria-hidden="true"> · </span>
+                    {post.readingMinutes} {copy.minutesShort}
+                    {post.aiAssisted ? (
+                      <>
+                        <span aria-hidden="true"> · </span>
+                        {copy.aiAssistedLabel}
+                      </>
+                    ) : null}
+                    {post.locale !== locale && locale === "id" ? (
+                      <>
+                        <span aria-hidden="true"> · </span>
+                        {copy.onlyEnglishNote}
+                      </>
+                    ) : null}
+                  </span>
+                  <h2 className={styles.indexTitle}>{post.title}</h2>
+                  {post.excerpt ? (
+                    <p className={styles.indexExcerpt}>{post.excerpt}</p>
+                  ) : null}
+                  <span className={styles.indexCta}>
+                    {copy.readMore}
+                    <span aria-hidden="true">→</span>
+                  </span>
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ol>
+      )}
+
+      <footer className={styles.footer}>
+        <Link href="/" className={styles.backLink}>
+          ← {copy.workLabel.replace(/,$/, "")}
+        </Link>
+        <span>© 2026 Cosmiclan</span>
+      </footer>
+    </main>
+  );
+}

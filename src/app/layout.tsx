@@ -15,8 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Cosmiclan",
-  description: "Mission control for Gabriel's 8-agent clan",
+  title: "Cosmiclan | High Agency, Raw Output",
+  description:
+    "Cosmiclan is Gabriel Antony Xaviour's high-agency AI production organism: one orchestrator, a clan of agents, and products built at machine speed.",
 };
 
 export default function RootLayout({

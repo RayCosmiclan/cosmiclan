@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useChannel } from "@/hooks/useChannel";
 import { MessageList } from "@/components/chat/MessageList";
@@ -48,9 +49,20 @@ export default function Page() {
                 <div
                   key={agent.id}
                   title={agent.name}
-                  className="h-6 w-6 rounded-full border border-[var(--border)]"
-                  style={{ backgroundColor: agent.colorHex }}
-                />
+                  className="relative h-6 w-6 rounded-full overflow-hidden border"
+                  style={{
+                    borderColor: `oklch(from ${agent.colorHex} l c h / 35%)`,
+                  }}
+                >
+                  <Image
+                    src={agent.image}
+                    alt={agent.name}
+                    fill
+                    sizes="24px"
+                    className="object-cover"
+                    unoptimized={agent.image.startsWith("http")}
+                  />
+                </div>
               );
             })}
           </div>

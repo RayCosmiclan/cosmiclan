@@ -30,7 +30,7 @@ const ACTION_TYPE_COLORS: Record<string, string> = {
 };
 
 const CHANNEL_COLORS: Record<string, string> = {
-  discord: "#93c5fd",
+  whatsapp: "#86efac",
   twitter: "#7dd3fc",
   telegram: "#6ee7b7",
   linkedin: "#fbbf24",

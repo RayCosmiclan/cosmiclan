@@ -17,8 +17,7 @@ export const AGENTS: AgentConfig[] = [
     color: "oklch(0.72 0.16 80)",
     colorHex: "#fbbf24",
     colorHue: 80,
-    image:
-      "https://api.dicebear.com/9.x/shapes/svg?seed=stark&backgroundColor=0a0a0a",
+    image: "/images/agents/stark.png",
   },
   {
     id: "ryuzaki",
@@ -54,8 +53,7 @@ export const AGENTS: AgentConfig[] = [
     color: "oklch(0.6 0.02 250)",
     colorHex: "#94a3b8",
     colorHue: 250,
-    image:
-      "https://api.dicebear.com/9.x/shapes/svg?seed=aryaa&backgroundColor=0a0a0a",
+    image: "/images/agents/aryaa.png",
   },
   {
     id: "jennie",
@@ -64,8 +62,7 @@ export const AGENTS: AgentConfig[] = [
     color: "oklch(0.68 0.22 330)",
     colorHex: "#e879f9",
     colorHue: 330,
-    image:
-      "https://api.dicebear.com/9.x/shapes/svg?seed=jennie&backgroundColor=0a0a0a",
+    image: "/images/agents/jennie.png",
   },
   {
     id: "ray",
@@ -88,8 +85,7 @@ export const GABRIEL_CONFIG = {
   color: "oklch(0.75 0.15 80)",
   colorHex: "#f59e0b",
   colorHue: 80,
-  image:
-    "https://api.dicebear.com/9.x/shapes/svg?seed=gabriel&backgroundColor=0a0a0a",
+  image: "/images/team/gabriel.png",
 } satisfies AgentConfig;
 
 export function getAgent(id: string): AgentConfig {
@@ -98,6 +94,10 @@ export function getAgent(id: string): AgentConfig {
 }
 
 export function getAgentWsUrl(agent: AgentConfig): string {
-  const base = process.env.NEXT_PUBLIC_WS_BASE_URL ?? "ws://localhost";
+  const base =
+    process.env.NEXT_PUBLIC_WS_BASE_URL ??
+    (typeof window !== "undefined"
+      ? `${window.location.protocol === "https:" ? "wss" : "ws"}://${window.location.hostname}`
+      : "ws://localhost");
   return `${base}:${agent.port}`;
 }

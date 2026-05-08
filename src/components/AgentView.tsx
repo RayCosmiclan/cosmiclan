@@ -6,7 +6,9 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAgentSocket } from "@/hooks/use-agent-socket";
 import { useTimeline } from "@/hooks/use-timeline";
 import { StatusBar } from "@/components/status-bar";
+import { AgentSwitcher } from "@/components/agent-switcher";
 import { TimelineScrubber } from "@/components/timeline-scrubber";
+import { AgentRoleOverview } from "@/components/agent-role-overview";
 import { MindTab } from "@/components/tabs/mind";
 import { EmotionsTab } from "@/components/tabs/emotions";
 import { DrivesTab } from "@/components/tabs/drives";
@@ -18,6 +20,7 @@ import { CommsTab } from "@/components/tabs/comms";
 import type { AgentConfig, MartyState } from "@/lib/types";
 
 const TABS = [
+  { id: "overview", label: "Overview" },
   { id: "mind", label: "Mind" },
   { id: "emotions", label: "Emotions" },
   { id: "drives", label: "Drives" },
@@ -38,6 +41,8 @@ function TabContent({
   activeAgent: AgentConfig;
 }) {
   switch (activeTab) {
+    case "overview":
+      return <AgentRoleOverview agent={activeAgent} state={state} />;
     case "mind":
       return <MindTab state={state} />;
     case "emotions":
@@ -60,7 +65,7 @@ function TabContent({
 }
 
 export function AgentView({ agent }: { agent: AgentConfig }) {
-  const [activeTab, setActiveTab] = useState("mind");
+  const [activeTab, setActiveTab] = useState("overview");
   const liveState = useAgentSocket(agent);
   const { displayState, isLive, scrubTimestamp, scrubTo, snapToLive } =
     useTimeline(liveState);
@@ -86,11 +91,13 @@ export function AgentView({ agent }: { agent: AgentConfig }) {
 
   return (
     <div ref={rootRef} className="mood-bg flex h-full flex-col overflow-hidden">
+      <AgentSwitcher activeId={agent.id} />
       <StatusBar
         state={displayState}
         connected={liveState.connected}
         agentName={agent.name}
         agentColor={agent.colorHex}
+        agentImage={agent.image}
       />
 
       <Tabs

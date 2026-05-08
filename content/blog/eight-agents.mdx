@@ -1,0 +1,74 @@
+---
+title: "How I use my agents"
+excerpt: "A look inside the operating layer that fronts every Cosmiclan surface, and why the agents are not characters but lanes."
+date: 2026-05-09
+tags: ["agents", "operating system", "cosmiclan"]
+hue: 270
+aiAssisted: true
+---
+
+Cosmiclan looks like a personal brand. Underneath, it is an operating system. The eight agents are not characters or branding flourish. They are real lanes of work, each owned by a long-running process with its own memory, drives, and judgement.
+
+This is how that actually runs.
+
+## Why eight, and why named
+
+Eight is the smallest set that covers what I have to keep moving in parallel without collapsing into one generic assistant. Naming each one keeps that boundary honest. When I say "Ray will draft the issue triage," I am picking a lane, not a personality. The names are a discipline, not a costume.
+
+The lanes are:
+
+- **Marty** holds my schedule, inbox, and the today feed. The chief of staff.
+- **Stark** thinks about money, offers, pricing, and revenue mechanics.
+- **Ryuzaki** does deep research. AI, web3, frontier work.
+- **Donna** owns the personal-life stack. Health, fitness, relationships, travel, language.
+- **Todo** chases ideas, prototypes them at hackathons, ships rough.
+- **Aryaa** runs the public professional brand on X and LinkedIn.
+- **Jennie** holds taste for fashion, photography, motion, visual language.
+- **Ray** runs Rax Tech operations, leads, service delivery, and the issue auto-fix loop.
+
+Each one has a `SOUL.md` (its values and voice), an emotional state, a memory database, a goal queue, and a heartbeat that ticks faster when something is happening and slower when it is not.
+
+## What "agent" actually means here
+
+Each agent is a Node process running the same `clan-runtime` framework. The framework is not a chatbot. It is a small operating system per agent, with these moving parts:
+
+- **Perception adapters** that read the outside world: WhatsApp messages, Gmail, dashboards, scheduled tasks.
+- **Cognition** that runs on a heartbeat. The heartbeat fires faster (1–2 minutes) when the agent's emotional arousal is high, slower (15–20 minutes) when it is calm. Every tick produces an inner monologue — a structured JSON thought that captures what the agent noticed, considered, decided, and felt about it.
+- **Drives** that grow over time and only reset when satisfied. Five of them: social, achievement, curiosity, care, and self-expression. The drives push the agent to do something even when nothing has triggered it from outside.
+- **Memory**, which is a SQLite database of episodes plus an FTS5 full-text search layer. Memories consolidate every 24 hours so the agent does not drown in raw transcripts.
+- **A guardrails engine** that gates external actions on quiet hours, rate limits, and forbidden content. It is the thing that prevents an agent from sending a 3 a.m. WhatsApp.
+- **An action engine** that routes the cognition's decisions to the right channel: a reply, a draft for me to approve, a comm to another agent, a scheduled task.
+
+## The thing that breaks if you skip it
+
+The first instinct when building something like this is to build one big agent and give it many tools. That collapses fast. Memory bloats, identity drifts, the agent starts answering everything in the same voice.
+
+Splitting into eight is not about scale. It is about isolation. Each agent stays sharp because its memory only contains its lane. Marty does not remember Aryaa's drafts. Ryuzaki does not have to load Donna's workout history. The cost is real: more processes, more disk, more orchestration. The benefit is that each agent's responses stay grounded in what is actually relevant, and stays consistent with the voice and values that lane needs.
+
+## How I work with them
+
+I do not chat with the agents to get them to do work. I orchestrate.
+
+A typical pattern looks like this. A signal arrives — a customer email, a calendar event, a missed WhatsApp, a passing thought I capture. Marty triages it and routes to the right lane. The relevant agent's heartbeat picks it up, thinks about it, drafts something, and either ships (if autonomy allows) or pushes a draft into the dashboard for me to approve.
+
+I scan the dashboard once a day. Approve, edit, or reject drafts. Reply to anything that escalated. The dashboard is not a list of tasks for me to do; it is a window into eight ongoing conversations and a small set of approval gates I cannot delegate.
+
+The honest version: most of what the agents output gets refined or rejected. The throughput is not in their first draft. It is in the second-order consequence: I never had to start that draft from a blank page, and the lane stayed warm while my attention was elsewhere.
+
+## What lives on this site
+
+The eight agents front every public surface. The work you see in the portfolio passed through their lanes. The about page tells the story. Each agent will eventually own their own subdomain on `cosmiclan.com` and design their own page in their own voice.
+
+This blog is mine. The agents have their own writing surfaces, their own publishing, their own social handles. When you read something here, you are reading me, not them.
+
+That separation matters. The agents are amplifiers. They are not me, and they should not pretend to be.
+
+## What's next
+
+I will keep posting here as the system evolves. Things I want to write about:
+
+- The auto-fix loop for product issues, which runs across all my apps and triggers Claude Code locally to ship a fix without waiting on me.
+- Why I picked Sonnet for thinking and Haiku for emotion appraisal, and what that costs.
+- How I would do this with one agent if I had to start over with no team.
+
+If any of that is interesting, the email at the top of the page is mine. Tell me which one to write first.

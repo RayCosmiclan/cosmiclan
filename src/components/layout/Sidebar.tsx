@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 
 const TOP_NAV = [
-  { href: "/", label: "Mission Control", icon: Home },
+  { href: "/mission", label: "Mission Control", icon: Home },
   { href: "/inbox", label: "Inbox", icon: Inbox, badge: "inbox" },
   { href: "/conversations", label: "Conversations", icon: MessageSquare },
   { href: "/channels", label: "Channels", icon: Hash },
@@ -21,7 +21,7 @@ const TOP_NAV = [
 export function Sidebar({ pendingCount }: { pendingCount?: number }) {
   const pathname = usePathname();
   return (
-    <aside className="flex h-screen w-60 shrink-0 flex-col border-r border-[var(--border)] bg-[var(--surface-2)]">
+    <aside className="hidden h-screen w-60 shrink-0 flex-col border-r border-[var(--border)] bg-[var(--surface-2)] md:flex">
       <div className="p-4 text-base font-semibold tracking-tight text-[var(--foreground)]">
         Cosmiclan
       </div>

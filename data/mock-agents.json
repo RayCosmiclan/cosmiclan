@@ -27,9 +27,9 @@
         },
         {
           "id": "req-002",
-          "description": "Discord integration for command center announcements",
-          "reason": "Broadcast important events to Gabriel's Discord",
-          "capability": "discord-adapter",
+          "description": "WhatsApp integration for command center announcements",
+          "reason": "Broadcast important events to Gabriel's WhatsApp",
+          "capability": "whatsapp-adapter",
           "status": "addressed",
           "createdAt": 1712500000000,
           "addressedAt": 1712550000000

@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { useClanStatus } from "@/hooks/use-clan-status";
 import { useInbox } from "@/hooks/useInbox";
 import { AGENTS } from "@/lib/agents";
@@ -134,27 +135,48 @@ export function MissionControl() {
               <Link
                 key={a.id}
                 href={`/conversations/${a.id}`}
-                className="block rounded-lg border border-[var(--border)] bg-[var(--surface-2)] p-3 hover:bg-[var(--surface-3)]"
+                className="block rounded-lg border border-[var(--border)] bg-[var(--surface-2)] p-3 hover:bg-[var(--surface-3)] transition-colors"
               >
-                <div className="flex items-center gap-2">
-                  <span
-                    className="h-2 w-2 flex-shrink-0 rounded-full"
-                    style={{
-                      backgroundColor: connected
-                        ? a.colorHex
-                        : "oklch(0.4 0 0)",
-                    }}
-                  />
-                  <span className="text-sm font-medium text-[var(--foreground)]">
-                    {a.name}
-                  </span>
-                </div>
-                <div className="mt-2 text-xs text-[var(--muted-fg)]">
-                  {connected
-                    ? topEmotion
-                      ? `${topEmotion.type} · ${valence?.toFixed(2) ?? "–"}`
-                      : `mood ${valence?.toFixed(2) ?? "–"}`
-                    : "offline"}
+                <div className="flex items-center gap-3">
+                  <div className="relative shrink-0">
+                    <div
+                      className="relative w-10 h-10 rounded-full overflow-hidden border"
+                      style={{
+                        borderColor: `oklch(from ${a.colorHex} l c h / ${connected ? 50 : 25}%)`,
+                        boxShadow: connected
+                          ? `0 0 12px oklch(from ${a.colorHex} l c h / 35%)`
+                          : "none",
+                        opacity: connected ? 1 : 0.55,
+                      }}
+                    >
+                      <Image
+                        src={a.image}
+                        alt={a.name}
+                        fill
+                        sizes="40px"
+                        className="object-cover"
+                        unoptimized={a.image.startsWith("http")}
+                      />
+                    </div>
+                    <span
+                      className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full ring-2 ring-[var(--surface-2)]"
+                      style={{
+                        backgroundColor: connected ? "#10b981" : "#71717a",
+                      }}
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-medium text-[var(--foreground)] truncate">
+                      {a.name}
+                    </div>
+                    <div className="mt-0.5 text-xs text-[var(--muted-fg)] truncate">
+                      {connected
+                        ? topEmotion
+                          ? `${topEmotion.type} · ${valence?.toFixed(2) ?? "–"}`
+                          : `mood ${valence?.toFixed(2) ?? "–"}`
+                        : "offline"}
+                    </div>
+                  </div>
                 </div>
               </Link>
             );

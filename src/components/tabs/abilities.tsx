@@ -55,7 +55,6 @@ const CATEGORY_BY_ID: Record<string, string> = {
   "memory-system": "Cognition",
   "goals-system": "Cognition",
   "inbox-triage": "Cognition",
-  "discord-adapter": "Communication",
   "telegram-adapter": "Communication",
   "twitter-adapter": "Communication",
   "whatsapp-adapter": "Communication",
@@ -80,12 +79,6 @@ const FALLBACK_MAP: CapabilityCategory[] = [
     label: "Communication",
     color: "#93c5fd",
     items: [
-      {
-        name: "Discord",
-        description: "messages, threads, DMs",
-        status: "unknown",
-        capability: "discord-adapter",
-      },
       {
         name: "Telegram",
         description: "messages, channels",

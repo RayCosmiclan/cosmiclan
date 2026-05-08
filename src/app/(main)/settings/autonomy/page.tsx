@@ -8,7 +8,7 @@ export default function Page() {
         Control what agents can do autonomously vs. what requires your approval.
       </p>
       <div className="rounded-lg border border-[var(--border)] bg-[var(--surface-2)] p-6 text-sm text-[var(--muted-fg)]">
-        Per-agent autonomy gates — Stream D.
+        Per-agent autonomy gates. Stream D.
       </div>
     </div>
   );

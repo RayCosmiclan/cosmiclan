@@ -1,0 +1,359 @@
+.stage,
+.reel {
+  position: relative;
+  z-index: 4;
+  height: 100%;
+}
+
+.stage {
+  --indicator-center: 50%;
+  --indicator-card-width: clamp(280px, 23vw, 460px);
+  --indicator-gap: clamp(14px, 2vw, 34px);
+  --indicator-height: clamp(152px, 15vw, 272px);
+  --indicator-width: clamp(34px, 3.1vw, 52px);
+}
+
+.reel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: min(32vw, 520px);
+  transform: translateX(-50%);
+}
+
+.reel[data-mode="horizontal"],
+.reel[data-mode="grid"] {
+  right: 0;
+  left: 0;
+  width: 100%;
+  transform: none;
+}
+
+.reel[data-mode="grid"] {
+  --grid-x: 0px;
+  --grid-y: 0px;
+  --grid-dot-size: 54px;
+  --grid-line-size: 270px;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+  background-image:
+    radial-gradient(circle, rgba(243, 240, 234, 0.16) 0 1px, transparent 1.5px),
+    linear-gradient(rgba(243, 240, 234, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(243, 240, 234, 0.035) 1px, transparent 1px);
+  background-position:
+    calc(50% + var(--grid-x)) calc(50% + var(--grid-y)),
+    calc(50% + var(--grid-x)) calc(50% + var(--grid-y)),
+    calc(50% + var(--grid-x)) calc(50% + var(--grid-y));
+  background-size:
+    var(--grid-dot-size) var(--grid-dot-size),
+    var(--grid-line-size) var(--grid-line-size),
+    var(--grid-line-size) var(--grid-line-size);
+}
+
+.reel[data-mode="grid"][data-dragging="true"] {
+  cursor: grabbing;
+}
+
+.reel[data-mode="grid"][data-dragging="true"] .reelCard {
+  cursor: grabbing;
+}
+
+:global([data-layout="horizontal"]) .stage {
+  --indicator-card-width: clamp(230px, 19vw, 400px);
+  --indicator-gap: clamp(12px, 1.8vw, 30px);
+}
+
+.reelCard {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  width: clamp(280px, 23vw, 460px);
+  aspect-ratio: 16 / 10;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(145deg, rgba(243, 240, 234, 0.1), transparent 58%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.2), transparent 42%),
+    rgba(243, 240, 234, 0.055);
+  color: var(--ivory);
+  cursor: pointer;
+  filter: saturate(1.04) contrast(1.02);
+  text-decoration: none;
+  transition:
+    border-color 220ms ease,
+    filter 220ms ease;
+}
+
+.reelCard[data-mode="horizontal"] {
+  width: clamp(230px, 19vw, 400px);
+}
+
+.reelCard[data-mode="horizontal"]::after {
+  background: rgba(0, 0, 0, 0.14);
+}
+
+.reelCard[data-mode="grid"] {
+  border-color: rgba(243, 240, 234, 0.08);
+  background: rgba(243, 240, 234, 0.035);
+  opacity: 0.32;
+  filter: saturate(0.85) contrast(0.95);
+  transform-origin: center;
+  will-change: transform;
+  transition:
+    opacity 220ms ease,
+    border-color 220ms ease,
+    filter 220ms ease;
+}
+
+.reelCard[data-mode="grid"][data-dimmed="true"] {
+  opacity: 0.22;
+  filter: saturate(0.7) contrast(0.92) blur(0.3px);
+}
+
+.reelCard[data-mode="grid"][data-active="true"] {
+  opacity: 1;
+  border-color: rgba(243, 240, 234, 0.55);
+  background:
+    linear-gradient(150deg, rgba(243, 240, 234, 0.18), transparent 58%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.18), transparent 42%),
+    rgba(243, 240, 234, 0.085);
+  filter: saturate(1.12) contrast(1.05);
+}
+
+.reelCardLabel {
+  position: absolute;
+  top: -18px;
+  left: 0;
+  z-index: 3;
+  color: var(--muted);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+}
+
+.reelCard[data-mode="grid"][data-active="true"] .reelCardLabel {
+  color: var(--ivory);
+}
+
+.gridTitle {
+  position: absolute;
+  right: 0;
+  bottom: 56px;
+  left: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0 4vw;
+  color: var(--ivory);
+  font-family: var(--font-sans), sans-serif;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 260ms ease,
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gridTitle[data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.gridTitleType {
+  color: var(--muted);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: clamp(11px, 0.88vw, 14px);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.gridTitleName {
+  font-size: clamp(64px, 10vw, 200px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+  max-width: 92vw;
+}
+
+.reelCard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.08);
+  pointer-events: none;
+}
+
+.reelCard[data-active="true"] {
+  border-color: rgba(243, 240, 234, 0.42);
+  background:
+    linear-gradient(150deg, rgba(243, 240, 234, 0.16), transparent 58%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.24), transparent 42%),
+    rgba(243, 240, 234, 0.075);
+  filter: saturate(1.08) contrast(1.05);
+}
+
+.reelCard:hover {
+  border-color: rgba(243, 240, 234, 0.35);
+  filter: saturate(1.12) contrast(1.05);
+}
+
+.reelImage {
+  object-fit: cover;
+  opacity: 0.98;
+  filter: saturate(1.04) contrast(1.03);
+}
+
+.activeIndicator {
+  position: absolute;
+  inset: 0;
+  z-index: 25;
+  pointer-events: none;
+}
+
+.indicatorSide {
+  position: absolute;
+  top: 50%;
+  width: var(--indicator-width);
+  height: var(--indicator-height);
+  background: rgba(243, 240, 234, 0.58);
+  transform: translateY(-50%);
+  transition:
+    opacity 220ms ease,
+    transform 340ms cubic-bezier(0.22, 1, 0.36, 1);
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+.indicatorSide[data-side="left"] {
+  left: calc(
+    var(--indicator-center) - (var(--indicator-card-width) / 2) -
+      var(--indicator-gap) - var(--indicator-width)
+  );
+  -webkit-mask-image: url("/images/brand/work-indicator-left.svg");
+  mask-image: url("/images/brand/work-indicator-left.svg");
+}
+
+.indicatorSide[data-side="right"] {
+  left: calc(
+    var(--indicator-center) + (var(--indicator-card-width) / 2) +
+      var(--indicator-gap)
+  );
+  -webkit-mask-image: url("/images/brand/work-indicator-right.svg");
+  mask-image: url("/images/brand/work-indicator-right.svg");
+}
+
+.projectMeta {
+  color: var(--muted);
+  font-family: var(--font-geist-mono), monospace;
+}
+
+.projectMeta {
+  position: absolute;
+  top: 50%;
+  right: var(--page-edge);
+  left: max(
+    var(--right-rail-left),
+    calc(
+      var(--indicator-center) + (var(--indicator-card-width) / 2) +
+        var(--indicator-gap) + var(--indicator-width) + 44px
+    )
+  );
+  z-index: 27;
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) 32px;
+  gap: 18px;
+  color: var(--ivory);
+  transform: translateY(-50%);
+  font-size: clamp(13px, 1vw, 16px);
+  line-height: 1.08;
+  text-transform: none;
+}
+
+:global([data-layout="horizontal"]) .projectMeta,
+:global([data-layout="grid"]) .projectMeta {
+  top: auto;
+  bottom: 148px;
+  z-index: 7;
+  left: 50.2vw;
+  grid-template-columns: 44px minmax(220px, 1fr);
+  gap: 18px;
+  color: var(--ivory);
+  transform: none;
+}
+
+:global([data-layout="horizontal"]) .projectMeta::before,
+:global([data-layout="grid"]) .projectMeta::before {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  z-index: -1;
+  height: 1px;
+  background: rgba(243, 240, 234, 0.22);
+  content: "";
+}
+
+.projectMeta span {
+  width: fit-content;
+  background: var(--void);
+}
+
+.projectMeta span:last-child {
+  justify-self: end;
+}
+
+@media (min-width: 921px) and (max-width: 1180px) {
+  .stage {
+    --indicator-center: 28vw;
+  }
+
+  .reel {
+    left: 28vw;
+  }
+}
+
+@media (max-width: 920px) {
+  .stage {
+    --indicator-card-width: 184px;
+    --indicator-gap: 12px;
+    --indicator-height: 132px;
+    --indicator-width: 28px;
+  }
+
+  .reel {
+    left: 50%;
+    width: 100vw;
+    clip-path: inset(188px 0 58px);
+  }
+
+  .projectMeta {
+    display: none;
+  }
+
+  .reelCard {
+    width: 184px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reelCard {
+    animation: none;
+    transition: none;
+  }
+}

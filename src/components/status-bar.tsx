@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState, useEffect } from "react";
+import Image from "next/image";
 import type { MartyState } from "@/lib/types";
 
 interface StatusBarProps {
@@ -9,6 +10,7 @@ interface StatusBarProps {
   connected?: boolean;
   agentName?: string;
   agentColor?: string;
+  agentImage?: string;
 }
 
 function getEmotionColor(type: string): string {
@@ -79,6 +81,7 @@ export function StatusBar({
   connected: connectedProp,
   agentName,
   agentColor,
+  agentImage,
 }: StatusBarProps) {
   const { connected: stateConnected, emotionalState, driveState } = state;
   const connected = connectedProp ?? stateConnected;
@@ -114,14 +117,34 @@ export function StatusBar({
       className="flex items-center gap-5 px-6 py-2.5 border-b border-[oklch(1_0_0/12%)] bg-[oklch(0.10_0.005_260/95%)] backdrop-blur-sm shrink-0"
       style={{ "--arousal-speed": heartbeatSpeed } as React.CSSProperties}
     >
-      {/* Agent name */}
+      {/* Agent identity */}
       {agentName && (
-        <span
-          className="text-sm font-semibold tracking-wide shrink-0"
-          style={{ color: agentColor ?? "oklch(0.7 0 0)" }}
-        >
-          {agentName}
-        </span>
+        <div className="flex items-center gap-2.5 shrink-0">
+          {agentImage && (
+            <div
+              className="relative w-7 h-7 rounded-full overflow-hidden border"
+              style={{
+                borderColor: `oklch(from ${agentColor ?? "#94a3b8"} l c h / 40%)`,
+                boxShadow: `0 0 12px oklch(from ${agentColor ?? "#94a3b8"} l c h / 25%)`,
+              }}
+            >
+              <Image
+                src={agentImage}
+                alt={agentName}
+                fill
+                sizes="28px"
+                className="object-cover"
+                unoptimized={agentImage.startsWith("http")}
+              />
+            </div>
+          )}
+          <span
+            className="text-sm font-semibold tracking-wide"
+            style={{ color: agentColor ?? "oklch(0.7 0 0)" }}
+          >
+            {agentName}
+          </span>
+        </div>
       )}
 
       {/* Mood dot */}

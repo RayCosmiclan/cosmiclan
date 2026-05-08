@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { AGENTS, GABRIEL_CONFIG } from "@/lib/agents";
 
 interface Msg {
@@ -22,11 +23,17 @@ export function MessageBubble({ msg }: { msg: Msg }) {
     <div
       className={`flex gap-2 mb-3 ${isMe ? "justify-end" : "justify-start"}`}
     >
-      {!isMe && (
-        <div
-          className="w-7 h-7 rounded-full mt-1 flex-shrink-0"
-          style={{ backgroundColor: accent }}
-        />
+      {!isMe && agent && (
+        <div className="relative w-7 h-7 rounded-full overflow-hidden mt-1 flex-shrink-0 border border-[var(--border)]">
+          <Image
+            src={agent.image}
+            alt={agent.name}
+            fill
+            sizes="28px"
+            className="object-cover"
+            unoptimized={agent.image.startsWith("http")}
+          />
+        </div>
       )}
       <div
         className={`max-w-[70%] p-3 ${
@@ -45,7 +52,16 @@ export function MessageBubble({ msg }: { msg: Msg }) {
         </div>
       </div>
       {isMe && (
-        <div className="w-7 h-7 rounded-full mt-1 flex-shrink-0 bg-[var(--surface-3)]" />
+        <div className="relative w-7 h-7 rounded-full overflow-hidden mt-1 flex-shrink-0 border border-[var(--border)]">
+          <Image
+            src={GABRIEL_CONFIG.image}
+            alt="Gabriel"
+            fill
+            sizes="28px"
+            className="object-cover"
+            unoptimized={GABRIEL_CONFIG.image.startsWith("http")}
+          />
+        </div>
       )}
     </div>
   );

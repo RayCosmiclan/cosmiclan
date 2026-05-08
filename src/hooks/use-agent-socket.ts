@@ -10,6 +10,7 @@ import type {
   GoalState,
   MonologueOutput,
   AgentConfig,
+  AgentStatus,
 } from "@/lib/types";
 import { getAgentWsUrl } from "@/lib/agents";
 
@@ -29,6 +30,7 @@ function createDefaultState(): MartyState {
     events: [],
     thoughts: [],
     actions: [],
+    status: null,
   };
 }
 
@@ -139,6 +141,9 @@ export function useAgentSocket(agent: AgentConfig) {
                 ...prev.abilityRequests,
                 wsEvent.payload as MartyState["abilityRequests"][number],
               ];
+              break;
+            case "agent:status":
+              next.status = wsEvent.payload as AgentStatus;
               break;
           }
 

@@ -24,6 +24,7 @@ function createDefaultState(): MartyState {
     events: [],
     thoughts: [],
     actions: [],
+    status: null,
   };
 }
 
