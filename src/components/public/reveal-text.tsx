@@ -65,7 +65,9 @@ function splitNodes(
                 style={{
                   display: "inline-block",
                   willChange: "transform, opacity",
-                  transform: "translateY(110%)",
+                  // No transform here — GSAP fully owns it. Inline transform
+                  // values like translateY(110%) compete with GSAP's matrix
+                  // and the chars end up stuck off-screen.
                   opacity: 0,
                 }}
               >
@@ -93,9 +95,9 @@ function splitNodes(
         style={{
           display: "inline-block",
           willChange: "transform, opacity, filter",
+          // Only opacity is set inline — GSAP owns transform/filter so
+          // the from state and animation matrix don't fight inline css.
           opacity: 0,
-          transform: "translateY(10px)",
-          filter: effect === "kicker" ? "none" : "blur(6px)",
         }}
       >
         {part}
