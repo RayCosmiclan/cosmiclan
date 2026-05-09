@@ -12,7 +12,7 @@ export default function TeamPage() {
         </div>
         <span className={styles.navCenter}>COSMICLAN / TEAM</span>
         <div className={styles.navGroup}>
-          <Link href="mailto:gabriel@cosmiclan.com">Contact</Link>
+          <Link href="mailto:gabrielantony56@gmail.com">Contact</Link>
         </div>
       </nav>
 

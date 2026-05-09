@@ -50,7 +50,7 @@ export default async function BlogPostPage({
         </div>
         <BlogIndexClock locale={locale} />
         <div className={styles.navGroup}>
-          <Link href="mailto:gabriel@cosmiclan.com">{copy.contactLabel}</Link>
+          <Link href="mailto:gabrielantony56@gmail.com">{copy.contactLabel}</Link>
         </div>
       </nav>
 

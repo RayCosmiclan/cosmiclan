@@ -50,7 +50,7 @@ export default async function BlogsPage() {
         </div>
         <BlogIndexClock locale={locale} />
         <div className={styles.navGroup}>
-          <Link href="mailto:gabriel@cosmiclan.com">{copy.contactLabel}</Link>
+          <Link href="mailto:gabrielantony56@gmail.com">{copy.contactLabel}</Link>
         </div>
       </nav>
 
@@ -67,8 +67,14 @@ export default async function BlogsPage() {
 
       {posts.length === 0 ? (
         <section className={styles.emptyState}>
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+            <circle cx="32" cy="32" r="30" stroke="rgba(243,240,234,0.2)" strokeWidth="1" />
+            <line x1="20" y1="32" x2="44" y2="32" stroke="rgba(243,240,234,0.3)" strokeWidth="1" />
+            <line x1="32" y1="20" x2="32" y2="44" stroke="rgba(243,240,234,0.3)" strokeWidth="1" />
+          </svg>
           <h2>{copy.emptyHeading}</h2>
           <p>{copy.emptyBody}</p>
+          <Link href="/" className={styles.emptyCta}>{copy.workLabel.replace(/,$/, "")}</Link>
         </section>
       ) : (
         <ol className={styles.indexList}>

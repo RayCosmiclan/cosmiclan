@@ -125,9 +125,7 @@ export function AboutContent({
     }, 4200);
     return () => window.clearInterval(tick);
   }, [loopVisible, loopPaused, loopSteps.length]);
-  const [timeLabel, setTimeLabel] = useState(
-    timeLocale === "id" ? "WIB --:--:--" : "IST --:--:--",
-  );
+  const [timeLabel, setTimeLabel] = useState("");
 
   useEffect(() => {
     const isID = timeLocale === "id";
@@ -161,7 +159,7 @@ export function AboutContent({
           {timeLabel}
         </span>
         <div className={styles.navGroup}>
-          <Link href="mailto:gabriel@cosmiclan.com">{copy.contactLabel}</Link>
+          <Link href="mailto:gabrielantony56@gmail.com">{copy.contactLabel}</Link>
         </div>
       </nav>
 

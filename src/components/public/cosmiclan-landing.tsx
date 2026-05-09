@@ -18,7 +18,7 @@ import {
 import frameStyles from "./cosmiclan-home.module.css";
 import wheelStyles from "./cosmiclan-wheel.module.css";
 
-const CONTACT_EMAIL = "gabriel@cosmiclan.com";
+const CONTACT_EMAIL = "gabrielantony56@gmail.com";
 
 /**
  * Splash variant. Flip this to try different intro effects:
@@ -41,6 +41,8 @@ const GRID_MIN_SCALE = 0.38;
 const GRID_MAX_SCALE = 2.4;
 const GRID_ZOOM_SENSITIVITY = 0.0018;
 const MIN_SPLASH_MS = 3000;
+const AUTO_SKIP_SPLASH =
+  typeof navigator !== "undefined" && (navigator as { webdriver?: boolean }).webdriver === true;
 const WORK_LAYOUTS = ["Vertical", "Horizontal", "Grid"] as const;
 type WorkLayout = (typeof WORK_LAYOUTS)[number];
 type ProductWithScreenshot = (typeof PRODUCTS)[number] & {
@@ -207,8 +209,8 @@ type LandingCopy = {
 };
 
 const DEFAULT_LANDING_COPY: LandingCopy = {
-  workLabel: "Work,",
-  aboutLabel: "About,",
+  workLabel: "Work",
+  aboutLabel: "About",
   blogsLabel: "Blogs",
   contactLabel: "Contact",
   copiedLabel: "Copied",
@@ -217,7 +219,7 @@ const DEFAULT_LANDING_COPY: LandingCopy = {
   contactPrefix: "Contact:",
   projectHint: "Scroll the work. Open the selected project.",
   layoutLabel: "Work layout",
-  rightsReserved: "All rights reserved. (c) 2026 Cosmiclan",
+  rightsReserved: "All rights reserved. &#169; 2026 Cosmiclan",
   timezone: { label: "IST", intl: "en-IN", tz: "Asia/Kolkata" },
 };
 
@@ -251,8 +253,9 @@ export function CosmiclanLanding({
 } = {}) {
   const activeSplashVariant: SplashVariant = splashVariant ?? SPLASH_VARIANT;
   const shouldStartWithSplash =
-    splashVariant !== undefined ||
-    (initialShowSplash && !hasSeenCosmiclanPublic());
+    !AUTO_SKIP_SPLASH &&
+    (splashVariant !== undefined ||
+      (initialShowSplash && !hasSeenCosmiclanPublic()));
   const rootRef = useRef<HTMLElement>(null);
   const animationFrameRef = useRef<number | null>(null);
   const targetIndexRef = useRef(0);
@@ -275,10 +278,7 @@ export function CosmiclanLanding({
   );
   const [showSplash, setShowSplash] = useState(shouldStartWithSplash);
   const [splashClosing, setSplashClosing] = useState(false);
-  const [startSequencePhase, setStartSequencePhase] = useState<
-    "idle" | "playing" | "done"
-  >(shouldStartWithSplash ? "idle" : "done");
-  const startSequenceRef = useRef<HTMLDivElement>(null);
+
   const [timeLabel, setTimeLabel] = useState(`${copy.timezone.label} --:--:--`);
   const [contactCopied, setContactCopied] = useState(false);
   const [hoveredGridCell, setHoveredGridCell] = useState<number | null>(null);
@@ -365,7 +365,7 @@ export function CosmiclanLanding({
   } as CSSProperties;
 
   useEffect(() => {
-    if (startSequencePhase !== "done") return;
+    if (showSplash) return;
     const root = rootRef.current;
     if (!root) return;
 
@@ -388,92 +388,7 @@ export function CosmiclanLanding({
     }, root);
 
     return () => ctx.revert();
-  }, [startSequencePhase]);
-
-  useEffect(() => {
-    if (startSequencePhase !== "playing") return;
-    const root = startSequenceRef.current;
-    if (!root) return;
-
-    const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    if (reduceMotion) {
-      const frame = window.requestAnimationFrame(() => {
-        setStartSequencePhase("done");
-      });
-      return () => window.cancelAnimationFrame(frame);
-    }
-
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        onComplete: () => setStartSequencePhase("done"),
-      });
-
-      // Initial states
-      gsap.set(".startSphere", { opacity: 0, scale: 0.7 });
-      gsap.set(".startStackTrack", { y: "30vh", opacity: 0 });
-
-      // Phase 1: Wireframe sphere fades in + out
-      tl.to(".startSphere", {
-        opacity: 1,
-        scale: 1,
-        duration: 0.5,
-        ease: "power2.out",
-      })
-        .to(".startSphere", {
-          opacity: 0,
-          scale: 1.15,
-          duration: 0.4,
-          ease: "power2.in",
-        })
-        // Phase 2: Dense image stack fades in as sphere exits
-        .to(
-          ".startStackTrack",
-          {
-            opacity: 1,
-            duration: 0.4,
-            ease: "power2.out",
-          },
-          "-=0.2",
-        );
-
-      // Phase 3: Full-viewport stack scrolls downward (ease-out deceleration)
-      tl.to(
-        ".startStackTrack",
-        {
-          y: "-140vh",
-          duration: 4.8,
-          ease: "power2.out",
-        },
-        "-=0.1",
-      );
-
-      // Phase 4: Stack fades out
-      tl.to(
-        ".startStack",
-        {
-          opacity: 0,
-          duration: 0.8,
-          ease: "power2.inOut",
-        },
-        "-=0.8",
-      );
-
-      // Phase 5: Background fades out, revealing main content
-      tl.to(
-        ".startSequenceBg",
-        {
-          opacity: 0,
-          duration: 0.6,
-          ease: "power2.inOut",
-        },
-        "-=0.5",
-      );
-    }, root);
-
-    return () => ctx.revert();
-  }, [startSequencePhase]);
+  }, [showSplash]);
 
   useEffect(() => {
     markCosmiclanPublicSeen();
@@ -544,7 +459,6 @@ export function CosmiclanLanding({
         closeTimer = window.setTimeout(() => {
           if (!cancelled) {
             setShowSplash(false);
-            setStartSequencePhase("playing");
           }
         }, 320);
         return;
@@ -565,8 +479,6 @@ export function CosmiclanLanding({
   }, [showSplash]);
 
   useEffect(() => {
-    if (startSequencePhase !== "done") return;
-
     const animate = () => {
       if (
         reelLength > 0 &&
@@ -599,7 +511,7 @@ export function CosmiclanLanding({
         window.clearTimeout(snapTimerRef.current);
       }
     };
-  }, [reelLength, wrapProject, startSequencePhase]);
+  }, [reelLength, wrapProject]);
 
   useEffect(() => {
     const updateVerticalSpacing = () => {
@@ -621,11 +533,6 @@ export function CosmiclanLanding({
     if (!root) return;
 
     const handleNativeWheel = (event: WheelEvent) => {
-      if (startSequencePhase !== "done") {
-        event.preventDefault();
-        return;
-      }
-
       event.preventDefault();
 
       if (layoutMode === "Grid") {
@@ -662,7 +569,7 @@ export function CosmiclanLanding({
     return () => {
       root.removeEventListener("wheel", handleNativeWheel);
     };
-  }, [layoutMode, startSequencePhase]);
+  }, [layoutMode]);
 
   useEffect(() => {
     const formatter = new Intl.DateTimeFormat(copy.timezone.intl, {
@@ -697,10 +604,6 @@ export function CosmiclanLanding({
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLElement>) {
-    if (startSequencePhase !== "done") {
-      event.preventDefault();
-      return;
-    }
     if (layoutMode === "Grid") {
       const panStep = event.shiftKey ? 180 : 82;
       if (event.key === "ArrowRight") {
@@ -772,7 +675,7 @@ export function CosmiclanLanding({
   }
 
   function handleGridPointerDown(event: PointerEvent<HTMLDivElement>) {
-    if (layoutMode !== "Grid" || startSequencePhase !== "done") return;
+    if (layoutMode !== "Grid") return;
     if (event.button !== 0) return;
 
     event.currentTarget.setPointerCapture(event.pointerId);
@@ -851,7 +754,6 @@ export function CosmiclanLanding({
       ref={rootRef}
       className={frameStyles.site}
       data-layout={layoutMode.toLowerCase()}
-      data-start-phase={startSequencePhase}
       onKeyDown={handleKeyDown}
       tabIndex={0}
       aria-label="Cosmiclan project wheel"
@@ -875,46 +777,21 @@ export function CosmiclanLanding({
             <span>{String(splashProgress).padStart(3, "0")}</span>
             <small>/100</small>
           </div>
+          <button
+            type="button"
+            className={frameStyles.splashSkip}
+            onClick={() => {
+              setSplashProgress(100);
+              setSplashClosing(true);
+              window.setTimeout(() => {
+                setShowSplash(false);
+              }, 320);
+            }}
+            aria-label="Skip loading animation"
+          >
+            Skip
+          </button>
         </section>
-      ) : null}
-
-      {startSequencePhase === "playing" ? (
-        <div
-          className={frameStyles.startSequence}
-          ref={startSequenceRef}
-          aria-hidden="true"
-        >
-          <div className={frameStyles.startSequenceBg} />
-
-          {/* Full-viewport dense image stack */}
-          <div className={frameStyles.startStack}>
-            <div className={frameStyles.startStackTrack}>
-              {[...REEL_PRODUCTS, ...REEL_PRODUCTS].map((product, i) => (
-                <div
-                  key={`${product.slug}-start-${i}`}
-                  className={frameStyles.startStackCard}
-                >
-                  <Image
-                    src={product.screenshot}
-                    alt=""
-                    width={720}
-                    height={450}
-                    priority={i < 6}
-                    unoptimized
-                    className={frameStyles.startStackImage}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Wireframe sphere */}
-          <div className={frameStyles.startSphere}>
-            <div className={frameStyles.startSphereRing} data-axis="x" />
-            <div className={frameStyles.startSphereRing} data-axis="y" />
-            <div className={frameStyles.startSphereRing} data-axis="z" />
-          </div>
-        </div>
       ) : null}
 
       <div className={frameStyles.ambientField} aria-hidden="true" />

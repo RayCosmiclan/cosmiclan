@@ -276,13 +276,13 @@ export const CONTACT_COPY: Record<
   default: {
     kicker: "Contact",
     heading: "Talk to us.",
-    email: "gabriel@cosmiclan.com",
+    email: "gabrielantony56@gmail.com",
     socialsHeading: "Elsewhere",
   },
   id: {
     kicker: "Kontak",
     heading: "Hubungi kami.",
-    email: "gabriel@cosmiclan.com",
+    email: "gabrielantony56@gmail.com",
     socialsHeading: "Lainnya",
   },
 };
@@ -320,8 +320,8 @@ export const BLOG_COPY: Record<
     onlyEnglishNote: "Only available in English for now.",
     emptyHeading: "Drafts in motion.",
     emptyBody: "First post is being written. Come back soon.",
-    workLabel: "Work,",
-    aboutLabel: "About,",
+    workLabel: "Work",
+    aboutLabel: "About",
     blogsLabel: "Blogs",
     contactLabel: "Contact",
   },
@@ -338,8 +338,8 @@ export const BLOG_COPY: Record<
     onlyEnglishNote: "Saat ini hanya tersedia dalam bahasa Inggris.",
     emptyHeading: "Draft sedang berjalan.",
     emptyBody: "Tulisan pertama sedang disiapkan. Cek lagi nanti.",
-    workLabel: "Karya,",
-    aboutLabel: "Tentang,",
+    workLabel: "Karya",
+    aboutLabel: "Tentang",
     blogsLabel: "Blog",
     contactLabel: "Kontak",
   },
@@ -621,8 +621,8 @@ export const LANDING_COPY: Record<
   }
 > = {
   default: {
-    workLabel: "Work,",
-    aboutLabel: "About,",
+    workLabel: "Work",
+    aboutLabel: "About",
     blogsLabel: "Blogs",
     contactLabel: "Contact",
     copiedLabel: "Copied",
@@ -631,12 +631,12 @@ export const LANDING_COPY: Record<
     contactPrefix: "Contact:",
     projectHint: "Scroll the work. Open the selected project.",
     layoutLabel: "Work layout",
-    rightsReserved: "All rights reserved. (c) 2026 Cosmiclan",
+    rightsReserved: "All rights reserved. &#169; 2026 Cosmiclan",
     timezone: { label: "IST", intl: "en-IN", tz: "Asia/Kolkata" },
   },
   id: {
-    workLabel: "Karya,",
-    aboutLabel: "Tentang,",
+    workLabel: "Karya",
+    aboutLabel: "Tentang",
     blogsLabel: "Blog",
     contactLabel: "Kontak",
     copiedLabel: "Disalin",
@@ -645,7 +645,7 @@ export const LANDING_COPY: Record<
     contactPrefix: "Kontak:",
     projectHint: "Geser untuk melihat karya. Buka proyek yang terpilih.",
     layoutLabel: "Tata letak karya",
-    rightsReserved: "Hak cipta dilindungi. (c) 2026 Cosmiclan",
+    rightsReserved: "Hak cipta dilindungi. &#169; 2026 Cosmiclan",
     timezone: { label: "WIB", intl: "id-ID", tz: "Asia/Jakarta" },
   },
 };
@@ -701,8 +701,8 @@ export const ABOUT_COPY: Record<
   }
 > = {
   default: {
-    aboutLabel: "About,",
-    workLabel: "Work,",
+    aboutLabel: "About",
+    workLabel: "Work",
     blogsLabel: "Blogs",
     contactLabel: "Contact",
     title: "High Agency.",
@@ -729,8 +729,8 @@ export const ABOUT_COPY: Record<
       "Instagram, X and LinkedIn are treated as distribution systems.",
   },
   id: {
-    aboutLabel: "Tentang,",
-    workLabel: "Karya,",
+    aboutLabel: "Tentang",
+    workLabel: "Karya",
     blogsLabel: "Blog",
     contactLabel: "Kontak",
     title: "High Agency.",

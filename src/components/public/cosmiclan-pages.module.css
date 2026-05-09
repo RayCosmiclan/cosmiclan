@@ -4,7 +4,7 @@
   --line-strong: rgba(243, 240, 234, 0.42);
   --ivory: #f3f0ea;
   --muted: rgba(243, 240, 234, 0.56);
-  --quiet: rgba(243, 240, 234, 0.34);
+  --quiet: rgba(243, 240, 234, 0.48);
   --page-edge: clamp(16px, 3vw, 48px);
   --right-rail-left: 66vw;
   position: relative;
@@ -12,7 +12,7 @@
   min-height: 100svh;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 104px var(--page-edge) 82px;
+  padding: 96px var(--page-edge) 80px;
   color: var(--ivory);
   background: var(--void);
   font-family: var(--font-sans), sans-serif;
@@ -139,11 +139,10 @@
 .nav a {
   color: inherit;
   text-decoration: none;
-  padding: 4px 6px;
-  min-height: 44px;
-  min-width: 44px;
+  padding: 4px 4px;
   display: inline-flex;
   align-items: center;
+  white-space: nowrap;
 }
 
 .nav a:hover {
@@ -568,7 +567,7 @@
 .teamRow span {
   font-family: var(--font-geist-mono), monospace;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.04em;
 }
 
@@ -581,7 +580,7 @@
 
 .teamRow .teamMeta {
   display: grid;
-  gap: 4px;
+  gap: 12px;
 }
 
 .contactHeading {
@@ -701,7 +700,7 @@
   grid-template-columns: minmax(160px, 0.34fr) minmax(280px, 1fr);
   gap: clamp(16px, 3vw, 56px);
   border-bottom: 1px solid var(--line);
-  padding: clamp(14px, 1.5vw, 22px) 0;
+  padding: clamp(12px, 1.5vw, 24px) 0;
   font-size: clamp(14px, 1vw, 17px);
   line-height: 1.32;
 }
@@ -738,12 +737,13 @@
 
 .subpageTitle {
   max-width: 1240px;
-  margin: 44px 0 40px;
+  margin: 48px 0 40px;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(64px, 9vw, 168px);
+  font-size: clamp(48px, 9vw, 168px);
   font-weight: 400;
   line-height: 1.05;
   letter-spacing: -0.015em;
+  text-wrap: balance;
 }
 
 .subpageTitle span {
@@ -830,7 +830,7 @@
 
 .founderNotes {
   display: grid;
-  gap: 15px;
+  gap: 16px;
   max-width: 760px;
   border-top: 1px solid var(--line);
   padding-top: 20px;
@@ -844,7 +844,7 @@
   grid-template-columns: 120px 1fr;
   gap: 24px;
   border-top: 1px solid var(--line);
-  padding-top: 18px;
+  padding-top: 16px;
   font-family: var(--font-geist-mono), monospace;
   font-size: 13px;
 }
@@ -893,7 +893,7 @@
 .serviceGrid span,
 .socialList article {
   border-bottom: 1px solid var(--line);
-  padding: 18px 0;
+  padding: 16px 0;
 }
 
 .subpageList span,
@@ -943,7 +943,7 @@
 
 .videoItem div {
   display: grid;
-  gap: 13px;
+  gap: 12px;
   max-width: 460px;
 }
 
@@ -976,7 +976,7 @@
   align-content: start;
   gap: 12px;
   min-height: 100%;
-  padding: 14px;
+  padding: 16px;
   background: rgba(5, 5, 6, 0.92);
 }
 
@@ -1104,7 +1104,7 @@
 
   .teamRow {
     grid-template-columns: 1fr;
-    gap: 8px;
+    gap: 16px;
   }
 
   .loopStage {

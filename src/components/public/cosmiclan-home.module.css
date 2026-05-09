@@ -17,12 +17,6 @@
   outline: none;
 }
 
-/* Hide all main content during start sequence */
-.site[data-start-phase="playing"] > :not(.startSequence):not(.splash) {
-  opacity: 0;
-  pointer-events: none;
-}
-
 .site::before,
 .site::after {
   content: "";
@@ -283,6 +277,32 @@
     rgba(243, 240, 234, 0.2) var(--progress-width) 100%
   );
   content: "";
+}
+
+.splashSkip {
+  position: absolute;
+  bottom: clamp(48px, 8vh, 96px);
+  right: 16px;
+  z-index: 3;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  padding: 8px;
+  min-height: 44px;
+  transition: color 200ms ease;
+}
+
+.splashSkip:hover {
+  color: var(--ivory);
 }
 
 /* ─── Splash variant: TUNNEL ─── */
@@ -593,11 +613,10 @@
 .nav a {
   color: inherit;
   text-decoration: none;
-  padding: 4px 6px;
-  min-height: 44px;
-  min-width: 44px;
+  padding: 4px 4px;
   display: inline-flex;
   align-items: center;
+  white-space: nowrap;
 }
 
 .nav a:hover {
@@ -986,7 +1005,9 @@
   color: inherit;
   cursor: pointer;
   font: inherit;
-  padding: 0;
+  padding: 4px 8px;
+  min-height: 44px;
+  min-width: 44px;
   text-decoration: none;
 }
 
@@ -1020,8 +1041,7 @@
 
 .categoryFilter button {
   position: relative;
-  padding: 8px 2px;
-  min-height: 44px;
+  padding: 4px 0;
   border: 0;
   background: transparent;
   color: inherit;
@@ -1038,17 +1058,10 @@
 
 .categoryFilter button[data-active="true"] {
   color: var(--ivory);
-}
-
-.categoryFilter button[data-active="true"]::after {
-  position: absolute;
-  bottom: -6px;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: var(--ivory);
-  content: "";
-  animation: categoryUnderlineIn 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--ivory);
 }
 
 @keyframes categoryUnderlineIn {
@@ -1066,85 +1079,6 @@
   .site {
     --right-rail-left: 52vw;
   }
-}
-
-/* ─── Start Sequence (post-splash full-viewport stack reveal) ─── */
-.startSequence {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  pointer-events: none;
-}
-
-.startSequenceBg {
-  position: absolute;
-  inset: 0;
-  background: #050506;
-  z-index: 0;
-}
-
-/* Full-viewport dense image stack */
-.startStack {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-}
-
-.startStackTrack {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  will-change: transform;
-}
-
-.startStackCard {
-  width: clamp(320px, 48vw, 720px);
-  aspect-ratio: 16 / 10;
-  overflow: hidden;
-  border: 1px solid rgba(243, 240, 234, 0.1);
-  flex-shrink: 0;
-  background: rgba(243, 240, 234, 0.03);
-  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.45);
-}
-
-.startStackImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.92;
-}
-
-.startSphere {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  display: grid;
-  place-items: center;
-  pointer-events: none;
-}
-
-.startSphereRing {
-  position: absolute;
-  width: clamp(100px, 11vw, 170px);
-  height: clamp(100px, 11vw, 170px);
-  border: 1.5px solid var(--ivory);
-  border-radius: 50%;
-}
-
-.startSphereRing[data-axis="x"] {
-  transform: rotateX(70deg);
-}
-
-.startSphereRing[data-axis="y"] {
-  transform: rotateY(70deg);
-}
-
-.startSphereRing[data-axis="z"] {
-  transform: rotateZ(0deg);
 }
 
 @media (max-width: 920px) {
@@ -1165,6 +1099,17 @@
 
   .contactButton {
     justify-self: start;
+    padding: 8px 4px;
+  }
+
+  .splashCounter {
+    right: 50%;
+    transform: translate(50%, -50%);
+    justify-items: center;
+  }
+
+  .splashCounter small {
+    font-size: 14px;
   }
 
   .logoFrame {
@@ -1190,9 +1135,6 @@
     font-size: 12px;
   }
 
-  .startStackCard {
-    width: 84vw;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

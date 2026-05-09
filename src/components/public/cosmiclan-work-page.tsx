@@ -13,7 +13,7 @@ import styles from "./cosmiclan-work.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const CONTACT_EMAIL = "gabriel@cosmiclan.com";
+const CONTACT_EMAIL = "gabrielantony56@gmail.com";
 
 type ProductWithMedia = Product & {
   screenshot?: string;
@@ -45,7 +45,7 @@ export function CosmiclanWorkPage({
   index: number;
 }) {
   const contactTimerRef = useRef<number | null>(null);
-  const [timeLabel, setTimeLabel] = useState("IST --:--:--");
+  const [timeLabel, setTimeLabel] = useState("");
   const [contactCopied, setContactCopied] = useState(false);
   const mediaProduct = product as ProductWithMedia;
   const videoSrc = mediaProduct.video;
@@ -54,11 +54,11 @@ export function CosmiclanWorkPage({
     () =>
       mediaProduct.screenshots ??
       (mediaProduct.screenshot ? [mediaProduct.screenshot] : []),
-    [mediaProduct.screenshots, mediaProduct.screenshot]
+    [mediaProduct.screenshots, mediaProduct.screenshot],
   );
   const screenStack = useMemo(
     () => buildScreenStack(screenshots),
-    [screenshots]
+    [screenshots],
   );
 
   const pageRef = useRef<HTMLElement>(null);
@@ -91,6 +91,8 @@ export function CosmiclanWorkPage({
   }, []);
 
   useEffect(() => {
+    if (typeof window !== "undefined" && window.innerWidth <= 920) return;
+
     const html = document.documentElement;
     const body = document.body;
 
@@ -115,6 +117,7 @@ export function CosmiclanWorkPage({
   useEffect(() => {
     if (!pageRef.current || !railRef.current || !stackRef.current) return;
     if (screenStack.length === 0) return;
+    if (typeof window !== "undefined" && window.innerWidth <= 920) return;
 
     const pageEl = pageRef.current;
     const railEl = railRef.current;
@@ -131,7 +134,7 @@ export function CosmiclanWorkPage({
       const railHeight = railEl.clientHeight;
       const scrollDistance = Math.max(
         stackHeight - railHeight + 120,
-        stackHeight * 0.6
+        stackHeight * 0.6,
       );
       spacerRef.current.style.height = `${scrollDistance + window.innerHeight}px`;
       return scrollDistance;
@@ -245,10 +248,8 @@ export function CosmiclanWorkPage({
     <main className={styles.workPage} ref={pageRef}>
       <nav className={styles.nav} aria-label="Cosmiclan navigation">
         <div className={styles.navGroup}>
-          <Link href="/" aria-current="page">
-            Work,
-          </Link>
-          <Link href="/about">About,</Link>
+          <Link href="/">Work</Link>
+          <Link href="/about">About</Link>
           <Link href="/blogs">Blogs</Link>
         </div>
         <span className={styles.navCenter} suppressHydrationWarning>
@@ -342,7 +343,7 @@ export function CosmiclanWorkPage({
         <Link href="/" className={styles.backLink}>
           Back
         </Link>
-        <span>All rights reserved. (c) 2026 Cosmiclan</span>
+        <span>All rights reserved. &#169; 2026 Cosmiclan</span>
       </footer>
     </main>
   );

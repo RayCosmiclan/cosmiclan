@@ -5,7 +5,7 @@ import styles from "./cosmiclan-blog.module.css";
 
 export function BlogIndexClock({ locale }: { locale: "default" | "id" }) {
   const isID = locale === "id";
-  const [label, setLabel] = useState(isID ? "WIB --:--:--" : "IST --:--:--");
+  const [label, setLabel] = useState("");
 
   useEffect(() => {
     const formatter = new Intl.DateTimeFormat(isID ? "id-ID" : "en-IN", {
