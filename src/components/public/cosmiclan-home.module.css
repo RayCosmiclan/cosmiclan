@@ -17,6 +17,10 @@
   outline: none;
 }
 
+.site [data-boot] {
+  opacity: 0;
+}
+
 .site::before,
 .site::after {
   content: "";
@@ -604,10 +608,11 @@
   z-index: 12;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
-  align-items: start;
+  align-items: center;
   gap: 24px;
   font-size: 14px;
   line-height: 1.2;
+  white-space: nowrap;
 }
 
 .nav a {
@@ -663,7 +668,7 @@
   color: inherit;
   cursor: pointer;
   font: inherit;
-  line-height: 1;
+  line-height: 1.2;
   padding: 0;
   text-align: left;
   text-decoration: underline;
@@ -1146,7 +1151,6 @@
   .layoutSwitch {
     display: none;
   }
-
 }
 
 @media (prefers-reduced-motion: reduce) {

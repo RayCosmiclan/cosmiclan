@@ -1,10 +1,15 @@
 "use client";
 
-import type { CSSProperties, KeyboardEvent, MouseEvent, PointerEvent } from "react";
+import type {
+  CSSProperties,
+  KeyboardEvent,
+  MouseEvent,
+  PointerEvent,
+} from "react";
 import gsap from "gsap";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { copyText } from "./copy-text";
 import {
   hasSeenCosmiclanPublic,
@@ -42,7 +47,8 @@ const GRID_MAX_SCALE = 2.4;
 const GRID_ZOOM_SENSITIVITY = 0.0018;
 const MIN_SPLASH_MS = 3000;
 const AUTO_SKIP_SPLASH =
-  typeof navigator !== "undefined" && (navigator as { webdriver?: boolean }).webdriver === true;
+  typeof navigator !== "undefined" &&
+  (navigator as { webdriver?: boolean }).webdriver === true;
 const WORK_LAYOUTS = ["Vertical", "Horizontal", "Grid"] as const;
 type WorkLayout = (typeof WORK_LAYOUTS)[number];
 type ProductWithScreenshot = (typeof PRODUCTS)[number] & {
@@ -62,8 +68,6 @@ const PRELOAD_ASSETS = Array.from(
   new Set([
     "/images/brand/cosmiclan-landscape.png",
     "/images/brand/cosmiclan-square-logo.png",
-    "/images/brand/work-indicator-left.svg",
-    "/images/brand/work-indicator-right.svg",
     "/favicon.ico",
     ...PRODUCTS.flatMap((product) => {
       const item = product as ProductWithScreenshot;
@@ -269,8 +273,7 @@ export function CosmiclanLanding({
   const [activeIndex, setActiveIndex] = useState(0);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [layoutMode, setLayoutMode] = useState<WorkLayout>("Vertical");
-  const [gridCamera, setGridCamera] =
-    useState<GridCamera>(INITIAL_GRID_CAMERA);
+  const [gridCamera, setGridCamera] = useState<GridCamera>(INITIAL_GRID_CAMERA);
   const [isGridDragging, setIsGridDragging] = useState(false);
   const [verticalSpacing, setVerticalSpacing] = useState(FALLBACK_REEL_SPACING);
   const [splashProgress, setSplashProgress] = useState(
@@ -278,6 +281,28 @@ export function CosmiclanLanding({
   );
   const [showSplash, setShowSplash] = useState(shouldStartWithSplash);
   const [splashClosing, setSplashClosing] = useState(false);
+  const [introState, setIntroState] = useState<"pending" | "playing" | "done">(
+    shouldStartWithSplash ? "pending" : "done",
+  );
+  const cardRefsMap = useRef<Map<string, HTMLAnchorElement>>(new Map());
+  const introTimelineRef = useRef<gsap.core.Timeline | null>(null);
+  const cardRefCallbacks = useRef<
+    Map<string, (el: HTMLAnchorElement | null) => void>
+  >(new Map());
+  const getCardRef = useCallback((slug: string) => {
+    let cb = cardRefCallbacks.current.get(slug);
+    if (!cb) {
+      cb = (el: HTMLAnchorElement | null) => {
+        if (el) {
+          cardRefsMap.current.set(slug, el);
+        } else {
+          cardRefsMap.current.delete(slug);
+        }
+      };
+      cardRefCallbacks.current.set(slug, cb);
+    }
+    return cb;
+  }, []);
 
   const [timeLabel, setTimeLabel] = useState(`${copy.timezone.label} --:--:--`);
   const [contactCopied, setContactCopied] = useState(false);
@@ -365,7 +390,7 @@ export function CosmiclanLanding({
   } as CSSProperties;
 
   useEffect(() => {
-    if (showSplash) return;
+    if (introState !== "done") return;
     const root = rootRef.current;
     if (!root) return;
 
@@ -388,7 +413,100 @@ export function CosmiclanLanding({
     }, root);
 
     return () => ctx.revert();
+  }, [introState]);
+
+  useEffect(() => {
+    if (showSplash) return;
+    if (introState !== "pending") return;
+
+    if (layoutMode !== "Vertical") {
+      setIntroState("done");
+      return;
+    }
+
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (reduceMotion) {
+      setIntroState("done");
+      return;
+    }
+
+    const orderedCards: HTMLAnchorElement[] = [];
+    filteredReel.forEach((product) => {
+      const el = cardRefsMap.current.get(product.slug);
+      if (el) orderedCards.push(el);
+    });
+
+    if (orderedCards.length === 0) {
+      setIntroState("done");
+      return;
+    }
+
+    targetIndexRef.current = 0;
+    currentIndexRef.current = 0;
+    setScrollPosition(0);
+    setActiveIndex(0);
+
+    setIntroState("playing");
+
+    gsap.set(orderedCards, {
+      xPercent: -50,
+      yPercent: -50,
+      x: 0,
+      y: 0,
+      scale: 1,
+      opacity: 0,
+    });
+
+    const finalStates = filteredReel.map((_, idx) => {
+      const offset = circularOffset(idx, 0);
+      const distance = Math.abs(offset);
+      const visible = distance <= 2.4;
+      return {
+        y: offset * verticalSpacing,
+        opacity: visible ? Math.max(0, 1 - distance * 0.24) : 0,
+      };
+    });
+
+    const tl = gsap.timeline({
+      onComplete: () => setIntroState("done"),
+    });
+
+    tl.to(orderedCards, {
+      opacity: 1,
+      duration: 0.45,
+      stagger: 0.05,
+      ease: "power2.out",
+    });
+
+    tl.addLabel("spread", "+=0.2");
+
+    tl.to(
+      orderedCards,
+      {
+        y: (i: number) => finalStates[i]?.y ?? 0,
+        opacity: (i: number) => finalStates[i]?.opacity ?? 0,
+        duration: 0.9,
+        ease: "power3.inOut",
+      },
+      "spread",
+    );
+
+    introTimelineRef.current = tl;
+    // Intentionally only depend on showSplash. Adding introState here would
+    // make setIntroState("playing") re-fire this effect and the cleanup would
+    // immediately kill the timeline we just created. layoutMode/filteredReel
+    // are captured via closure at the moment the splash exits.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showSplash]);
+
+  useEffect(() => {
+    return () => {
+      introTimelineRef.current?.kill();
+      introTimelineRef.current = null;
+    };
+  }, []);
 
   useEffect(() => {
     markCosmiclanPublicSeen();
@@ -539,7 +657,13 @@ export function CosmiclanLanding({
         if (event.ctrlKey || event.metaKey || event.altKey) {
           const rect = root.getBoundingClientRect();
           setGridCamera((camera) =>
-            zoomGridCamera(camera, rect, event.clientX, event.clientY, event.deltaY),
+            zoomGridCamera(
+              camera,
+              rect,
+              event.clientX,
+              event.clientY,
+              event.deltaY,
+            ),
           );
           return;
         }
@@ -626,14 +750,22 @@ export function CosmiclanLanding({
         event.preventDefault();
         setGridCamera((camera) => ({
           ...camera,
-          scale: clampNumber(camera.scale * 1.12, GRID_MIN_SCALE, GRID_MAX_SCALE),
+          scale: clampNumber(
+            camera.scale * 1.12,
+            GRID_MIN_SCALE,
+            GRID_MAX_SCALE,
+          ),
         }));
       }
       if (event.key === "-" || event.key === "_") {
         event.preventDefault();
         setGridCamera((camera) => ({
           ...camera,
-          scale: clampNumber(camera.scale / 1.12, GRID_MIN_SCALE, GRID_MAX_SCALE),
+          scale: clampNumber(
+            camera.scale / 1.12,
+            GRID_MIN_SCALE,
+            GRID_MAX_SCALE,
+          ),
         }));
       }
       return;
@@ -984,23 +1116,33 @@ export function CosmiclanLanding({
                 const x = isHorizontal ? offset * HORIZONTAL_SPACING : 0;
                 const y = isHorizontal ? 0 : offset * verticalSpacing;
 
-                if (distance > (isHorizontal ? 4.5 : 2.4)) return null;
+                const introOwnsCards =
+                  layoutMode === "Vertical" && introState !== "done";
+
+                if (!introOwnsCards && distance > (isHorizontal ? 4.5 : 2.4))
+                  return null;
+
+                const cardStyle: CSSProperties = introOwnsCards
+                  ? {
+                      opacity: 0,
+                      zIndex: 20 - distance,
+                    }
+                  : {
+                      opacity,
+                      transform: `translate3d(calc(-50% + ${x}px), calc(-50% + ${y}px), 0) scale(${scale})`,
+                      zIndex: 20 - distance,
+                    };
 
                 return (
                   <Link
                     key={product.slug}
+                    ref={getCardRef(product.slug)}
                     href={`/work/${product.slug}`}
                     className={wheelStyles.reelCard}
                     data-mode={layoutMode.toLowerCase()}
                     data-active={Math.abs(offset) < 0.1}
                     data-index={index}
-                    style={
-                      {
-                        opacity,
-                        transform: `translate3d(calc(-50% + ${x}px), calc(-50% + ${y}px), 0) scale(${scale})`,
-                        zIndex: 20 - distance,
-                      } as CSSProperties
-                    }
+                    style={cardStyle}
                   >
                     <Image
                       src={product.screenshot}
@@ -1015,17 +1157,6 @@ export function CosmiclanLanding({
                 );
               })}
         </div>
-
-        {layoutMode !== "Grid" ? (
-          <div
-            data-boot
-            className={wheelStyles.activeIndicator}
-            aria-hidden="true"
-          >
-            <span className={wheelStyles.indicatorSide} data-side="left" />
-            <span className={wheelStyles.indicatorSide} data-side="right" />
-          </div>
-        ) : null}
 
         {layoutMode !== "Grid" ? (
           <div data-boot className={wheelStyles.projectMeta}>
