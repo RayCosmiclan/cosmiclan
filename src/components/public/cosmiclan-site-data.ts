@@ -247,11 +247,11 @@ export const SOCIAL_LINKS_BY_LOCALE: Record<
       handle: "@cosmiclan_",
       url: "https://instagram.com/cosmiclan_",
     },
-    { name: "X", handle: "@cosmiclan", url: "https://x.com/cosmiclan" },
+    { name: "X", handle: "@cosmiclan_", url: "https://x.com/cosmiclan_" },
     {
       name: "LinkedIn",
-      handle: "cosmiclan",
-      url: "https://www.linkedin.com/company/cosmiclan",
+      handle: "gabriel-antony",
+      url: "https://www.linkedin.com/in/gabriel-antony/",
     },
   ],
   id: [
@@ -260,11 +260,11 @@ export const SOCIAL_LINKS_BY_LOCALE: Record<
       handle: "@cosmiclan_",
       url: "https://instagram.com/cosmiclan_",
     },
-    { name: "X", handle: "@cosmiclan", url: "https://x.com/cosmiclan" },
+    { name: "X", handle: "@cosmiclan_", url: "https://x.com/cosmiclan_" },
     {
       name: "LinkedIn",
-      handle: "cosmiclan",
-      url: "https://www.linkedin.com/company/cosmiclan",
+      handle: "gabriel-antony",
+      url: "https://www.linkedin.com/in/gabriel-antony/",
     },
   ],
 };
