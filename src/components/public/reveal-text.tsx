@@ -134,29 +134,45 @@ export function RevealText({
 
     const run = () => {
       if (reduceMotion) {
-        gsap.set(charTargets, { y: 0, opacity: 1 });
-        gsap.set(wordTargets, { y: 0, opacity: 1, filter: "blur(0px)" });
-        return;
-      }
-      if (effect === "chars" && charTargets.length > 0) {
-        gsap.to(charTargets, {
-          yPercent: 0,
-          opacity: 1,
-          duration: 0.78,
-          ease: "power3.out",
-          stagger: 0.018,
-          delay,
-        });
-      } else if (wordTargets.length > 0) {
-        gsap.to(wordTargets, {
+        gsap.set(charTargets, { yPercent: 0, opacity: 1 });
+        gsap.set(wordTargets, {
           y: 0,
           opacity: 1,
           filter: "blur(0px)",
-          duration: effect === "kicker" ? 0.5 : 0.66,
-          ease: "power2.out",
-          stagger: effect === "kicker" ? 0.04 : 0.022,
-          delay,
         });
+        return;
+      }
+      if (effect === "chars" && charTargets.length > 0) {
+        gsap.fromTo(
+          charTargets,
+          { yPercent: 110, opacity: 0 },
+          {
+            yPercent: 0,
+            opacity: 1,
+            duration: 0.78,
+            ease: "power3.out",
+            stagger: 0.018,
+            delay,
+          },
+        );
+      } else if (wordTargets.length > 0) {
+        gsap.fromTo(
+          wordTargets,
+          {
+            y: 10,
+            opacity: 0,
+            filter: effect === "kicker" ? "blur(0px)" : "blur(6px)",
+          },
+          {
+            y: 0,
+            opacity: 1,
+            filter: "blur(0px)",
+            duration: effect === "kicker" ? 0.5 : 0.66,
+            ease: "power2.out",
+            stagger: effect === "kicker" ? 0.04 : 0.022,
+            delay,
+          },
+        );
       }
     };
 

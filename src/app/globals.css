@@ -1310,10 +1310,9 @@ nextjs-portal {
 }
 
 /* ─── RevealText / Highlight (subpage text effects) ──────────────────────── */
+/* Accent word marker is intentionally a no-op — kept for the prop API
+   without applying italics or color shifts (per user preference). */
 .reveal-word-accent {
-  color: #f3f0ea;
-  font-style: italic;
-  letter-spacing: -0.005em;
 }
 
 .reveal-highlight {

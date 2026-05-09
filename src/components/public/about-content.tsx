@@ -279,28 +279,15 @@ export function AboutContent({
 
       <section className={styles.leaderVentures} aria-label="Ventures">
         <div className={styles.sectionHeading}>
-          <RevealText as="p" effect="kicker" className={styles.kicker}>
-            {leader.venturesHeading}
-          </RevealText>
+          <p className={styles.kicker}>{leader.venturesHeading}</p>
         </div>
         <div className={styles.ventureGrid}>
           {leader.ventures.map((venture, i) => (
             <article key={venture.name} className={styles.ventureCard}>
               <span>{String(i + 1).padStart(2, "0")}</span>
-              <RevealText as="h3" effect="chars" delay={i * 0.05}>
-                {venture.name}
-              </RevealText>
-              <RevealText
-                as="p"
-                effect="kicker"
-                className={styles.ventureRole}
-                delay={i * 0.05 + 0.1}
-              >
-                {venture.role}
-              </RevealText>
-              <RevealText as="p" effect="words" delay={i * 0.05 + 0.15}>
-                {venture.description}
-              </RevealText>
+              <h3>{venture.name}</h3>
+              <p className={styles.ventureRole}>{venture.role}</p>
+              <p>{venture.description}</p>
             </article>
           ))}
         </div>
@@ -308,19 +295,13 @@ export function AboutContent({
 
       <section className={styles.leaderBackground} aria-label="Background">
         <div className={styles.sectionHeading}>
-          <RevealText as="p" effect="kicker" className={styles.kicker}>
-            {leader.backgroundHeading}
-          </RevealText>
+          <p className={styles.kicker}>{leader.backgroundHeading}</p>
         </div>
         <dl className={styles.factsList}>
-          {leader.facts.map((fact, i) => (
+          {leader.facts.map((fact) => (
             <div key={fact.label} className={styles.factRow}>
               <dt>{fact.label}</dt>
-              <dd>
-                <RevealText as="span" effect="words" delay={i * 0.04}>
-                  {fact.value}
-                </RevealText>
-              </dd>
+              <dd>{fact.value}</dd>
             </div>
           ))}
         </dl>
@@ -497,32 +478,23 @@ export function AboutContent({
 
       <section className={styles.servicesSection} aria-label="Services">
         <div className={styles.sectionHeading}>
-          <RevealText as="p" effect="kicker" className={styles.kicker}>
-            {copy.servicesKicker}
-          </RevealText>
+          <p className={styles.kicker}>{copy.servicesKicker}</p>
           <RevealText as="h2" effect="chars">
             {copy.servicesHeading}
           </RevealText>
         </div>
         <div className={styles.serviceGrid}>
           {services.map((service, index) => (
-            <RevealText
-              key={service}
-              as="span"
-              effect="words"
-              delay={index * 0.04}
-            >
-              {`${String(index + 1).padStart(2, "0")} / ${service}`}
-            </RevealText>
+            <span key={service}>
+              {String(index + 1).padStart(2, "0")} / {service}
+            </span>
           ))}
         </div>
       </section>
 
       <section className={styles.aboutTeamSection}>
         <div className={styles.sectionHeading}>
-          <RevealText as="p" effect="kicker" className={styles.kicker}>
-            {copy.teamKicker}
-          </RevealText>
+          <p className={styles.kicker}>{copy.teamKicker}</p>
           <RevealText as="h2" effect="chars">
             {copy.teamHeading}
           </RevealText>
@@ -541,15 +513,9 @@ export function AboutContent({
                 </div>
               ) : null}
               <span>{member.code}</span>
-              <RevealText as="h3" effect="chars">
-                {member.name}
-              </RevealText>
-              <RevealText as="p" effect="kicker">
-                {member.role}
-              </RevealText>
-              <RevealText as="p" effect="words">
-                {member.focus}
-              </RevealText>
+              <h3>{member.name}</h3>
+              <p>{member.role}</p>
+              <p>{member.focus}</p>
             </article>
           ))}
         </div>
