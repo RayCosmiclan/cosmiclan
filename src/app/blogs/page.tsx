@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { BLOG_COPY } from "@/components/public/cosmiclan-site-data";
 import { BlogIndexClock } from "@/components/public/blog-index-clock";
+import { BootReveal } from "@/components/public/boot-reveal";
 import { listBlogPosts } from "@/lib/blog";
 import { getLocaleFromRequest } from "@/lib/locale";
 import styles from "@/components/public/cosmiclan-blog.module.css";
@@ -41,16 +42,19 @@ export default async function BlogsPage() {
       <div className={styles.ambientField} aria-hidden="true" />
 
       <nav className={styles.nav} aria-label="Cosmiclan navigation">
-        <div className={styles.navGroup}>
+        <BootReveal />
+        <div data-boot className={styles.navGroup}>
           <Link href="/">{copy.workLabel}</Link>
           <Link href="/about">{copy.aboutLabel}</Link>
           <Link href="/blogs" aria-current="page">
             {copy.blogsLabel}
           </Link>
         </div>
-        <BlogIndexClock locale={locale} />
-        <div className={styles.navGroup}>
-          <Link href="mailto:gabrielantony56@gmail.com">{copy.contactLabel}</Link>
+        <BlogIndexClock locale={locale} dataBoot />
+        <div data-boot className={styles.navGroup}>
+          <Link href="mailto:gabrielantony56@gmail.com">
+            {copy.contactLabel}
+          </Link>
         </div>
       </nav>
 
@@ -67,14 +71,42 @@ export default async function BlogsPage() {
 
       {posts.length === 0 ? (
         <section className={styles.emptyState}>
-          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" aria-hidden="true">
-            <circle cx="32" cy="32" r="30" stroke="rgba(243,240,234,0.2)" strokeWidth="1" />
-            <line x1="20" y1="32" x2="44" y2="32" stroke="rgba(243,240,234,0.3)" strokeWidth="1" />
-            <line x1="32" y1="20" x2="32" y2="44" stroke="rgba(243,240,234,0.3)" strokeWidth="1" />
+          <svg
+            width="64"
+            height="64"
+            viewBox="0 0 64 64"
+            fill="none"
+            aria-hidden="true"
+          >
+            <circle
+              cx="32"
+              cy="32"
+              r="30"
+              stroke="rgba(243,240,234,0.2)"
+              strokeWidth="1"
+            />
+            <line
+              x1="20"
+              y1="32"
+              x2="44"
+              y2="32"
+              stroke="rgba(243,240,234,0.3)"
+              strokeWidth="1"
+            />
+            <line
+              x1="32"
+              y1="20"
+              x2="32"
+              y2="44"
+              stroke="rgba(243,240,234,0.3)"
+              strokeWidth="1"
+            />
           </svg>
           <h2>{copy.emptyHeading}</h2>
           <p>{copy.emptyBody}</p>
-          <Link href="/" className={styles.emptyCta}>{copy.workLabel.replace(/,$/, "")}</Link>
+          <Link href="/" className={styles.emptyCta}>
+            {copy.workLabel.replace(/,$/, "")}
+          </Link>
         </section>
       ) : (
         <ol className={styles.indexList}>

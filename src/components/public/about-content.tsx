@@ -1,5 +1,6 @@
 "use client";
 
+import gsap from "gsap";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -96,6 +97,29 @@ export function AboutContent({
   const [loopPaused, setLoopPaused] = useState(false);
   const loopSectionRef = useRef<HTMLElement>(null);
   const [loopVisible, setLoopVisible] = useState(false);
+  const rootRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        "[data-boot]",
+        { opacity: 0, y: 26 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: reduceMotion ? 0.01 : 0.78,
+          ease: "power3.out",
+          stagger: 0.055,
+        },
+      );
+    }, root);
+    return () => ctx.revert();
+  }, []);
 
   useEffect(() => {
     markCosmiclanPublicSeen();
@@ -145,21 +169,23 @@ export function AboutContent({
   }, [timeLocale]);
 
   return (
-    <main className={styles.subpage}>
+    <main ref={rootRef} className={styles.subpage}>
       <div className={styles.ambientField} aria-hidden="true" />
       <nav className={styles.nav} aria-label="Cosmiclan navigation">
-        <div className={styles.navGroup}>
+        <div data-boot className={styles.navGroup}>
           <Link href="/">{copy.workLabel}</Link>
           <Link href="/about" aria-current="page">
             {copy.aboutLabel}
           </Link>
           <Link href="/blogs">{copy.blogsLabel}</Link>
         </div>
-        <span className={styles.navCenter} suppressHydrationWarning>
+        <span data-boot className={styles.navCenter} suppressHydrationWarning>
           {timeLabel}
         </span>
-        <div className={styles.navGroup}>
-          <Link href="mailto:gabrielantony56@gmail.com">{copy.contactLabel}</Link>
+        <div data-boot className={styles.navGroup}>
+          <Link href="mailto:gabrielantony56@gmail.com">
+            {copy.contactLabel}
+          </Link>
         </div>
       </nav>
 

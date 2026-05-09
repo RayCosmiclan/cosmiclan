@@ -3,7 +3,13 @@
 import { useEffect, useState } from "react";
 import styles from "./cosmiclan-blog.module.css";
 
-export function BlogIndexClock({ locale }: { locale: "default" | "id" }) {
+export function BlogIndexClock({
+  locale,
+  dataBoot,
+}: {
+  locale: "default" | "id";
+  dataBoot?: boolean;
+}) {
   const isID = locale === "id";
   const [label, setLabel] = useState("");
 
@@ -23,7 +29,11 @@ export function BlogIndexClock({ locale }: { locale: "default" | "id" }) {
   }, [isID]);
 
   return (
-    <span className={styles.navCenter} suppressHydrationWarning>
+    <span
+      className={styles.navCenter}
+      data-boot={dataBoot ? "" : undefined}
+      suppressHydrationWarning
+    >
       {label}
     </span>
   );

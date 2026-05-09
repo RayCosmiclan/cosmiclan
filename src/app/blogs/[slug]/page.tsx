@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { BLOG_COPY } from "@/components/public/cosmiclan-site-data";
 import { BlogIndexClock } from "@/components/public/blog-index-clock";
+import { BootReveal } from "@/components/public/boot-reveal";
 import { getBlogPost, listBlogPosts, listBlogSlugs } from "@/lib/blog";
 import { getLocaleFromRequest } from "@/lib/locale";
 import styles from "@/components/public/cosmiclan-blog.module.css";
@@ -41,16 +42,19 @@ export default async function BlogPostPage({
       <div className={styles.ambientField} aria-hidden="true" />
 
       <nav className={styles.nav} aria-label="Cosmiclan navigation">
-        <div className={styles.navGroup}>
+        <BootReveal />
+        <div data-boot className={styles.navGroup}>
           <Link href="/">{copy.workLabel}</Link>
           <Link href="/about">{copy.aboutLabel}</Link>
           <Link href="/blogs" aria-current="page">
             {copy.blogsLabel}
           </Link>
         </div>
-        <BlogIndexClock locale={locale} />
-        <div className={styles.navGroup}>
-          <Link href="mailto:gabrielantony56@gmail.com">{copy.contactLabel}</Link>
+        <BlogIndexClock locale={locale} dataBoot />
+        <div data-boot className={styles.navGroup}>
+          <Link href="mailto:gabrielantony56@gmail.com">
+            {copy.contactLabel}
+          </Link>
         </div>
       </nav>
 

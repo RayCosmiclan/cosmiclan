@@ -281,8 +281,12 @@ export function CosmiclanLanding({
   );
   const [showSplash, setShowSplash] = useState(shouldStartWithSplash);
   const [splashClosing, setSplashClosing] = useState(false);
+  // Always start as "pending" so the stack-and-spread intro replays on every
+  // visit to root, including revisits where the splash is suppressed by the
+  // session cookie. The intro effect fires immediately when there is no
+  // splash, or after the splash exits.
   const [introState, setIntroState] = useState<"pending" | "playing" | "done">(
-    shouldStartWithSplash ? "pending" : "done",
+    "pending",
   );
   const cardRefsMap = useRef<Map<string, HTMLAnchorElement>>(new Map());
   const introTimelineRef = useRef<gsap.core.Timeline | null>(null);
