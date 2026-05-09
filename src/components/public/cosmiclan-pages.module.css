@@ -139,7 +139,8 @@
 .nav a {
   color: inherit;
   text-decoration: none;
-  padding: 4px 4px;
+  padding: 12px 8px;
+  min-height: 44px;
   display: inline-flex;
   align-items: center;
   white-space: nowrap;

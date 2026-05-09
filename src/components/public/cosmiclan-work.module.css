@@ -327,6 +327,8 @@
 @media (max-width: 920px) {
   .workPage {
     --right-rail-left: 16px;
+    height: 100svh;
+    min-height: auto;
   }
 
   .nav {
@@ -355,18 +357,19 @@
     width: calc(100vw - 32px);
     transform: none;
     animation: none;
-    margin-top: 88px;
-    margin-bottom: 32px;
+    margin-top: 80px;
+    margin-bottom: 24px;
   }
 
   .screenRail {
     position: relative;
     top: auto;
     right: auto;
-    width: calc(100vw - 32px);
+    width: 100vw;
     height: auto;
-    margin: 0 16px 32px;
-    border-width: 8px;
+    margin: 0 0 32px;
+    border-width: 0;
+    border-radius: 0;
     animation: none;
   }
 
@@ -378,7 +381,7 @@
     min-height: 260px;
     transform: none;
     animation: none;
-    margin: 0 16px 32px;
+    margin: 0 16px 24px;
   }
 
   .footer {

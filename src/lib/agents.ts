@@ -1,4 +1,13 @@
-import type { AgentConfig } from "@/lib/types";
+// Marketing-side agent display registry. Operational agent control lives in cosmiclan-command.
+export interface AgentConfig {
+  id: string;
+  name: string;
+  port: number;
+  color: string;
+  colorHex: string;
+  colorHue: number;
+  image: string;
+}
 
 export const AGENTS: AgentConfig[] = [
   {

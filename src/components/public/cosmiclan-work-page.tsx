@@ -91,8 +91,6 @@ export function CosmiclanWorkPage({
   }, []);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && window.innerWidth <= 920) return;
-
     const html = document.documentElement;
     const body = document.body;
 
@@ -343,7 +341,7 @@ export function CosmiclanWorkPage({
         <Link href="/" className={styles.backLink}>
           Back
         </Link>
-        <span>All rights reserved. &#169; 2026 Cosmiclan</span>
+        <span>All rights reserved. © 2026 Cosmiclan</span>
       </footer>
     </main>
   );

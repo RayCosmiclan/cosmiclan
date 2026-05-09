@@ -219,7 +219,7 @@ const DEFAULT_LANDING_COPY: LandingCopy = {
   contactPrefix: "Contact:",
   projectHint: "Scroll the work. Open the selected project.",
   layoutLabel: "Work layout",
-  rightsReserved: "All rights reserved. &#169; 2026 Cosmiclan",
+  rightsReserved: "All rights reserved. © 2026 Cosmiclan",
   timezone: { label: "IST", intl: "en-IN", tz: "Asia/Kolkata" },
 };
 

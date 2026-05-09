@@ -7,8 +7,9 @@ export default function TeamPage() {
     <main className={styles.subpage}>
       <nav className={styles.nav} aria-label="Cosmiclan navigation">
         <div className={styles.navGroup}>
-          <Link href="/">Work,</Link>
+          <Link href="/">Work</Link>
           <Link href="/about">About</Link>
+          <Link href="/blogs">Blogs</Link>
         </div>
         <span className={styles.navCenter}>COSMICLAN / TEAM</span>
         <div className={styles.navGroup}>

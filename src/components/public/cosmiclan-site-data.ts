@@ -631,7 +631,7 @@ export const LANDING_COPY: Record<
     contactPrefix: "Contact:",
     projectHint: "Scroll the work. Open the selected project.",
     layoutLabel: "Work layout",
-    rightsReserved: "All rights reserved. &#169; 2026 Cosmiclan",
+    rightsReserved: "All rights reserved. © 2026 Cosmiclan",
     timezone: { label: "IST", intl: "en-IN", tz: "Asia/Kolkata" },
   },
   id: {
@@ -645,7 +645,7 @@ export const LANDING_COPY: Record<
     contactPrefix: "Kontak:",
     projectHint: "Geser untuk melihat karya. Buka proyek yang terpilih.",
     layoutLabel: "Tata letak karya",
-    rightsReserved: "Hak cipta dilindungi. &#169; 2026 Cosmiclan",
+    rightsReserved: "Hak cipta dilindungi. © 2026 Cosmiclan",
     timezone: { label: "WIB", intl: "id-ID", tz: "Asia/Jakarta" },
   },
 };
