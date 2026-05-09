@@ -199,14 +199,16 @@ export function AboutContent({
             {copy.title}
           </RevealText>
           <br />
-          <Highlight>
-            <RevealText as="span" effect="chars" immediate delay={0.45}>
-              {copy.titleAccent}
+          <span className={styles.titleAccentLine}>
+            <Highlight className={styles.titleAccentWord}>
+              <RevealText as="span" effect="chars" immediate delay={0.45}>
+                {copy.titleAccent}
+              </RevealText>
+            </Highlight>{" "}
+            <RevealText as="span" effect="chars" immediate delay={0.6}>
+              Output.
             </RevealText>
-          </Highlight>{" "}
-          <RevealText as="span" effect="chars" immediate delay={0.6}>
-            Output.
-          </RevealText>
+          </span>
         </h1>
         <div className={styles.heroStatement}>
           <RevealText

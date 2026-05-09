@@ -250,7 +250,7 @@ export function Highlight({
   }, []);
 
   return (
-    <span ref={ref} className={`reveal-highlight ${className ?? ""}`}>
+    <span ref={ref} className={`reveal-highlight ${className ?? ""}`.trim()}>
       {children}
     </span>
   );
