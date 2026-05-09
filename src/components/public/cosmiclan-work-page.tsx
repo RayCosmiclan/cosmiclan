@@ -8,6 +8,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { copyText } from "./copy-text";
 import { markCosmiclanPublicSeen } from "./cosmiclan-public-session";
+import { BootReveal } from "./boot-reveal";
 import type { Product } from "./cosmiclan-site-data";
 import styles from "./cosmiclan-work.module.css";
 
@@ -245,15 +246,17 @@ export function CosmiclanWorkPage({
   return (
     <main className={styles.workPage} ref={pageRef}>
       <nav className={styles.nav} aria-label="Cosmiclan navigation">
-        <div className={styles.navGroup}>
+        <BootReveal />
+        <div data-boot className={styles.navGroup}>
           <Link href="/">Work</Link>
           <Link href="/about">About</Link>
           <Link href="/blogs">Blogs</Link>
         </div>
-        <span className={styles.navCenter} suppressHydrationWarning>
+        <span data-boot className={styles.navCenter} suppressHydrationWarning>
           {timeLabel}
         </span>
         <button
+          data-boot
           type="button"
           className={styles.contactButton}
           onClick={copyContact}

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { BLOG_COPY } from "@/components/public/cosmiclan-site-data";
 import { BlogIndexClock } from "@/components/public/blog-index-clock";
 import { BootReveal } from "@/components/public/boot-reveal";
+import { RevealText } from "@/components/public/reveal-text";
 import { listBlogPosts } from "@/lib/blog";
 import { getLocaleFromRequest } from "@/lib/locale";
 import styles from "@/components/public/cosmiclan-blog.module.css";
@@ -59,9 +60,27 @@ export default async function BlogsPage() {
       </nav>
 
       <header className={styles.indexHero}>
-        <p className={styles.kicker}>{copy.indexKicker}</p>
-        <h1 className={styles.indexHeading}>{copy.indexHeading}</h1>
-        <p className={styles.indexLede}>{copy.indexLede}</p>
+        <RevealText as="p" effect="kicker" immediate className={styles.kicker}>
+          {copy.indexKicker}
+        </RevealText>
+        <RevealText
+          as="h1"
+          effect="chars"
+          immediate
+          delay={0.15}
+          className={styles.indexHeading}
+        >
+          {copy.indexHeading}
+        </RevealText>
+        <RevealText
+          as="p"
+          effect="words"
+          immediate
+          delay={0.4}
+          className={styles.indexLede}
+        >
+          {copy.indexLede}
+        </RevealText>
       </header>
 
       <div className={styles.blogMarquee} aria-hidden="true">

@@ -1308,3 +1308,47 @@ nextjs-portal {
 ::-webkit-scrollbar-thumb:hover {
   background: oklch(1 0 0 / 28%);
 }
+
+/* ─── RevealText / Highlight (subpage text effects) ──────────────────────── */
+.reveal-word-accent {
+  color: #f3f0ea;
+  font-style: italic;
+  letter-spacing: -0.005em;
+}
+
+.reveal-highlight {
+  position: relative;
+  display: inline;
+  white-space: pre-wrap;
+}
+
+.reveal-highlight::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -0.1em;
+  left: 0;
+  height: 0.5em;
+  background: linear-gradient(
+    100deg,
+    rgba(243, 240, 234, 0.18) 0%,
+    rgba(243, 240, 234, 0.08) 100%
+  );
+  border-bottom: 1px solid rgba(243, 240, 234, 0.55);
+  pointer-events: none;
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: -1;
+}
+
+.reveal-highlight[data-lit="true"]::after {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-highlight::after {
+    transition: none;
+    transform: scaleX(1);
+  }
+}

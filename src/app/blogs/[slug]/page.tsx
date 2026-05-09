@@ -5,6 +5,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { BLOG_COPY } from "@/components/public/cosmiclan-site-data";
 import { BlogIndexClock } from "@/components/public/blog-index-clock";
 import { BootReveal } from "@/components/public/boot-reveal";
+import { RevealText } from "@/components/public/reveal-text";
 import { getBlogPost, listBlogPosts, listBlogSlugs } from "@/lib/blog";
 import { getLocaleFromRequest } from "@/lib/locale";
 import styles from "@/components/public/cosmiclan-blog.module.css";
@@ -71,9 +72,25 @@ export default async function BlogPostPage({
               </>
             ) : null}
           </p>
-          <h1 className={styles.postTitle}>{post.title}</h1>
+          <RevealText
+            as="h1"
+            effect="chars"
+            immediate
+            delay={0.1}
+            className={styles.postTitle}
+          >
+            {post.title}
+          </RevealText>
           {post.excerpt ? (
-            <p className={styles.postLede}>{post.excerpt}</p>
+            <RevealText
+              as="p"
+              effect="words"
+              immediate
+              delay={0.45}
+              className={styles.postLede}
+            >
+              {post.excerpt}
+            </RevealText>
           ) : null}
           {post.locale !== locale && locale === "id" ? (
             <p className={styles.postLocaleNote}>{copy.onlyEnglishNote}</p>

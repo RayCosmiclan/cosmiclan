@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { markCosmiclanPublicSeen } from "./cosmiclan-public-session";
+import { Highlight, RevealText } from "./reveal-text";
 import styles from "./cosmiclan-pages.module.css";
 
 type LoopStep = { step: string; essence: string; detail: string };
@@ -190,18 +191,39 @@ export function AboutContent({
       </nav>
 
       <section className={styles.aboutHero}>
-        <p className={styles.kicker}>{copy.aboutOrganism}</p>
+        <RevealText as="p" effect="kicker" immediate className={styles.kicker}>
+          {copy.aboutOrganism}
+        </RevealText>
         <h1 className={styles.subpageTitle}>
-          {copy.title}
+          <RevealText as="span" effect="chars" immediate delay={0.15}>
+            {copy.title}
+          </RevealText>
           <br />
-          <span>{copy.titleAccent}</span> Output.
+          <Highlight>
+            <RevealText as="span" effect="chars" immediate delay={0.45}>
+              {copy.titleAccent}
+            </RevealText>
+          </Highlight>{" "}
+          <RevealText as="span" effect="chars" immediate delay={0.6}>
+            Output.
+          </RevealText>
         </h1>
         <div className={styles.heroStatement}>
-          <p>{copy.heroLines[0]}</p>
+          <RevealText
+            as="p"
+            effect="words"
+            accentWords={["Cosmiclan", "agents", "operating", "system"]}
+          >
+            {copy.heroLines[0]}
+          </RevealText>
           {copy.heroLines[1] ? (
-            <p>{copy.heroLines[1]}</p>
+            <RevealText as="p" effect="words">
+              {copy.heroLines[1]}
+            </RevealText>
           ) : (
-            <p>{leader.location.line}</p>
+            <RevealText as="p" effect="words">
+              {leader.location.line}
+            </RevealText>
           )}
         </div>
       </section>
@@ -217,15 +239,39 @@ export function AboutContent({
           />
         </div>
         <div className={styles.leaderCopy}>
-          <p className={styles.kicker}>{copy.leaderKicker}</p>
-          <h2>{leader.name}</h2>
+          <RevealText as="p" effect="kicker" className={styles.kicker}>
+            {copy.leaderKicker}
+          </RevealText>
+          <RevealText as="h2" effect="chars">
+            {leader.name}
+          </RevealText>
           {leader.bio.map((line, i) => (
-            <p key={i}>{line}</p>
+            <RevealText
+              key={i}
+              as="p"
+              effect="words"
+              delay={i * 0.05}
+              accentWords={[
+                "Gabriel",
+                "Cosmiclan",
+                "Rax",
+                "Larinova",
+                "Chennai",
+                "India",
+                "Eight",
+                "agents",
+                "operating",
+              ]}
+            >
+              {line}
+            </RevealText>
           ))}
           <div className={styles.locationBlock}>
             <span>{copy.baseLabel}</span>
             <strong>
-              {leader.location.city}, {leader.location.country}
+              <Highlight>
+                {leader.location.city}, {leader.location.country}
+              </Highlight>
             </strong>
           </div>
         </div>
@@ -233,15 +279,28 @@ export function AboutContent({
 
       <section className={styles.leaderVentures} aria-label="Ventures">
         <div className={styles.sectionHeading}>
-          <p className={styles.kicker}>{leader.venturesHeading}</p>
+          <RevealText as="p" effect="kicker" className={styles.kicker}>
+            {leader.venturesHeading}
+          </RevealText>
         </div>
         <div className={styles.ventureGrid}>
           {leader.ventures.map((venture, i) => (
             <article key={venture.name} className={styles.ventureCard}>
               <span>{String(i + 1).padStart(2, "0")}</span>
-              <h3>{venture.name}</h3>
-              <p className={styles.ventureRole}>{venture.role}</p>
-              <p>{venture.description}</p>
+              <RevealText as="h3" effect="chars" delay={i * 0.05}>
+                {venture.name}
+              </RevealText>
+              <RevealText
+                as="p"
+                effect="kicker"
+                className={styles.ventureRole}
+                delay={i * 0.05 + 0.1}
+              >
+                {venture.role}
+              </RevealText>
+              <RevealText as="p" effect="words" delay={i * 0.05 + 0.15}>
+                {venture.description}
+              </RevealText>
             </article>
           ))}
         </div>
@@ -249,13 +308,19 @@ export function AboutContent({
 
       <section className={styles.leaderBackground} aria-label="Background">
         <div className={styles.sectionHeading}>
-          <p className={styles.kicker}>{leader.backgroundHeading}</p>
+          <RevealText as="p" effect="kicker" className={styles.kicker}>
+            {leader.backgroundHeading}
+          </RevealText>
         </div>
         <dl className={styles.factsList}>
-          {leader.facts.map((fact) => (
+          {leader.facts.map((fact, i) => (
             <div key={fact.label} className={styles.factRow}>
               <dt>{fact.label}</dt>
-              <dd>{fact.value}</dd>
+              <dd>
+                <RevealText as="span" effect="words" delay={i * 0.04}>
+                  {fact.value}
+                </RevealText>
+              </dd>
             </div>
           ))}
         </dl>
@@ -432,22 +497,35 @@ export function AboutContent({
 
       <section className={styles.servicesSection} aria-label="Services">
         <div className={styles.sectionHeading}>
-          <p className={styles.kicker}>{copy.servicesKicker}</p>
-          <h2>{copy.servicesHeading}</h2>
+          <RevealText as="p" effect="kicker" className={styles.kicker}>
+            {copy.servicesKicker}
+          </RevealText>
+          <RevealText as="h2" effect="chars">
+            {copy.servicesHeading}
+          </RevealText>
         </div>
         <div className={styles.serviceGrid}>
           {services.map((service, index) => (
-            <span key={service}>
-              {String(index + 1).padStart(2, "0")} / {service}
-            </span>
+            <RevealText
+              key={service}
+              as="span"
+              effect="words"
+              delay={index * 0.04}
+            >
+              {`${String(index + 1).padStart(2, "0")} / ${service}`}
+            </RevealText>
           ))}
         </div>
       </section>
 
       <section className={styles.aboutTeamSection}>
         <div className={styles.sectionHeading}>
-          <p className={styles.kicker}>{copy.teamKicker}</p>
-          <h2>{copy.teamHeading}</h2>
+          <RevealText as="p" effect="kicker" className={styles.kicker}>
+            {copy.teamKicker}
+          </RevealText>
+          <RevealText as="h2" effect="chars">
+            {copy.teamHeading}
+          </RevealText>
         </div>
         <div className={styles.teamGrid}>
           {agents.map((member) => (
@@ -463,17 +541,27 @@ export function AboutContent({
                 </div>
               ) : null}
               <span>{member.code}</span>
-              <h3>{member.name}</h3>
-              <p>{member.role}</p>
-              <p>{member.focus}</p>
+              <RevealText as="h3" effect="chars">
+                {member.name}
+              </RevealText>
+              <RevealText as="p" effect="kicker">
+                {member.role}
+              </RevealText>
+              <RevealText as="p" effect="words">
+                {member.focus}
+              </RevealText>
             </article>
           ))}
         </div>
       </section>
 
       <section className={styles.contactSection} aria-label="Contact">
-        <p className={styles.kicker}>{contactCopy.kicker}</p>
-        <h2 className={styles.contactHeading}>{contactCopy.heading}</h2>
+        <RevealText as="p" effect="kicker" className={styles.kicker}>
+          {contactCopy.kicker}
+        </RevealText>
+        <RevealText as="h2" effect="chars" className={styles.contactHeading}>
+          {contactCopy.heading}
+        </RevealText>
         <a className={styles.contactEmail} href={`mailto:${contactCopy.email}`}>
           {contactCopy.email}
         </a>
