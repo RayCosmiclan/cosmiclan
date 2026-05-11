@@ -1078,6 +1078,28 @@
   }
 }
 
+.showreel {
+  position: absolute;
+  top: clamp(180px, 22vh, 240px);
+  left: 16px;
+  z-index: 10;
+  width: clamp(160px, 14vw, 240px);
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--void);
+  object-fit: cover;
+  opacity: 0.72;
+  transition: opacity 260ms ease, border-color 260ms ease;
+  pointer-events: none;
+}
+
+.showreel:hover {
+  opacity: 1;
+  border-color: var(--line-strong);
+}
+
 @media (min-width: 921px) and (max-width: 1180px) {
   .site {
     --right-rail-left: 52vw;
@@ -1128,6 +1150,10 @@
     display: grid;
     gap: 4px;
     font-size: 14px;
+  }
+
+  .showreel {
+    display: none;
   }
 
   .categoryFilter {

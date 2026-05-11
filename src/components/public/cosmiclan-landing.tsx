@@ -1326,6 +1326,19 @@ export function CosmiclanLanding({
         </nav>
       ) : null}
 
+      <video
+        data-boot
+        className={frameStyles.showreel}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        aria-label="Work showreel"
+      >
+        <source src="/videos/demo-reel-loop.mp4" type="video/mp4" />
+      </video>
+
       <footer data-boot className={frameStyles.footerLine}>
         <div className={frameStyles.layoutSwitch} aria-label={copy.layoutLabel}>
           {WORK_LAYOUTS.map((mode) => (
