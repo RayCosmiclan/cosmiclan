@@ -53,6 +53,10 @@
   cursor: grabbing;
 }
 
+.reel[data-transitioning="true"] {
+  pointer-events: none;
+}
+
 .reel[data-mode="grid"][data-dragging="true"] .reelCard {
   cursor: grabbing;
 }

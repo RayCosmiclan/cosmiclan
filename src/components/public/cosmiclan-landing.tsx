@@ -273,6 +273,9 @@ export function CosmiclanLanding({
   const [activeIndex, setActiveIndex] = useState(0);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [layoutMode, setLayoutMode] = useState<WorkLayout>("Vertical");
+  const [isLayoutTransitioning, setIsLayoutTransitioning] = useState(false);
+  const pendingLayoutRef = useRef<WorkLayout | null>(null);
+  const layoutTransitionTlRef = useRef<gsap.core.Timeline | null>(null);
   const [gridCamera, setGridCamera] = useState<GridCamera>(INITIAL_GRID_CAMERA);
   const [isGridDragging, setIsGridDragging] = useState(false);
   const [verticalSpacing, setVerticalSpacing] = useState(FALLBACK_REEL_SPACING);
@@ -527,6 +530,51 @@ export function CosmiclanLanding({
       introTimelineRef.current = null;
     };
   }, []);
+
+  useEffect(() => {
+    return () => {
+      layoutTransitionTlRef.current?.kill();
+      layoutTransitionTlRef.current = null;
+    };
+  }, []);
+
+  // Animate cards in after a layout mode change
+  useEffect(() => {
+    if (!isLayoutTransitioning) return;
+    if (pendingLayoutRef.current !== layoutMode) return;
+
+    pendingLayoutRef.current = null;
+
+    const raf = requestAnimationFrame(() => {
+      const reel = gridReelRef.current;
+      const cards = reel
+        ? Array.from(reel.querySelectorAll<HTMLElement>(".reelCard"))
+        : [];
+
+      if (cards.length === 0) {
+        setIsLayoutTransitioning(false);
+        return;
+      }
+
+      gsap.set(cards, { opacity: 0, scale: 0.96 });
+
+      const tl = gsap.timeline({
+        onComplete: () => setIsLayoutTransitioning(false),
+      });
+
+      tl.to(cards, {
+        opacity: (i, el) => parseFloat((el as HTMLElement).style.opacity) || 1,
+        scale: 1,
+        duration: 0.45,
+        ease: "power2.out",
+        stagger: 0.025,
+      });
+
+      layoutTransitionTlRef.current = tl;
+    });
+
+    return () => cancelAnimationFrame(raf);
+  }, [layoutMode, isLayoutTransitioning]);
 
   useEffect(() => {
     markCosmiclanPublicSeen();
@@ -818,12 +866,46 @@ export function CosmiclanLanding({
   }
 
   function selectLayout(mode: WorkLayout) {
-    setLayoutMode(mode);
-    if (mode !== "Grid") {
-      setHoveredGridCell(null);
-      setIsGridDragging(false);
-      gridDragRef.current = null;
+    if (mode === layoutMode || isLayoutTransitioning) return;
+
+    const reel = gridReelRef.current;
+    const cards = reel
+      ? Array.from(reel.querySelectorAll<HTMLElement>(".reelCard"))
+      : [];
+
+    if (cards.length === 0 || introState !== "done") {
+      setLayoutMode(mode);
+      if (mode !== "Grid") {
+        setHoveredGridCell(null);
+        setIsGridDragging(false);
+        gridDragRef.current = null;
+      }
+      return;
     }
+
+    pendingLayoutRef.current = mode;
+    setIsLayoutTransitioning(true);
+
+    const tl = gsap.timeline({
+      onComplete: () => {
+        setLayoutMode(mode);
+        if (mode !== "Grid") {
+          setHoveredGridCell(null);
+          setIsGridDragging(false);
+          gridDragRef.current = null;
+        }
+      },
+    });
+
+    tl.to(cards, {
+      opacity: 0,
+      scale: 0.96,
+      duration: 0.22,
+      ease: "power2.in",
+      stagger: 0.015,
+    });
+
+    layoutTransitionTlRef.current = tl;
   }
 
   function handleGridPointerDown(event: PointerEvent<HTMLDivElement>) {
@@ -1053,6 +1135,7 @@ export function CosmiclanLanding({
           ref={gridReelRef}
           className={wheelStyles.reel}
           data-mode={layoutMode.toLowerCase()}
+          data-transitioning={isLayoutTransitioning}
           data-dragging={layoutMode === "Grid" ? isGridDragging : undefined}
           aria-label="Infinite work reel"
           style={gridViewportStyle}
@@ -1231,7 +1314,7 @@ export function CosmiclanLanding({
 
       <footer data-boot className={frameStyles.footerLine}>
         <div className={frameStyles.layoutSwitch} aria-label={copy.layoutLabel}>
-          {WORK_LAYOUTS.map((mode, index) => (
+          {WORK_LAYOUTS.map((mode) => (
             <button
               key={mode}
               type="button"
@@ -1239,7 +1322,6 @@ export function CosmiclanLanding({
               onClick={() => selectLayout(mode)}
             >
               {layoutLabels[mode] ?? mode}
-              {index < WORK_LAYOUTS.length - 1 ? "," : ""}
             </button>
           ))}
         </div>
