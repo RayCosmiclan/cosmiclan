@@ -454,20 +454,20 @@ export function CosmiclanLanding({
 
     setIntroState("playing");
 
-    // Messy stack offsets — like photos thrown on a table
+    // Light stack offsets — photos placed carefully on top of each other
     const stackOffsets = orderedCards.map(() => ({
-      x: (Math.random() - 0.5) * 56,
-      y: (Math.random() - 0.5) * 36,
-      rotation: (Math.random() - 0.5) * 14,
-      scale: 0.93 + Math.random() * 0.07,
+      x: (Math.random() - 0.5) * 32,
+      y: (Math.random() - 0.5) * 20,
+      rotation: (Math.random() - 0.5) * 5,
+      scale: 0.97 + Math.random() * 0.03,
     }));
 
     gsap.set(orderedCards, {
       xPercent: -50,
       yPercent: -50,
       x: (i: number) => stackOffsets[i]?.x ?? 0,
-      y: (i: number) => stackOffsets[i]?.y ?? 0,
-      scale: (i: number) => stackOffsets[i]?.scale ?? 1,
+      y: (i: number) => (stackOffsets[i]?.y ?? 0) - 18,
+      scale: (i: number) => (stackOffsets[i]?.scale ?? 1) + 0.02,
       rotation: (i: number) => stackOffsets[i]?.rotation ?? 0,
       opacity: 0,
     });
@@ -486,11 +486,14 @@ export function CosmiclanLanding({
       onComplete: () => setIntroState("done"),
     });
 
+    // Ease-out drop into the stack
     tl.to(orderedCards, {
       opacity: 1,
-      duration: 0.4,
+      y: (i: number) => stackOffsets[i]?.y ?? 0,
+      scale: (i: number) => stackOffsets[i]?.scale ?? 1,
+      duration: 0.5,
       stagger: 0.06,
-      ease: "power2.out",
+      ease: "power3.out",
     });
 
     tl.addLabel("spread", "+=0.35");
