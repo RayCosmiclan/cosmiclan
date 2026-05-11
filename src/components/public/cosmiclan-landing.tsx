@@ -219,7 +219,7 @@ const DEFAULT_LANDING_COPY: LandingCopy = {
   contactLabel: "Contact",
   copiedLabel: "Copied",
   intro:
-    "Cosmiclan is Gabriel's operating system. Apps, films, design, growth, games, and ops shipped under one brand, with eight specialized agents fronting the public surfaces.",
+    "One builder, eight agents, one company. Cosmiclan ships apps, films, design, growth, games, and ops under a single brand — with specialized AI agents fronting every public surface.",
   contactPrefix: "Contact:",
   projectHint: "Scroll the work. Open the selected project.",
   layoutLabel: "Work layout",

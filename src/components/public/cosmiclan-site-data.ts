@@ -627,7 +627,7 @@ export const LANDING_COPY: Record<
     contactLabel: "Contact",
     copiedLabel: "Copied",
     intro:
-      "Cosmiclan is Gabriel's operating system. Apps, films, design, growth, games, and ops shipped under one brand, with eight specialized agents fronting the public surfaces.",
+      "One builder, eight agents, one company. Cosmiclan ships apps, films, design, growth, games, and ops under a single brand — with specialized AI agents fronting every public surface.",
     contactPrefix: "Contact:",
     projectHint: "Scroll the work. Open the selected project.",
     layoutLabel: "Work layout",
@@ -641,7 +641,7 @@ export const LANDING_COPY: Record<
     contactLabel: "Kontak",
     copiedLabel: "Disalin",
     intro:
-      "Cosmiclan adalah operating system Marsella. Aplikasi, film, desain, growth, game, dan operasional dirilis di bawah satu brand, dengan delapan creator AI sebagai lapisan publik.",
+      "Satu builder, delapan creator AI, satu perusahaan. Cosmiclan merilis aplikasi, film, desain, growth, game, dan operasional di bawah satu brand — dengan creator AI terspesialisasi sebagai lapisan publik.",
     contactPrefix: "Kontak:",
     projectHint: "Geser untuk melihat karya. Buka proyek yang terpilih.",
     layoutLabel: "Tata letak karya",
