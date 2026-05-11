@@ -452,9 +452,13 @@ export function CosmiclanLanding({
     }
 
     const orderedCards: HTMLAnchorElement[] = [];
-    filteredReel.forEach((product) => {
+    const orderedIndices: number[] = [];
+    filteredReel.forEach((product, idx) => {
       const el = cardRefsMap.current.get(product.slug);
-      if (el) orderedCards.push(el);
+      if (el) {
+        orderedCards.push(el);
+        orderedIndices.push(idx);
+      }
     });
 
     if (orderedCards.length === 0) {
@@ -517,10 +521,10 @@ export function CosmiclanLanding({
       orderedCards,
       {
         x: 0,
-        y: (i: number) => finalStates[i]?.y ?? 0,
+        y: (i: number) => finalStates[orderedIndices[i]!]?.y ?? 0,
         rotation: 0,
         scale: 1,
-        opacity: (i: number) => finalStates[i]?.opacity ?? 0,
+        opacity: (i: number) => finalStates[orderedIndices[i]!]?.opacity ?? 0,
         duration: 0.9,
         ease: "power3.inOut",
         stagger: 0.025,
