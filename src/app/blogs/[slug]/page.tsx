@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { BLOG_COPY } from "@/components/public/cosmiclan-site-data";
@@ -99,12 +98,11 @@ export default async function BlogPostPage({
 
         <figure className={styles.postCover}>
           {post.cover ? (
-            <Image
+            <img
               src={post.cover}
               alt={post.title}
-              fill
-              priority
-              sizes="(max-width: 920px) 92vw, 760px"
+              className={styles.postCoverImage}
+              loading="eager"
             />
           ) : (
             <div className={styles.postCoverFallback}>

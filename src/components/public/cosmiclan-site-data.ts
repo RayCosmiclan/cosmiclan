@@ -627,7 +627,7 @@ export const LANDING_COPY: Record<
     contactLabel: "Contact",
     copiedLabel: "Copied",
     intro:
-      "One builder, eight agents, one company. Cosmiclan ships apps, films, design, growth, games, and ops under a single brand — with specialized AI agents fronting every public surface.",
+      "One orchestrator. Eight agents. One sovereign brand. Cosmiclan builds software, art, content, products, and operations at an uncommon caliber. Deploying specialized agents across every frontier of human endeavor.",
     contactPrefix: "Contact:",
     projectHint: "Scroll the work. Open the selected project.",
     layoutLabel: "Work layout",

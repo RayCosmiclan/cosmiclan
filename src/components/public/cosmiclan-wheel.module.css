@@ -57,6 +57,14 @@
   pointer-events: none;
 }
 
+.reel[data-transitioning="true"] [data-card] {
+  transition:
+    transform 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.55s ease,
+    width 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+    aspect-ratio 0.72s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 .reel[data-mode="grid"][data-dragging="true"] .reelCard {
   cursor: grabbing;
 }

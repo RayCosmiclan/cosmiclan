@@ -8,8 +8,17 @@ import type {
 } from "react";
 import gsap from "gsap";
 import Image from "next/image";
+import { flushSync } from "react-dom";
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { copyText } from "./copy-text";
 import {
   hasSeenCosmiclanPublic,
@@ -40,7 +49,6 @@ const SPLASH_VARIANT: SplashVariant = "stars";
 const SCROLL_SENSITIVITY = 0.0048;
 const FALLBACK_REEL_SPACING = 285;
 const VERTICAL_REEL_GAP = 12;
-const HORIZONTAL_SPACING = 420;
 const HORIZONTAL_PROJECT_LIST_ROWS = 9;
 const GRID_MIN_SCALE = 0.38;
 const GRID_MAX_SCALE = 2.4;
@@ -219,7 +227,7 @@ const DEFAULT_LANDING_COPY: LandingCopy = {
   contactLabel: "Contact",
   copiedLabel: "Copied",
   intro:
-    "One builder, eight agents, one company. Cosmiclan ships apps, films, design, growth, games, and ops under a single brand — with specialized AI agents fronting every public surface.",
+    "One orchestrator. Eight agents. One sovereign brand. Cosmiclan builds software, art, content, products, and operations at an uncommon caliber. Deploying specialized agents across every frontier of human endeavor.",
   contactPrefix: "Contact:",
   projectHint: "Scroll the work. Open the selected project.",
   layoutLabel: "Work layout",
@@ -270,6 +278,7 @@ export function CosmiclanLanding({
   const gridDragRef = useRef<GridDragState | null>(null);
   const gridClickSuppressedRef = useRef(false);
   const gridClickTimerRef = useRef<number | null>(null);
+  const router = useRouter();
   const [activeIndex, setActiveIndex] = useState(0);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [layoutMode, setLayoutMode] = useState<WorkLayout>("Vertical");
@@ -279,6 +288,9 @@ export function CosmiclanLanding({
   const [gridCamera, setGridCamera] = useState<GridCamera>(INITIAL_GRID_CAMERA);
   const [isGridDragging, setIsGridDragging] = useState(false);
   const [verticalSpacing, setVerticalSpacing] = useState(FALLBACK_REEL_SPACING);
+  const [horizontalSpacing, setHorizontalSpacing] = useState(340);
+  const freezeScrollRef = useRef(false);
+  const layoutTransitionTimerRef = useRef<number | null>(null);
   const [splashProgress, setSplashProgress] = useState(
     shouldStartWithSplash ? 0 : 100,
   );
@@ -538,42 +550,30 @@ export function CosmiclanLanding({
     };
   }, []);
 
-  // Animate cards in after a layout mode change
+  // Clear layout transition flag after CSS animation finishes
   useEffect(() => {
     if (!isLayoutTransitioning) return;
-    if (pendingLayoutRef.current !== layoutMode) return;
 
-    pendingLayoutRef.current = null;
+    if (layoutTransitionTimerRef.current) {
+      window.clearTimeout(layoutTransitionTimerRef.current);
+    }
 
-    const raf = requestAnimationFrame(() => {
-      const reel = gridReelRef.current;
-      const cards = reel
-        ? Array.from(reel.querySelectorAll<HTMLElement>(".reelCard"))
-        : [];
-
-      if (cards.length === 0) {
-        setIsLayoutTransitioning(false);
-        return;
+    layoutTransitionTimerRef.current = window.setTimeout(() => {
+      setIsLayoutTransitioning(false);
+      freezeScrollRef.current = false;
+      pendingLayoutRef.current = null;
+      if (layoutMode !== "Grid") {
+        setHoveredGridCell(null);
+        setIsGridDragging(false);
+        gridDragRef.current = null;
       }
+    }, 780);
 
-      gsap.set(cards, { opacity: 0, scale: 0.96 });
-
-      const tl = gsap.timeline({
-        onComplete: () => setIsLayoutTransitioning(false),
-      });
-
-      tl.to(cards, {
-        opacity: (i, el) => parseFloat((el as HTMLElement).style.opacity) || 1,
-        scale: 1,
-        duration: 0.45,
-        ease: "power2.out",
-        stagger: 0.025,
-      });
-
-      layoutTransitionTlRef.current = tl;
-    });
-
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      if (layoutTransitionTimerRef.current) {
+        window.clearTimeout(layoutTransitionTimerRef.current);
+      }
+    };
   }, [layoutMode, isLayoutTransitioning]);
 
   useEffect(() => {
@@ -666,24 +666,26 @@ export function CosmiclanLanding({
 
   useEffect(() => {
     const animate = () => {
-      if (
-        reelLength > 0 &&
-        Math.abs(targetIndexRef.current) > reelLength * 500
-      ) {
-        targetIndexRef.current = wrapProject(targetIndexRef.current);
-        currentIndexRef.current = wrapProject(currentIndexRef.current);
+      if (!freezeScrollRef.current) {
+        if (
+          reelLength > 0 &&
+          Math.abs(targetIndexRef.current) > reelLength * 500
+        ) {
+          targetIndexRef.current = wrapProject(targetIndexRef.current);
+          currentIndexRef.current = wrapProject(currentIndexRef.current);
+        }
+
+        const target = targetIndexRef.current;
+        const current = currentIndexRef.current;
+        const next =
+          Math.abs(target - current) < 0.001
+            ? target
+            : current + (target - current) * 0.11;
+
+        currentIndexRef.current = next;
+        setScrollPosition(next);
+        setActiveIndex(wrapProject(Math.round(next)));
       }
-
-      const target = targetIndexRef.current;
-      const current = currentIndexRef.current;
-      const next =
-        Math.abs(target - current) < 0.001
-          ? target
-          : current + (target - current) * 0.11;
-
-      currentIndexRef.current = next;
-      setScrollPosition(next);
-      setActiveIndex(wrapProject(Math.round(next)));
       animationFrameRef.current = window.requestAnimationFrame(animate);
     };
 
@@ -700,17 +702,20 @@ export function CosmiclanLanding({
   }, [reelLength, wrapProject]);
 
   useEffect(() => {
-    const updateVerticalSpacing = () => {
+    const updateSpacings = () => {
       const cardWidth = Math.min(460, Math.max(280, window.innerWidth * 0.23));
       const cardHeight = cardWidth * 0.625;
       setVerticalSpacing(Math.round(cardHeight + VERTICAL_REEL_GAP));
+
+      const hCardWidth = Math.min(400, Math.max(230, window.innerWidth * 0.19));
+      setHorizontalSpacing(Math.round(hCardWidth * 1.08));
     };
 
-    updateVerticalSpacing();
-    window.addEventListener("resize", updateVerticalSpacing);
+    updateSpacings();
+    window.addEventListener("resize", updateSpacings);
 
     return () => {
-      window.removeEventListener("resize", updateVerticalSpacing);
+      window.removeEventListener("resize", updateSpacings);
     };
   }, []);
 
@@ -870,7 +875,7 @@ export function CosmiclanLanding({
 
     const reel = gridReelRef.current;
     const cards = reel
-      ? Array.from(reel.querySelectorAll<HTMLElement>(".reelCard"))
+      ? Array.from(reel.querySelectorAll<HTMLElement>("[data-card]"))
       : [];
 
     if (cards.length === 0 || introState !== "done") {
@@ -884,28 +889,22 @@ export function CosmiclanLanding({
     }
 
     pendingLayoutRef.current = mode;
-    setIsLayoutTransitioning(true);
-
-    const tl = gsap.timeline({
-      onComplete: () => {
-        setLayoutMode(mode);
-        if (mode !== "Grid") {
-          setHoveredGridCell(null);
-          setIsGridDragging(false);
-          gridDragRef.current = null;
-        }
-      },
+    freezeScrollRef.current = true;
+    // Synchronously commit transitioning state so the browser paints
+    // the old layout with data-transitioning="true" before we change layoutMode
+    flushSync(() => {
+      setIsLayoutTransitioning(true);
     });
-
-    tl.to(cards, {
-      opacity: 0,
-      scale: 0.96,
-      duration: 0.22,
-      ease: "power2.in",
-      stagger: 0.015,
+    // Force a paint frame with the old layout + transitioning flag,
+    // then commit the new layoutMode synchronously so the browser
+    // sees a style change while the transition rule is active.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        flushSync(() => {
+          setLayoutMode(mode);
+        });
+      });
     });
-
-    layoutTransitionTlRef.current = tl;
   }
 
   function handleGridPointerDown(event: PointerEvent<HTMLDivElement>) {
@@ -961,6 +960,14 @@ export function CosmiclanLanding({
       gridClickTimerRef.current = window.setTimeout(() => {
         gridClickSuppressedRef.current = false;
       }, 0);
+    } else {
+      // It was a tap/click, not a drag — navigate to the card under the cursor
+      const target = document.elementFromPoint(drag.startX, drag.startY);
+      const card = target?.closest<HTMLElement>("[data-slug]");
+      const slug = card?.getAttribute("data-slug");
+      if (slug) {
+        router.push(`/work/${slug}`);
+      }
     }
   }
 
@@ -1059,7 +1066,11 @@ export function CosmiclanLanding({
       </nav>
 
       {layoutMode === "Grid" ? null : (
-        <aside data-boot className={frameStyles.rightIntro}>
+        <aside
+          data-boot
+          className={frameStyles.rightIntro}
+          style={{ opacity: introState === "done" ? 1 : undefined }}
+        >
           <p>{copy.intro}</p>
           <p>
             {copy.contactPrefix}
@@ -1150,119 +1161,121 @@ export function CosmiclanLanding({
             layoutMode === "Grid" ? finishGridPointer : undefined
           }
         >
-          {layoutMode === "Grid"
-            ? gridCells.map((cell, cellIndex) => {
-                const product = filteredReel[cellIndex];
-                if (!product) return null;
-                const isHovered = hoveredGridCell === cellIndex;
-                const isDimmed = hoveredGridCell !== null && !isHovered;
-                const cardX = gridCamera.x + cell.x * gridCamera.scale;
-                const cardY = gridCamera.y + cell.y * gridCamera.scale;
+          {filteredReel.map((product, index) => {
+            const isGrid = layoutMode === "Grid";
+            const cell = isGrid ? gridCells[index] : null;
 
-                return (
-                  <Link
-                    key={`${product.slug}-${cellIndex}`}
-                    href={`/work/${product.slug}`}
-                    className={wheelStyles.reelCard}
-                    data-mode="grid"
-                    data-active={isHovered}
-                    data-dimmed={isDimmed}
-                    onMouseEnter={() => setHoveredGridCell(cellIndex)}
-                    onMouseLeave={() =>
-                      setHoveredGridCell((current) =>
-                        current === cellIndex ? null : current,
-                      )
-                    }
-                    onFocus={() => setHoveredGridCell(cellIndex)}
-                    onBlur={() =>
-                      setHoveredGridCell((current) =>
-                        current === cellIndex ? null : current,
-                      )
-                    }
-                    onClick={handleGridCardClick}
-                    style={
-                      {
-                        width: `${cell.width}px`,
-                        aspectRatio: cell.ratio,
-                        transform: `translate3d(calc(-50% + ${cardX}px), calc(-50% + ${cardY}px), 0) scale(${gridCamera.scale})`,
-                        zIndex: isHovered ? 22 : 5,
-                      } as CSSProperties
-                    }
+            if (isGrid && !cell) return null;
+
+            const isHorizontal = layoutMode === "Horizontal";
+            const offset = isGrid ? 0 : circularOffset(index, scrollPosition);
+            const distance = isGrid ? 0 : Math.abs(offset);
+            const scale = isHorizontal
+              ? Math.max(0.74, 1 - distance * 0.07)
+              : 1;
+            const opacity = isGrid
+              ? 0.32
+              : isHorizontal
+                ? Math.max(0.12, 1 - distance * 0.22)
+                : Math.max(0, 1 - distance * 0.24);
+            const x = isHorizontal ? offset * horizontalSpacing : 0;
+            const y = isHorizontal ? 0 : offset * verticalSpacing;
+
+            const introOwnsCards =
+              layoutMode === "Vertical" && introState !== "done";
+
+            if (!isGrid && introOwnsCards) {
+              // During intro, only render visible cards for performance
+              if (distance > 4) return null;
+            }
+
+            const cardStyle: CSSProperties = isGrid
+              ? {
+                  width: `${cell!.width}px`,
+                  aspectRatio: cell!.ratio,
+                  transform: `translate3d(calc(-50% + ${gridCamera.x + cell!.x * gridCamera.scale}px), calc(-50% + ${gridCamera.y + cell!.y * gridCamera.scale}px), 0) scale(${gridCamera.scale})`,
+                  zIndex: hoveredGridCell === index ? 22 : 5,
+                }
+              : introOwnsCards
+                ? { opacity: 0, zIndex: index }
+                : {
+                    opacity,
+                    transform: `translate3d(calc(-50% + ${x}px), calc(-50% + ${y}px), 0) scale(${scale})`,
+                    zIndex: 20 - distance,
+                  };
+
+            const isHovered = hoveredGridCell === index;
+            const isDimmed = hoveredGridCell !== null && !isHovered;
+
+            return (
+              <Link
+                key={product.slug}
+                ref={isGrid ? undefined : getCardRef(product.slug)}
+                href={`/work/${product.slug}`}
+                className={wheelStyles.reelCard}
+                data-card
+                data-slug={product.slug}
+                data-mode={layoutMode.toLowerCase()}
+                data-active={isGrid ? isHovered : Math.abs(offset) < 0.1}
+                data-dimmed={isGrid ? isDimmed : undefined}
+                data-index={index}
+                onMouseEnter={
+                  isGrid ? () => setHoveredGridCell(index) : undefined
+                }
+                onMouseLeave={
+                  isGrid
+                    ? () =>
+                        setHoveredGridCell((current) =>
+                          current === index ? null : current,
+                        )
+                    : undefined
+                }
+                onFocus={
+                  isGrid ? () => setHoveredGridCell(index) : undefined
+                }
+                onBlur={
+                  isGrid
+                    ? () =>
+                        setHoveredGridCell((current) =>
+                          current === index ? null : current,
+                        )
+                    : undefined
+                }
+                onClick={isGrid ? handleGridCardClick : undefined}
+                style={cardStyle}
+              >
+                {isGrid ? (
+                  <span
+                    className={wheelStyles.reelCardLabel}
+                    aria-hidden="true"
                   >
-                    <span
-                      className={wheelStyles.reelCardLabel}
-                      aria-hidden="true"
-                    >
-                      {cell.label}
-                    </span>
-                    <Image
-                      src={product.screenshot}
-                      alt=""
-                      fill
-                      unoptimized
-                      sizes="240px"
-                      className={wheelStyles.reelImage}
-                    />
-                  </Link>
-                );
-              })
-            : filteredReel.map((product, index) => {
-                const offset = circularOffset(index, scrollPosition);
-                const distance = Math.abs(offset);
-                const isHorizontal = layoutMode === "Horizontal";
-                const scale = isHorizontal
-                  ? Math.max(0.74, 1 - distance * 0.07)
-                  : 1;
-                const opacity = isHorizontal
-                  ? Math.max(0.12, 1 - distance * 0.22)
-                  : Math.max(0, 1 - distance * 0.24);
-                const x = isHorizontal ? offset * HORIZONTAL_SPACING : 0;
-                const y = isHorizontal ? 0 : offset * verticalSpacing;
-
-                const introOwnsCards =
-                  layoutMode === "Vertical" && introState !== "done";
-
-                if (!introOwnsCards && distance > (isHorizontal ? 4.5 : 2.4))
-                  return null;
-
-                const cardStyle: CSSProperties = introOwnsCards
-                  ? {
-                      opacity: 0,
-                      zIndex: index,
-                    }
-                  : {
-                      opacity,
-                      transform: `translate3d(calc(-50% + ${x}px), calc(-50% + ${y}px), 0) scale(${scale})`,
-                      zIndex: 20 - distance,
-                    };
-
-                return (
-                  <Link
-                    key={product.slug}
-                    ref={getCardRef(product.slug)}
-                    href={`/work/${product.slug}`}
-                    className={wheelStyles.reelCard}
-                    data-mode={layoutMode.toLowerCase()}
-                    data-active={Math.abs(offset) < 0.1}
-                    data-index={index}
-                    style={cardStyle}
-                  >
-                    <Image
-                      src={product.screenshot}
-                      alt=""
-                      fill
-                      priority={distance < 0.1}
-                      unoptimized
-                      sizes="(max-width: 920px) 142px, 226px"
-                      className={wheelStyles.reelImage}
-                    />
-                  </Link>
-                );
-              })}
+                    {cell!.label}
+                  </span>
+                ) : null}
+                <Image
+                  src={product.screenshot}
+                  alt=""
+                  fill
+                  priority={!isGrid && distance < 0.1}
+                  unoptimized
+                  sizes={
+                    isGrid
+                      ? "240px"
+                      : "(max-width: 920px) 142px, 226px"
+                  }
+                  className={wheelStyles.reelImage}
+                />
+              </Link>
+            );
+          })}
         </div>
 
         {layoutMode !== "Grid" ? (
-          <div data-boot className={wheelStyles.projectMeta}>
+          <div
+            data-boot
+            className={wheelStyles.projectMeta}
+            style={{ opacity: introState === "done" ? 1 : undefined }}
+          >
             {layoutMode === "Vertical" ? (
               <>
                 <span>{activeProduct.type}</span>
@@ -1298,6 +1311,7 @@ export function CosmiclanLanding({
           data-boot
           className={frameStyles.categoryFilter}
           aria-label="Filter work by category"
+          style={{ opacity: introState === "done" ? 1 : undefined }}
         >
           {availableCategories.map((cat) => (
             <button
