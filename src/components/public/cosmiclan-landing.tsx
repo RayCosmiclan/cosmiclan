@@ -454,12 +454,21 @@ export function CosmiclanLanding({
 
     setIntroState("playing");
 
+    // Messy stack offsets — like photos thrown on a table
+    const stackOffsets = orderedCards.map(() => ({
+      x: (Math.random() - 0.5) * 56,
+      y: (Math.random() - 0.5) * 36,
+      rotation: (Math.random() - 0.5) * 14,
+      scale: 0.93 + Math.random() * 0.07,
+    }));
+
     gsap.set(orderedCards, {
       xPercent: -50,
       yPercent: -50,
-      x: 0,
-      y: 0,
-      scale: 1,
+      x: (i: number) => stackOffsets[i]?.x ?? 0,
+      y: (i: number) => stackOffsets[i]?.y ?? 0,
+      scale: (i: number) => stackOffsets[i]?.scale ?? 1,
+      rotation: (i: number) => stackOffsets[i]?.rotation ?? 0,
       opacity: 0,
     });
 
@@ -479,20 +488,24 @@ export function CosmiclanLanding({
 
     tl.to(orderedCards, {
       opacity: 1,
-      duration: 0.45,
-      stagger: 0.05,
+      duration: 0.4,
+      stagger: 0.06,
       ease: "power2.out",
     });
 
-    tl.addLabel("spread", "+=0.2");
+    tl.addLabel("spread", "+=0.35");
 
     tl.to(
       orderedCards,
       {
+        x: 0,
         y: (i: number) => finalStates[i]?.y ?? 0,
+        rotation: 0,
+        scale: 1,
         opacity: (i: number) => finalStates[i]?.opacity ?? 0,
         duration: 0.9,
         ease: "power3.inOut",
+        stagger: 0.025,
       },
       "spread",
     );
@@ -1129,7 +1142,7 @@ export function CosmiclanLanding({
                 const cardStyle: CSSProperties = introOwnsCards
                   ? {
                       opacity: 0,
-                      zIndex: 20 - distance,
+                      zIndex: index,
                     }
                   : {
                       opacity,
