@@ -1334,25 +1334,23 @@ export function CosmiclanLanding({
         ) : null}
       </section>
 
-      {layoutMode !== "Grid" ? (
-        <nav
-          data-boot
-          className={frameStyles.categoryFilter}
-          aria-label="Filter work by category"
-          style={{ opacity: introState === "done" ? 1 : undefined }}
-        >
-          {availableCategories.map((cat) => (
-            <button
-              key={cat}
-              type="button"
-              data-active={categoryFilter === cat}
-              onClick={() => selectCategory(cat)}
-            >
-              {categoryLabels[cat] ?? cat}
-            </button>
-          ))}
-        </nav>
-      ) : null}
+      <nav
+        data-boot
+        className={frameStyles.categoryFilter}
+        aria-label="Filter work by category"
+        style={{ opacity: introState === "done" ? 1 : undefined }}
+      >
+        {availableCategories.map((cat) => (
+          <button
+            key={cat}
+            type="button"
+            data-active={categoryFilter === cat}
+            onClick={() => selectCategory(cat)}
+          >
+            {categoryLabels[cat] ?? cat}
+          </button>
+        ))}
+      </nav>
 
       <footer data-boot className={frameStyles.footerLine}>
         <div className={frameStyles.layoutSwitch} aria-label={copy.layoutLabel}>
