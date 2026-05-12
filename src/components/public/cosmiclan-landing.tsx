@@ -1256,19 +1256,43 @@ export function CosmiclanLanding({
                     {cell!.label}
                   </span>
                 ) : null}
-                <Image
-                  src={product.screenshot}
-                  alt=""
-                  fill
-                  priority={!isGrid && distance < 0.1}
-                  unoptimized
-                  sizes={
-                    isGrid
-                      ? "240px"
-                      : "(max-width: 920px) 142px, 226px"
-                  }
-                  className={wheelStyles.reelImage}
-                />
+                {(product as { video?: string }).video ? (
+                  <video
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="auto"
+                    poster={product.screenshot}
+                    className={wheelStyles.reelImage}
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  >
+                    <source
+                      src={(product as { video?: string }).video}
+                      type="video/mp4"
+                    />
+                  </video>
+                ) : (
+                  <Image
+                    src={product.screenshot}
+                    alt=""
+                    fill
+                    priority={!isGrid && distance < 0.1}
+                    unoptimized
+                    sizes={
+                      isGrid
+                        ? "240px"
+                        : "(max-width: 920px) 142px, 226px"
+                    }
+                    className={wheelStyles.reelImage}
+                  />
+                )}
               </Link>
             );
           })}
@@ -1329,19 +1353,6 @@ export function CosmiclanLanding({
           ))}
         </nav>
       ) : null}
-
-      <video
-        data-boot
-        className={frameStyles.showreel}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        aria-label="Work showreel"
-      >
-        <source src="/videos/demo-reel-loop.mp4" type="video/mp4" />
-      </video>
 
       <footer data-boot className={frameStyles.footerLine}>
         <div className={frameStyles.layoutSwitch} aria-label={copy.layoutLabel}>
