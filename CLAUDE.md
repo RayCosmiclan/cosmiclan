@@ -2,7 +2,7 @@
 
 Mission control for Gabriel's 8-agent clan. Browser-first web app today, Tauri desktop (macOS `.dmg`) next year. You work with your clan here — send messages, triage inbox, participate in channels, watch consciousness — instead of just watching it.
 
-**Location:** `~/Documents/agents/cosmiclan/`
+**Location:** `~/Documents/agents/landing/cosmiclan/`
 **URL:** `http://localhost:3000`
 **Tech stack:** Next.js 16 (App Router), React 19, Tailwind 4, shadcn (base-ui), Framer Motion, next-themes
 
