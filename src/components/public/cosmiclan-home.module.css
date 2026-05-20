@@ -749,19 +749,21 @@
   --row-height: clamp(16px, 1vw, 18px);
   --row-gap: 4px;
   --row-pitch: calc(var(--row-height) + var(--row-gap));
+  /* Anchor below the categoryFilter (top:17vh) and above the footer (bottom:~90px).
+     This explicit top/bottom box prevents overlap with the filter row regardless of list length. */
   position: absolute;
-  top: 50%;
-  bottom: auto;
+  top: clamp(180px, 24vh, 260px);
+  bottom: clamp(96px, 12vh, 140px);
   left: 16px;
   z-index: 8;
   display: grid;
   grid-auto-rows: var(--row-height);
-  align-items: center;
+  align-items: start;
+  align-content: start;
   width: min(24vw, 310px);
   gap: var(--row-gap);
-  transform: translateY(-50%);
+  transform: none;
   /* scroll containment for long lists (89+ items) */
-  max-height: min(75vh, 640px);
   overflow-y: auto;
   overflow-x: hidden;
   overscroll-behavior: contain;
