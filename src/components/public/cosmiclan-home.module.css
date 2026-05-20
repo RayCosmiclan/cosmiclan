@@ -760,6 +760,42 @@
   width: min(24vw, 310px);
   gap: var(--row-gap);
   transform: translateY(-50%);
+  /* scroll containment for long lists (89+ items) */
+  max-height: min(75vh, 640px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  padding-right: 8px;
+  mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    #000 6%,
+    #000 94%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    #000 6%,
+    #000 94%,
+    transparent 100%
+  );
+  scrollbar-width: thin;
+  scrollbar-color: rgba(243, 240, 234, 0.18) transparent;
+}
+
+.projectList::-webkit-scrollbar {
+  width: 4px;
+}
+.projectList::-webkit-scrollbar-track {
+  background: transparent;
+}
+.projectList::-webkit-scrollbar-thumb {
+  background: rgba(243, 240, 234, 0.18);
+  border-radius: 2px;
+}
+.projectList::-webkit-scrollbar-thumb:hover {
+  background: rgba(243, 240, 234, 0.32);
 }
 
 .site[data-layout="horizontal"] .projectList {
