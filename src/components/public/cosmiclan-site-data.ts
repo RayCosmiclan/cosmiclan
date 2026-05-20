@@ -1,4 +1,5 @@
 import { AGENTS } from "@/lib/agents";
+import { TEMPLATES } from "./cosmiclan-templates";
 
 export type LocaleKey = "default" | "id";
 
@@ -377,6 +378,7 @@ export const WORK_CATEGORIES = [
   "All",
   "Apps",
   "Landing",
+  "Templates",
   "Videos",
   "Creators",
   "Products",
@@ -473,6 +475,8 @@ export const PRODUCTS = [
     video: "/videos/rax-europe-energy-cost-demo.mp4",
     poster: "/videos/rax-europe-energy-cost-demo.jpg",
   },
+  // ─── 79 Cosmiclan templates (auto-generated, sellable landing-page templates) ───
+  ...TEMPLATES,
 ];
 
 export type Product = (typeof PRODUCTS)[number];
@@ -658,6 +662,7 @@ export const CATEGORY_LABELS: Record<
     All: "All",
     Apps: "Apps",
     Landing: "Landing",
+    Templates: "Templates",
     Videos: "Videos",
     Creators: "Creators",
     Products: "Products",
@@ -666,6 +671,7 @@ export const CATEGORY_LABELS: Record<
     All: "Semua",
     Apps: "Aplikasi",
     Landing: "Landing",
+    Templates: "Template",
     Videos: "Video",
     Creators: "Creator",
     Products: "Produk",

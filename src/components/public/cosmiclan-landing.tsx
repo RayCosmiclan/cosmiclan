@@ -239,6 +239,7 @@ const DEFAULT_CATEGORY_LABELS: Record<WorkCategory, string> = {
   All: "All",
   Apps: "Apps",
   Landing: "Landing",
+  Templates: "Templates",
   Videos: "Videos",
   Creators: "Creators",
   Products: "Products",
@@ -1234,9 +1235,7 @@ export function CosmiclanLanding({
                         )
                     : undefined
                 }
-                onFocus={
-                  isGrid ? () => setHoveredGridCell(index) : undefined
-                }
+                onFocus={isGrid ? () => setHoveredGridCell(index) : undefined}
                 onBlur={
                   isGrid
                     ? () =>
@@ -1285,11 +1284,7 @@ export function CosmiclanLanding({
                     fill
                     priority={!isGrid && distance < 0.1}
                     unoptimized
-                    sizes={
-                      isGrid
-                        ? "240px"
-                        : "(max-width: 920px) 142px, 226px"
-                    }
+                    sizes={isGrid ? "240px" : "(max-width: 920px) 142px, 226px"}
                     className={wheelStyles.reelImage}
                   />
                 )}
