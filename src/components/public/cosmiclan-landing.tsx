@@ -239,7 +239,6 @@ const DEFAULT_CATEGORY_LABELS: Record<WorkCategory, string> = {
   All: "All",
   Apps: "Apps",
   Landing: "Landing",
-  Templates: "Templates",
   Videos: "Videos",
   Creators: "Creators",
   Products: "Products",
