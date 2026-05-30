@@ -573,19 +573,6 @@ export type WorkCategory = (typeof WORK_CATEGORIES)[number];
 
 export const PRODUCTS = [
   {
-    slug: "rax-tech",
-    name: "Rax Tech",
-    type: "Chennai / Europe / Gulf Connect",
-    category: "Landing" as WorkCategory,
-    text: "Rax Tech combines three regional business surfaces: Rax Tech Chennai, Rax Tech Europe, and Gulf Connect. The Cosmiclan system treats them as one services portfolio with separate local positioning, proof, and conversion lanes.",
-    screenshot: "/images/projects/rax-tech.png",
-    screenshots: [
-      "/images/projects/rax-chennai.png",
-      "/images/projects/rax-europe.png",
-      "/images/projects/gulf-connect.png",
-    ],
-  },
-  {
     slug: "marvis-infratech",
     name: "Marvis Infratech",
     type: "Infrastructure",
@@ -616,6 +603,19 @@ export const PRODUCTS = [
     category: "Apps" as WorkCategory,
     text: "Larinova's clinical workflow app. Consultation, documents, schedules, follow-ups, and AI-assisted operations for doctors and clinics.",
     screenshot: "/images/projects/larinova.png",
+  },
+  {
+    slug: "rax-tech",
+    name: "Rax Tech",
+    type: "Chennai / Europe / Gulf Connect",
+    category: "Landing" as WorkCategory,
+    text: "Rax Tech combines three regional business surfaces: Rax Tech Chennai, Rax Tech Europe, and Gulf Connect. The Cosmiclan system treats them as one services portfolio with separate local positioning, proof, and conversion lanes.",
+    screenshot: "/images/projects/rax-tech.png",
+    screenshots: [
+      "/images/projects/rax-chennai.png",
+      "/images/projects/rax-europe.png",
+      "/images/projects/gulf-connect.png",
+    ],
   },
   {
     slug: "tarqeem",

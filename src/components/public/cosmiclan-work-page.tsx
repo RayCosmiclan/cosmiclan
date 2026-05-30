@@ -296,9 +296,11 @@ export function CosmiclanWorkPage({
         >
           <video
             className={styles.filmPlayer}
-            controls
+            autoPlay
+            muted
+            loop
             playsInline
-            preload="metadata"
+            preload="auto"
             poster={videoPoster}
           >
             <source src={videoSrc} type="video/mp4" />

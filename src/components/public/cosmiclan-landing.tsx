@@ -49,7 +49,7 @@ const SPLASH_VARIANT: SplashVariant = "stars";
 const SCROLL_SENSITIVITY = 0.0048;
 const FALLBACK_REEL_SPACING = 285;
 const VERTICAL_REEL_GAP = 12;
-const HORIZONTAL_PROJECT_LIST_ROWS = 9;
+const PROJECT_LIST_ROWS = 13;
 const GRID_MIN_SCALE = 0.38;
 const GRID_MAX_SCALE = 2.4;
 const GRID_ZOOM_SENSITIVITY = 0.0018;
@@ -358,39 +358,28 @@ export function CosmiclanLanding({
       ? (filteredReel[hoveredGridCell] ?? null)
       : null;
   const highlightedSlug = hoveredGridProduct?.slug ?? activeProduct?.slug;
-  const highlightedIndex = Math.max(
-    0,
-    filteredReel.findIndex((p) => p.slug === highlightedSlug),
-  );
-  const wrappedScrollPosition =
-    layoutMode === "Horizontal"
-      ? wrapProject(scrollPosition)
-      : highlightedIndex;
-  const horizontalListCenter = Math.round(wrappedScrollPosition);
-  const horizontalListDelta = wrappedScrollPosition - horizontalListCenter;
-  const horizontalProjectRows = useMemo(() => {
-    if (layoutMode !== "Horizontal" || reelLength === 0) return [];
+  // Circular windowed project list — centered on the smooth scroll position so
+  // the active item always sits at the vertical centre with names above and
+  // below. Identical infinite-scroll behaviour in both Vertical and Horizontal.
+  const projectListRows = useMemo(() => {
+    if (layoutMode === "Grid" || reelLength === 0) return [];
 
-    const rowCount = Math.min(reelLength, HORIZONTAL_PROJECT_LIST_ROWS);
+    const center = wrapProject(scrollPosition);
+    const centerRounded = Math.round(center);
+    const delta = center - centerRounded;
+    const rowCount = Math.min(reelLength, PROJECT_LIST_ROWS);
     const midpoint = Math.floor(rowCount / 2);
 
     return Array.from({ length: rowCount }, (_, rowIndex) => {
       const relativeIndex = rowIndex - midpoint;
-      const productIndex = wrapProject(horizontalListCenter + relativeIndex);
+      const productIndex = wrapProject(centerRounded + relativeIndex);
       return {
         product: filteredReel[productIndex],
         productIndex,
-        rowOffset: relativeIndex - horizontalListDelta,
+        rowOffset: relativeIndex - delta,
       };
     }).filter((row) => row.product);
-  }, [
-    filteredReel,
-    horizontalListCenter,
-    horizontalListDelta,
-    layoutMode,
-    reelLength,
-    wrapProject,
-  ]);
+  }, [filteredReel, layoutMode, reelLength, scrollPosition, wrapProject]);
   const gridViewportStyle =
     layoutMode === "Grid"
       ? ({
@@ -1100,50 +1089,32 @@ export function CosmiclanLanding({
         </div>
       </header>
 
-      <aside
-        data-boot
-        className={frameStyles.projectList}
-        aria-label="Projects"
-        style={
-          {
-            "--list-offset": highlightedIndex,
-          } as CSSProperties
-        }
-      >
-        <div className={frameStyles.projectListTrack}>
-          {layoutMode === "Horizontal"
-            ? horizontalProjectRows.map(
-                ({ product, productIndex, rowOffset }) => (
-                  <Link
-                    key={`${product.slug}-${productIndex}`}
-                    href={`/work/${product.slug}`}
-                    data-active={highlightedSlug === product.slug}
-                    data-index={productIndex}
-                    style={
-                      {
-                        "--row-offset": rowOffset,
-                      } as CSSProperties
-                    }
-                  >
-                    {product.name}
-                  </Link>
-                ),
-              )
-            : filteredReel.map((product, index) => (
-                <Link
-                  key={product.name}
-                  href={`/work/${product.slug}`}
-                  data-active={highlightedSlug === product.slug}
-                  data-index={index}
-                >
-                  {product.name}
-                </Link>
-              ))}
-        </div>
-        <span className={frameStyles.horizontalActiveName}>
-          {activeProduct.name}
-        </span>
-      </aside>
+      {layoutMode === "Grid" ? null : (
+        <aside
+          data-boot
+          className={frameStyles.projectList}
+          aria-label="Projects"
+        >
+          <div className={frameStyles.projectListTrack}>
+            {projectListRows.map(({ product, productIndex, rowOffset }) => (
+              <Link
+                key={`${product.slug}-${productIndex}`}
+                href={`/work/${product.slug}`}
+                data-active={highlightedSlug === product.slug}
+                data-index={productIndex}
+                style={
+                  {
+                    "--row-offset": rowOffset,
+                    "--row-distance": Math.abs(rowOffset),
+                  } as CSSProperties
+                }
+              >
+                {product.name}
+              </Link>
+            ))}
+          </div>
+        </aside>
+      )}
 
       <section className={wheelStyles.stage} aria-label="Selected project">
         <div

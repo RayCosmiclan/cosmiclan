@@ -747,173 +747,85 @@
 
 .projectList {
   --row-height: clamp(16px, 1vw, 18px);
-  --row-gap: 4px;
+  --row-gap: 7px;
   --row-pitch: calc(var(--row-height) + var(--row-gap));
-  /* viewport between filter row and footer */
+  /* Full-height left rail; track centres the active item at the viewport
+     middle. Edges fade via mask so rows appear/disappear softly. */
   position: absolute;
-  top: clamp(180px, 24vh, 260px);
-  bottom: clamp(96px, 12vh, 140px);
+  top: 0;
+  bottom: 0;
   left: 16px;
   z-index: 8;
-  display: grid;
-  grid-auto-rows: var(--row-height);
-  align-items: start;
-  align-content: start;
   width: min(24vw, 310px);
-  gap: var(--row-gap);
-  transform: none;
-  overflow: hidden;
-  padding-right: 8px;
+  /* Container itself ignores pointer events so it never blocks the reel
+     behind it (Horizontal mode); only the name chips are clickable. */
+  pointer-events: none;
   mask-image: linear-gradient(
     180deg,
     transparent 0%,
-    #000 14%,
-    #000 86%,
+    #000 24%,
+    #000 76%,
     transparent 100%
   );
   -webkit-mask-image: linear-gradient(
     180deg,
     transparent 0%,
-    #000 14%,
-    #000 86%,
+    #000 24%,
+    #000 76%,
     transparent 100%
   );
-}
-
-/* ── Vertical mode: track slides like horizontal mode, highlight is fixed ── */
-.site[data-layout="vertical"] .projectList {
-  /* Allow space for fixed-center highlight indicator */
-}
-
-.site[data-layout="vertical"] .projectListTrack {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: var(--row-gap);
-  /* Translate so the active item lands at the vertical center */
-  transform: translateY(
-    calc(
-      -1 * var(--list-offset, 0) * var(--row-pitch) - (var(--row-height) / 2)
-    )
-  );
-  transition: transform 360ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  will-change: transform;
-}
-
-.site[data-layout="vertical"] .projectList a {
-  width: fit-content;
-  flex-shrink: 0;
-  height: var(--row-height);
-  white-space: nowrap;
-  background: var(--void);
-  padding: 0 4px;
-  margin-left: -4px;
-  transition: color 220ms ease;
-}
-
-/* Fixed center highlight indicator — a subtle marker at the active row */
-.site[data-layout="vertical"] .projectList::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 2px;
-  height: var(--row-height);
-  background: var(--ivory);
-  transform: translateY(-50%);
-  z-index: 9;
-  pointer-events: none;
-  opacity: 0.9;
-}
-
-.site[data-layout="horizontal"] .projectList {
-  top: calc(100svh - 156px - var(--row-height) / 2);
-  bottom: auto;
-  left: var(--right-rail-left);
-  z-index: 30;
-  display: block;
-  width: min(24vw, 320px);
-  height: var(--row-height);
-  overflow: visible;
-  transform: none;
-  transition: none;
 }
 
 .site[data-layout="grid"] .projectList {
   display: none;
 }
 
+/* Circular windowed track — each row is absolutely positioned and slides
+   smoothly with the reel via --row-offset. Active row sits at the centre. */
 .projectListTrack {
-  display: contents;
-}
-
-.site[data-layout="horizontal"] .projectListTrack {
   position: absolute;
-  inset: 0;
-  display: block;
-  transform: none;
-  transition: none;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 0;
 }
 
 .projectList a {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: fit-content;
+  max-width: 100%;
+  height: var(--row-height);
+  padding: 0 5px;
+  margin-left: -5px;
   border: 0;
-  background: transparent;
-  color: rgba(243, 240, 234, 0.23);
+  background: var(--void);
+  color: rgba(243, 240, 234, 0.26);
   cursor: pointer;
   font: inherit;
   font-size: clamp(13px, 0.9vw, 16px);
-  line-height: 1.05;
-  padding: 0;
+  line-height: var(--row-height);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   text-align: left;
-  transition:
-    color 170ms ease,
-    transform 170ms ease;
+  pointer-events: auto;
+  transform: translateY(
+    calc(var(--row-offset, 0) * var(--row-pitch) - (var(--row-height) / 2))
+  );
+  opacity: clamp(0.14, calc(1 - var(--row-distance, 0) * 0.14), 1);
+  transition: color 200ms ease;
 }
 
 .projectList a:hover,
 .projectList a[data-active="true"] {
   color: var(--ivory);
-}
-
-.site[data-layout="horizontal"] .projectList a {
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 0 4px;
-  margin-left: -4px;
-  background: var(--void);
-  color: rgba(243, 240, 234, 0.23);
-  transform: translateY(calc(var(--row-offset, 0) * var(--row-pitch)));
-  transition: color 170ms ease;
-}
-
-.site[data-layout="horizontal"] .projectList a:hover,
-.site[data-layout="horizontal"] .projectList a[data-active="true"] {
-  color: rgba(243, 240, 234, 0.23);
+  opacity: 1;
 }
 
 .horizontalActiveName {
   display: none;
-}
-
-.site[data-layout="horizontal"] .horizontalActiveName {
-  position: absolute;
-  top: 0;
-  left: -4px;
-  z-index: 4;
-  display: block;
-  width: fit-content;
-  padding: 0 4px;
-  background: var(--void);
-  color: var(--ivory);
-  font: inherit;
-  font-size: clamp(13px, 0.9vw, 16px);
-  line-height: 1.05;
-  pointer-events: none;
 }
 
 .footerLine {
