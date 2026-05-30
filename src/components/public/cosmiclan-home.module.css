@@ -824,6 +824,26 @@
   opacity: 1;
 }
 
+/* ── Horizontal mode: the list is NOT on the left rail (it would overlap the
+   horizontally-scrolling demos). It lives in the bottom-right space, below the
+   demos and above the meta line, as a right-aligned infinite vertical list. ── */
+.site[data-layout="horizontal"] .projectList {
+  top: calc(50% + clamp(92px, 10vw, 130px));
+  bottom: 184px;
+  left: auto;
+  right: var(--page-edge);
+  width: min(32vw, 340px);
+  overflow: hidden;
+}
+
+.site[data-layout="horizontal"] .projectList a {
+  left: auto;
+  right: 0;
+  margin-left: 0;
+  margin-right: -5px;
+  text-align: right;
+}
+
 .horizontalActiveName {
   display: none;
 }

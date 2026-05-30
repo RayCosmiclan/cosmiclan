@@ -1089,32 +1089,31 @@ export function CosmiclanLanding({
         </div>
       </header>
 
-      {layoutMode === "Grid" ? null : (
-        <aside
-          data-boot
-          className={frameStyles.projectList}
-          aria-label="Projects"
-        >
-          <div className={frameStyles.projectListTrack}>
-            {projectListRows.map(({ product, productIndex, rowOffset }) => (
-              <Link
-                key={`${product.slug}-${productIndex}`}
-                href={`/work/${product.slug}`}
-                data-active={highlightedSlug === product.slug}
-                data-index={productIndex}
-                style={
-                  {
-                    "--row-offset": rowOffset,
-                    "--row-distance": Math.abs(rowOffset),
-                  } as CSSProperties
-                }
-              >
-                {product.name}
-              </Link>
-            ))}
-          </div>
-        </aside>
-      )}
+      <aside
+        data-boot
+        className={frameStyles.projectList}
+        aria-label="Projects"
+        style={{ opacity: introState === "done" ? 1 : undefined }}
+      >
+        <div className={frameStyles.projectListTrack}>
+          {projectListRows.map(({ product, productIndex, rowOffset }) => (
+            <Link
+              key={`${product.slug}-${productIndex}`}
+              href={`/work/${product.slug}`}
+              data-active={highlightedSlug === product.slug}
+              data-index={productIndex}
+              style={
+                {
+                  "--row-offset": rowOffset,
+                  "--row-distance": Math.abs(rowOffset),
+                } as CSSProperties
+              }
+            >
+              {product.name}
+            </Link>
+          ))}
+        </div>
+      </aside>
 
       <section className={wheelStyles.stage} aria-label="Selected project">
         <div
