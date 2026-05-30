@@ -7,7 +7,7 @@ export function BlogIndexClock({
   locale,
   dataBoot,
 }: {
-  locale: "default" | "id";
+  locale: "default" | "id" | "ar" | "eu";
   dataBoot?: boolean;
 }) {
   const isID = locale === "id";

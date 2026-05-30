@@ -32,7 +32,7 @@ import {
 import frameStyles from "./cosmiclan-home.module.css";
 import wheelStyles from "./cosmiclan-wheel.module.css";
 
-const CONTACT_EMAIL = "gabrielantony56@gmail.com";
+const CONTACT_EMAIL = "contact@cosmiclan.com";
 
 /**
  * Splash variant. Flip this to try different intro effects:

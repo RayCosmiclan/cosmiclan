@@ -1,42 +1,76 @@
 import { headers } from "next/headers";
 import type { LocaleKey } from "@/components/public/cosmiclan-site-data";
 
-const ID_HEADERS = [
+const COUNTRY_HEADERS = [
   "x-vercel-ip-country",
   "cf-ipcountry",
   "x-country-code",
 ] as const;
 
-function pickLocaleFromCountry(country: string | null): LocaleKey | null {
+// Arab world → Amira Al-Mansoori (Arabic, RTL)
+const ARAB = new Set([
+  "SA",
+  "AE",
+  "QA",
+  "KW",
+  "BH",
+  "OM", // GCC
+  "JO",
+  "LB",
+  "SY",
+  "IQ",
+  "PS",
+  "YE", // Levant + Iraq + Yemen
+  "EG",
+  "LY",
+  "TN",
+  "DZ",
+  "MA",
+  "SD",
+  "MR", // North Africa
+]);
+
+// Europe (EU-27 + UK + EEA/EFTA) → Sofia Lindqvist (English)
+const EUROPE = new Set([
+  "AD","AL","AT","BA","BE","BG","BY","CH","CY","CZ","DE","DK","EE","ES","FI","FO","FR","GB","GI","GR","HR","HU","IE","IS","IT","LI","LT","LU","LV","MC","MD","ME","MK","MT","NL","NO","PL","PT","RO","RS","RU","SE","SI","SK","SM","UA","VA","XK",
+]);
+
+const VALID_OVERRIDES = new Set<LocaleKey>(["default", "id", "ar", "eu"]);
+
+function localeFromCountry(country: string | null): LocaleKey | null {
   if (!country) return null;
-  return country.toLowerCase() === "id" ? "id" : null;
+  const c = country.toUpperCase();
+  if (c === "ID") return "id"; // Indonesia → Marsella
+  if (ARAB.has(c)) return "ar"; // Arab world → Amira
+  if (EUROPE.has(c)) return "eu"; // Europe → Sofia
+  return "default"; // India (IN) + everything else → Gabriel
 }
 
-function pickLocaleFromAcceptLanguage(value: string | null): LocaleKey | null {
-  if (!value) return null;
-  const tags = value
-    .split(",")
-    .map((part) => part.split(";")[0]?.trim().toLowerCase())
-    .filter(Boolean);
-  for (const tag of tags) {
-    if (tag === "id" || tag.startsWith("id-")) return "id";
+/**
+ * Resolve which persona/locale to render.
+ * `override` (e.g. ?face=ar) wins — for QA/preview, since localhost has no geo header.
+ */
+export async function getLocaleFromRequest(
+  override?: string | null,
+): Promise<LocaleKey> {
+  if (override && VALID_OVERRIDES.has(override as LocaleKey)) {
+    return override as LocaleKey;
   }
-  return null;
-}
-
-export async function getLocaleFromRequest(): Promise<LocaleKey> {
   try {
     const h = await headers();
-    for (const key of ID_HEADERS) {
-      const country = h.get(key);
-      const matched = pickLocaleFromCountry(country);
+    for (const key of COUNTRY_HEADERS) {
+      const matched = localeFromCountry(h.get(key));
       if (matched) return matched;
     }
-    const accept = h.get("accept-language");
-    const fromAccept = pickLocaleFromAcceptLanguage(accept);
-    if (fromAccept) return fromAccept;
+    const accept = (h.get("accept-language") || "").toLowerCase();
+    if (/(^|,)\s*id(-|;|,|$)/.test(accept)) return "id";
+    if (/(^|,)\s*ar(-|;|,|$)/.test(accept)) return "ar";
   } catch {
-    /* noop — headers() unavailable in some contexts */
+    /* headers() unavailable in some contexts */
   }
   return "default";
+}
+
+export function isRtl(locale: LocaleKey): boolean {
+  return locale === "ar";
 }

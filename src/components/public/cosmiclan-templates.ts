@@ -45,8 +45,18 @@ export const TEMPLATES = [
     liveUrl: "https://template-bg-motion-bg-51.vercel.app",
     githubUrl: "https://github.com/Cosmiclan/template-bg-motion-bg-51",
     vertical: "AI / Generative Studio",
-    niches: ["AI Video Studio", "Generative Cinema", "Cinematic AI Brand", "Animated Background Asset"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    niches: [
+      "AI Video Studio",
+      "Generative Cinema",
+      "Cinematic AI Brand",
+      "Animated Background Asset",
+    ],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "innovation",
@@ -91,7 +101,12 @@ export const TEMPLATES = [
     githubUrl: "https://github.com/Cosmiclan/template-bg-teal-digital-rain",
     vertical: "AI / Generative Studio",
     niches: ["Matrix Aesthetic", "Cyber AI", "Cinematic AI Brand"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "bg-motion-bg-57",
@@ -105,8 +120,18 @@ export const TEMPLATES = [
     liveUrl: "https://template-bg-motion-bg-57.vercel.app",
     githubUrl: "https://github.com/Cosmiclan/template-bg-motion-bg-57",
     vertical: "AI / Generative Studio",
-    niches: ["AI Video Studio", "Generative Cinema", "Cinematic AI Brand", "Animated Background Asset"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    niches: [
+      "AI Video Studio",
+      "Generative Cinema",
+      "Cinematic AI Brand",
+      "Animated Background Asset",
+    ],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "bg-aurora-waves",
@@ -121,7 +146,12 @@ export const TEMPLATES = [
     githubUrl: "https://github.com/Cosmiclan/template-bg-aurora-waves",
     vertical: "AI / Generative Studio",
     niches: ["Aurora Visuals", "Ambient AI", "Cinematic AI Brand"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "modern-agency",
@@ -166,7 +196,12 @@ export const TEMPLATES = [
     githubUrl: "https://github.com/Cosmiclan/template-bg-liquid-motion",
     vertical: "AI / Generative Studio",
     niches: ["Liquid Visuals", "Fluid AI", "Cinematic AI Brand"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "bg-background-085",
@@ -180,8 +215,18 @@ export const TEMPLATES = [
     liveUrl: "https://template-bg-background-085.vercel.app",
     githubUrl: "https://github.com/Cosmiclan/template-bg-background-085",
     vertical: "AI / Generative Studio",
-    niches: ["AI Video Studio", "Generative Cinema", "Cinematic AI Brand", "Animated Background Asset"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    niches: [
+      "AI Video Studio",
+      "Generative Cinema",
+      "Cinematic AI Brand",
+      "Animated Background Asset",
+    ],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "bg-background-086",
@@ -195,8 +240,18 @@ export const TEMPLATES = [
     liveUrl: "https://template-bg-background-086.vercel.app",
     githubUrl: "https://github.com/Cosmiclan/template-bg-background-086",
     vertical: "AI / Generative Studio",
-    niches: ["AI Video Studio", "Generative Cinema", "Cinematic AI Brand", "Animated Background Asset"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    niches: [
+      "AI Video Studio",
+      "Generative Cinema",
+      "Cinematic AI Brand",
+      "Animated Background Asset",
+    ],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "bg-motion-bg-55",
@@ -210,8 +265,18 @@ export const TEMPLATES = [
     liveUrl: "https://template-bg-motion-bg-55.vercel.app",
     githubUrl: "https://github.com/Cosmiclan/template-bg-motion-bg-55",
     vertical: "AI / Generative Studio",
-    niches: ["AI Video Studio", "Generative Cinema", "Cinematic AI Brand", "Animated Background Asset"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    niches: [
+      "AI Video Studio",
+      "Generative Cinema",
+      "Cinematic AI Brand",
+      "Animated Background Asset",
+    ],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "celestia",
@@ -241,7 +306,12 @@ export const TEMPLATES = [
     githubUrl: "https://github.com/Cosmiclan/template-bg-fluid-motion",
     vertical: "AI / Generative Studio",
     niches: ["Fluid Aesthetic", "Cinematic AI Brand"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "bg-silk-ripple",
@@ -256,7 +326,12 @@ export const TEMPLATES = [
     githubUrl: "https://github.com/Cosmiclan/template-bg-silk-ripple",
     vertical: "AI / Generative Studio",
     niches: ["Soft AI", "Silk Aesthetic", "Cinematic AI Brand"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "codenest-coding-platform",
@@ -405,8 +480,18 @@ export const TEMPLATES = [
     liveUrl: "https://template-bg-background-04.vercel.app",
     githubUrl: "https://github.com/Cosmiclan/template-bg-background-04",
     vertical: "AI / Generative Studio",
-    niches: ["AI Video Studio", "Generative Cinema", "Cinematic AI Brand", "Animated Background Asset"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    niches: [
+      "AI Video Studio",
+      "Generative Cinema",
+      "Cinematic AI Brand",
+      "Animated Background Asset",
+    ],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "ai-image-generator-ui",
@@ -465,8 +550,18 @@ export const TEMPLATES = [
     liveUrl: "https://template-bg-background-064209.vercel.app",
     githubUrl: "https://github.com/Cosmiclan/template-bg-background-064209",
     vertical: "AI / Generative Studio",
-    niches: ["AI Video Studio", "Generative Cinema", "Cinematic AI Brand", "Animated Background Asset"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    niches: [
+      "AI Video Studio",
+      "Generative Cinema",
+      "Cinematic AI Brand",
+      "Animated Background Asset",
+    ],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "bg-cosmic-drift",
@@ -481,7 +576,12 @@ export const TEMPLATES = [
     githubUrl: "https://github.com/Cosmiclan/template-bg-cosmic-drift",
     vertical: "AI / Generative Studio",
     niches: ["Space Visuals", "Cosmic AI", "Cinematic AI Brand"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "kresna-footer",
@@ -540,8 +640,18 @@ export const TEMPLATES = [
     liveUrl: "https://template-bg-background-3.vercel.app",
     githubUrl: "https://github.com/Cosmiclan/template-bg-background-3",
     vertical: "AI / Generative Studio",
-    niches: ["AI Video Studio", "Generative Cinema", "Cinematic AI Brand", "Animated Background Asset"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    niches: [
+      "AI Video Studio",
+      "Generative Cinema",
+      "Cinematic AI Brand",
+      "Animated Background Asset",
+    ],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "bg-background-01",
@@ -555,8 +665,18 @@ export const TEMPLATES = [
     liveUrl: "https://template-bg-background-01.vercel.app",
     githubUrl: "https://github.com/Cosmiclan/template-bg-background-01",
     vertical: "AI / Generative Studio",
-    niches: ["AI Video Studio", "Generative Cinema", "Cinematic AI Brand", "Animated Background Asset"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    niches: [
+      "AI Video Studio",
+      "Generative Cinema",
+      "Cinematic AI Brand",
+      "Animated Background Asset",
+    ],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "max-reed-portfolio",
@@ -613,10 +733,21 @@ export const TEMPLATES = [
     video: "/images/templates/bg-motion-background-110052.mp4",
     poster: "/images/templates/bg-motion-background-110052.png",
     liveUrl: "https://template-bg-motion-background-11005.vercel.app",
-    githubUrl: "https://github.com/Cosmiclan/template-bg-motion-background-110052",
+    githubUrl:
+      "https://github.com/Cosmiclan/template-bg-motion-background-110052",
     vertical: "AI / Generative Studio",
-    niches: ["AI Video Studio", "Generative Cinema", "Cinematic AI Brand", "Animated Background Asset"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    niches: [
+      "AI Video Studio",
+      "Generative Cinema",
+      "Cinematic AI Brand",
+      "Animated Background Asset",
+    ],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "bg-background-083",
@@ -630,8 +761,18 @@ export const TEMPLATES = [
     liveUrl: "https://template-bg-background-083.vercel.app",
     githubUrl: "https://github.com/Cosmiclan/template-bg-background-083",
     vertical: "AI / Generative Studio",
-    niches: ["AI Video Studio", "Generative Cinema", "Cinematic AI Brand", "Animated Background Asset"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    niches: [
+      "AI Video Studio",
+      "Generative Cinema",
+      "Cinematic AI Brand",
+      "Animated Background Asset",
+    ],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "bg-gradient-wave",
@@ -646,7 +787,12 @@ export const TEMPLATES = [
     githubUrl: "https://github.com/Cosmiclan/template-bg-gradient-wave",
     vertical: "AI / Generative Studio",
     niches: ["Gradient AI", "Soft Visuals", "Cinematic AI Brand"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "neuralyn",
@@ -720,8 +866,18 @@ export const TEMPLATES = [
     liveUrl: "https://template-bg-abstract-flow.vercel.app",
     githubUrl: "https://github.com/Cosmiclan/template-bg-abstract-flow",
     vertical: "AI / Generative Studio",
-    niches: ["AI Video Studio", "Generative Cinema", "Cinematic AI Brand", "Animated Background Asset"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    niches: [
+      "AI Video Studio",
+      "Generative Cinema",
+      "Cinematic AI Brand",
+      "Animated Background Asset",
+    ],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "bg-crystal-wave",
@@ -736,7 +892,12 @@ export const TEMPLATES = [
     githubUrl: "https://github.com/Cosmiclan/template-bg-crystal-wave",
     vertical: "AI / Generative Studio",
     niches: ["Crystal Aesthetic", "Light AI", "Cinematic AI Brand"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "orbis-nft",
@@ -766,7 +927,12 @@ export const TEMPLATES = [
     githubUrl: "https://github.com/Cosmiclan/template-bg-prismatic-shift",
     vertical: "AI / Generative Studio",
     niches: ["Prismatic Visuals", "Color AI", "Cinematic AI Brand"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "bg-background-5",
@@ -780,8 +946,18 @@ export const TEMPLATES = [
     liveUrl: "https://template-bg-background-5.vercel.app",
     githubUrl: "https://github.com/Cosmiclan/template-bg-background-5",
     vertical: "AI / Generative Studio",
-    niches: ["AI Video Studio", "Generative Cinema", "Cinematic AI Brand", "Animated Background Asset"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    niches: [
+      "AI Video Studio",
+      "Generative Cinema",
+      "Cinematic AI Brand",
+      "Animated Background Asset",
+    ],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "portal",
@@ -841,7 +1017,11 @@ export const TEMPLATES = [
     githubUrl: "https://github.com/Cosmiclan/template-prosthetics-hero",
     vertical: "Healthcare / Medical",
     niches: ["Medical Devices", "Prosthetics", "Mobility"],
-    buyerPersonas: ["Medical Device Companies", "Healthcare Startups", "Patient-Care Brands"],
+    buyerPersonas: [
+      "Medical Device Companies",
+      "Healthcare Startups",
+      "Patient-Care Brands",
+    ],
   },
   {
     slug: "bg-thermal-glow",
@@ -856,7 +1036,12 @@ export const TEMPLATES = [
     githubUrl: "https://github.com/Cosmiclan/template-bg-thermal-glow",
     vertical: "AI / Generative Studio",
     niches: ["Heat Visuals", "Thermal AI", "Cinematic AI Brand"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "rivr",
@@ -885,8 +1070,18 @@ export const TEMPLATES = [
     liveUrl: "https://template-bg-background-081.vercel.app",
     githubUrl: "https://github.com/Cosmiclan/template-bg-background-081",
     vertical: "AI / Generative Studio",
-    niches: ["AI Video Studio", "Generative Cinema", "Cinematic AI Brand", "Animated Background Asset"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    niches: [
+      "AI Video Studio",
+      "Generative Cinema",
+      "Cinematic AI Brand",
+      "Animated Background Asset",
+    ],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "sentinel-ai",
@@ -931,7 +1126,12 @@ export const TEMPLATES = [
     githubUrl: "https://github.com/Cosmiclan/template-bg-solar-flare",
     vertical: "AI / Generative Studio",
     niches: ["Solar Visuals", "Cinematic AI Brand", "Bold Brand"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "stellar-ai",
@@ -960,8 +1160,18 @@ export const TEMPLATES = [
     liveUrl: "https://template-bg-background-05.vercel.app",
     githubUrl: "https://github.com/Cosmiclan/template-bg-background-05",
     vertical: "AI / Generative Studio",
-    niches: ["AI Video Studio", "Generative Cinema", "Cinematic AI Brand", "Animated Background Asset"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    niches: [
+      "AI Video Studio",
+      "Generative Cinema",
+      "Cinematic AI Brand",
+      "Animated Background Asset",
+    ],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "creative-studio",
@@ -990,8 +1200,18 @@ export const TEMPLATES = [
     liveUrl: "https://template-bg-motion-bg-59.vercel.app",
     githubUrl: "https://github.com/Cosmiclan/template-bg-motion-bg-59",
     vertical: "AI / Generative Studio",
-    niches: ["AI Video Studio", "Generative Cinema", "Cinematic AI Brand", "Animated Background Asset"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    niches: [
+      "AI Video Studio",
+      "Generative Cinema",
+      "Cinematic AI Brand",
+      "Animated Background Asset",
+    ],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "bg-motion-background-105838",
@@ -1003,10 +1223,21 @@ export const TEMPLATES = [
     video: "/images/templates/bg-motion-background-105838.mp4",
     poster: "/images/templates/bg-motion-background-105838.png",
     liveUrl: "https://template-bg-motion-background-10583.vercel.app",
-    githubUrl: "https://github.com/Cosmiclan/template-bg-motion-background-105838",
+    githubUrl:
+      "https://github.com/Cosmiclan/template-bg-motion-background-105838",
     vertical: "AI / Generative Studio",
-    niches: ["AI Video Studio", "Generative Cinema", "Cinematic AI Brand", "Animated Background Asset"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    niches: [
+      "AI Video Studio",
+      "Generative Cinema",
+      "Cinematic AI Brand",
+      "Animated Background Asset",
+    ],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "bg-cosmic-ribbon",
@@ -1021,7 +1252,12 @@ export const TEMPLATES = [
     githubUrl: "https://github.com/Cosmiclan/template-bg-cosmic-ribbon",
     vertical: "AI / Generative Studio",
     niches: ["Cosmic AI", "Ribbon Motion", "Cinematic AI Brand"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "3d-collectible-hero",
@@ -1051,7 +1287,12 @@ export const TEMPLATES = [
     githubUrl: "https://github.com/Cosmiclan/template-bg-vapor-trail",
     vertical: "AI / Generative Studio",
     niches: ["Vapor Aesthetic", "Cinematic AI Brand"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "vaultshield",
@@ -1080,8 +1321,18 @@ export const TEMPLATES = [
     liveUrl: "https://template-bg-background-03.vercel.app",
     githubUrl: "https://github.com/Cosmiclan/template-bg-background-03",
     vertical: "AI / Generative Studio",
-    niches: ["AI Video Studio", "Generative Cinema", "Cinematic AI Brand", "Animated Background Asset"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    niches: [
+      "AI Video Studio",
+      "Generative Cinema",
+      "Cinematic AI Brand",
+      "Animated Background Asset",
+    ],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "bg-animated-background-101827",
@@ -1093,10 +1344,21 @@ export const TEMPLATES = [
     video: "/images/templates/bg-animated-background-101827.mp4",
     poster: "/images/templates/bg-animated-background-101827.png",
     liveUrl: "https://template-bg-animated-background-101.vercel.app",
-    githubUrl: "https://github.com/Cosmiclan/template-bg-animated-background-101827",
+    githubUrl:
+      "https://github.com/Cosmiclan/template-bg-animated-background-101827",
     vertical: "AI / Generative Studio",
-    niches: ["AI Video Studio", "Generative Cinema", "Cinematic AI Brand", "Animated Background Asset"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    niches: [
+      "AI Video Studio",
+      "Generative Cinema",
+      "Cinematic AI Brand",
+      "Animated Background Asset",
+    ],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "bg-background-088",
@@ -1110,8 +1372,18 @@ export const TEMPLATES = [
     liveUrl: "https://template-bg-background-088.vercel.app",
     githubUrl: "https://github.com/Cosmiclan/template-bg-background-088",
     vertical: "AI / Generative Studio",
-    niches: ["AI Video Studio", "Generative Cinema", "Cinematic AI Brand", "Animated Background Asset"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    niches: [
+      "AI Video Studio",
+      "Generative Cinema",
+      "Cinematic AI Brand",
+      "Animated Background Asset",
+    ],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "bg-void-pulse",
@@ -1126,7 +1398,12 @@ export const TEMPLATES = [
     githubUrl: "https://github.com/Cosmiclan/template-bg-void-pulse",
     vertical: "AI / Generative Studio",
     niches: ["Dark AI", "Pulse Motion", "Cinematic AI Brand"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "bg-background-7",
@@ -1140,8 +1417,18 @@ export const TEMPLATES = [
     liveUrl: "https://template-bg-background-7.vercel.app",
     githubUrl: "https://github.com/Cosmiclan/template-bg-background-7",
     vertical: "AI / Generative Studio",
-    niches: ["AI Video Studio", "Generative Cinema", "Cinematic AI Brand", "Animated Background Asset"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    niches: [
+      "AI Video Studio",
+      "Generative Cinema",
+      "Cinematic AI Brand",
+      "Animated Background Asset",
+    ],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "price-calculator",
@@ -1168,10 +1455,16 @@ export const TEMPLATES = [
     video: "/images/templates/bg-ethereal-flower-fields.mp4",
     poster: "/images/templates/bg-ethereal-flower-fields.png",
     liveUrl: "https://template-bg-ethereal-flower-fields.vercel.app",
-    githubUrl: "https://github.com/Cosmiclan/template-bg-ethereal-flower-fields",
+    githubUrl:
+      "https://github.com/Cosmiclan/template-bg-ethereal-flower-fields",
     vertical: "AI / Generative Studio",
     niches: ["AI Botanical", "Generative Nature", "Cinematic AI Brand"],
-    buyerPersonas: ["Generative AI Brands", "AI Video Platforms", "Cinematic Brand Studios", "Motion Design Agencies"],
+    buyerPersonas: [
+      "Generative AI Brands",
+      "AI Video Platforms",
+      "Cinematic Brand Studios",
+      "Motion Design Agencies",
+    ],
   },
   {
     slug: "cybersecurity-hero",

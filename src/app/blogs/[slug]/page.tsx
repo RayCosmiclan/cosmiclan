@@ -1,3 +1,4 @@
+import { pick } from "@/components/public/cosmiclan-site-data";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
@@ -24,7 +25,7 @@ export default async function BlogPostPage({
   const post = await getBlogPost(slug, locale);
   if (!post) notFound();
 
-  const copy = BLOG_COPY[locale];
+  const copy = pick(BLOG_COPY, locale);
   const all = await listBlogPosts(locale);
   const idx = all.findIndex((p) => p.slug === slug);
   const next = idx >= 0 ? (all[idx + 1] ?? all[0]) : null;
@@ -52,7 +53,7 @@ export default async function BlogPostPage({
         </div>
         <BlogIndexClock locale={locale} dataBoot />
         <div data-boot className={styles.navGroup}>
-          <Link href="mailto:gabrielantony56@gmail.com">
+          <Link href="mailto:contact@cosmiclan.com">
             {copy.contactLabel}
           </Link>
         </div>

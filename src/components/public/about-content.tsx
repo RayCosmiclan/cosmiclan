@@ -91,7 +91,7 @@ export function AboutContent({
   services: string[];
   socialLinks: SocialLink[];
   contactCopy: ContactCopy;
-  timeLocale: "id" | "default";
+  timeLocale: "id" | "default" | "ar" | "eu";
 }) {
   const [, ...agents] = team;
   const [activeStep, setActiveStep] = useState(0);
@@ -184,9 +184,7 @@ export function AboutContent({
           {timeLabel}
         </span>
         <div data-boot className={styles.navGroup}>
-          <Link href="mailto:gabrielantony56@gmail.com">
-            {copy.contactLabel}
-          </Link>
+          <Link href="mailto:contact@cosmiclan.com">{copy.contactLabel}</Link>
         </div>
       </nav>
 
@@ -204,10 +202,15 @@ export function AboutContent({
               <RevealText as="span" effect="chars" immediate delay={0.45}>
                 {copy.titleAccent}
               </RevealText>
-            </Highlight>{" "}
-            <RevealText as="span" effect="chars" immediate delay={0.6}>
-              Output.
-            </RevealText>
+            </Highlight>
+            {timeLocale !== "ar" ? (
+              <>
+                {" "}
+                <RevealText as="span" effect="chars" immediate delay={0.6}>
+                  Output.
+                </RevealText>
+              </>
+            ) : null}
           </span>
         </h1>
         <div className={styles.heroStatement}>

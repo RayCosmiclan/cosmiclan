@@ -14,7 +14,7 @@ import styles from "./cosmiclan-work.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const CONTACT_EMAIL = "gabrielantony56@gmail.com";
+const CONTACT_EMAIL = "contact@cosmiclan.com";
 
 type ProductWithMedia = Product & {
   screenshot?: string;

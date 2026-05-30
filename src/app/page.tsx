@@ -1,3 +1,4 @@
+import { pick } from "@/components/public/cosmiclan-site-data";
 import { CosmiclanLanding } from "@/components/public/cosmiclan-landing";
 import { COSMICLAN_PUBLIC_SEEN_COOKIE } from "@/components/public/cosmiclan-public-session";
 import {
@@ -29,8 +30,10 @@ export default async function Page({
 }: {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const locale = await getLocaleFromRequest();
   const sp = (await searchParams) ?? {};
+  const locale = await getLocaleFromRequest(
+    typeof sp.face === "string" ? sp.face : null,
+  );
   const splashOverride = pickSplashVariant(sp.splash);
   const cookieStore = await cookies();
   const hasSeenPublicSite =
@@ -38,9 +41,9 @@ export default async function Page({
 
   return (
     <CosmiclanLanding
-      copy={LANDING_COPY[locale]}
-      categoryLabels={CATEGORY_LABELS[locale]}
-      layoutLabels={LAYOUT_LABELS[locale]}
+      copy={pick(LANDING_COPY, locale)}
+      categoryLabels={pick(CATEGORY_LABELS, locale)}
+      layoutLabels={pick(LAYOUT_LABELS, locale)}
       initialShowSplash={splashOverride !== undefined || !hasSeenPublicSite}
       splashVariant={splashOverride}
     />

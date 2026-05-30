@@ -1,3 +1,4 @@
+import { pick } from "@/components/public/cosmiclan-site-data";
 import Link from "next/link";
 import Image from "next/image";
 import { BLOG_COPY } from "@/components/public/cosmiclan-site-data";
@@ -21,7 +22,7 @@ const MARQUEE_PHRASES = {
 
 export default async function BlogsPage() {
   const locale = await getLocaleFromRequest();
-  const copy = BLOG_COPY[locale];
+  const copy = pick(BLOG_COPY, locale);
   const posts = await listBlogPosts(locale);
 
   const dateFormatter = new Intl.DateTimeFormat(
@@ -53,7 +54,7 @@ export default async function BlogsPage() {
         </div>
         <BlogIndexClock locale={locale} dataBoot />
         <div data-boot className={styles.navGroup}>
-          <Link href="mailto:gabrielantony56@gmail.com">
+          <Link href="mailto:contact@cosmiclan.com">
             {copy.contactLabel}
           </Link>
         </div>
