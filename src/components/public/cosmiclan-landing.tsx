@@ -27,8 +27,10 @@ import {
 import {
   PRODUCTS,
   WORK_CATEGORIES,
+  type LocaleKey,
   type WorkCategory,
 } from "./cosmiclan-site-data";
+import { RegionSwitcher } from "./region-switcher";
 import frameStyles from "./cosmiclan-home.module.css";
 import wheelStyles from "./cosmiclan-wheel.module.css";
 
@@ -251,12 +253,14 @@ const DEFAULT_LAYOUT_LABELS: Record<string, string> = {
 };
 
 export function CosmiclanLanding({
+  locale = "default",
   copy = DEFAULT_LANDING_COPY,
   categoryLabels = DEFAULT_CATEGORY_LABELS,
   layoutLabels = DEFAULT_LAYOUT_LABELS,
   initialShowSplash = true,
   splashVariant,
 }: {
+  locale?: LocaleKey;
   copy?: LandingCopy;
   categoryLabels?: Record<WorkCategory, string>;
   layoutLabels?: Record<string, string>;
@@ -1329,7 +1333,7 @@ export function CosmiclanLanding({
             </button>
           ))}
         </div>
-        <span>{copy.rightsReserved}</span>
+        <RegionSwitcher locale={locale} rightsText={copy.rightsReserved} />
       </footer>
     </main>
   );

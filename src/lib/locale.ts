@@ -32,7 +32,54 @@ const ARAB = new Set([
 
 // Europe (EU-27 + UK + EEA/EFTA) → Sofia Lindqvist (English)
 const EUROPE = new Set([
-  "AD","AL","AT","BA","BE","BG","BY","CH","CY","CZ","DE","DK","EE","ES","FI","FO","FR","GB","GI","GR","HR","HU","IE","IS","IT","LI","LT","LU","LV","MC","MD","ME","MK","MT","NL","NO","PL","PT","RO","RS","RU","SE","SI","SK","SM","UA","VA","XK",
+  "AD",
+  "AL",
+  "AT",
+  "BA",
+  "BE",
+  "BG",
+  "BY",
+  "CH",
+  "CY",
+  "CZ",
+  "DE",
+  "DK",
+  "EE",
+  "ES",
+  "FI",
+  "FO",
+  "FR",
+  "GB",
+  "GI",
+  "GR",
+  "HR",
+  "HU",
+  "IE",
+  "IS",
+  "IT",
+  "LI",
+  "LT",
+  "LU",
+  "LV",
+  "MC",
+  "MD",
+  "ME",
+  "MK",
+  "MT",
+  "NL",
+  "NO",
+  "PL",
+  "PT",
+  "RO",
+  "RS",
+  "RU",
+  "SE",
+  "SI",
+  "SK",
+  "SM",
+  "UA",
+  "VA",
+  "XK",
 ]);
 
 const VALID_OVERRIDES = new Set<LocaleKey>(["default", "id", "ar", "eu"]);
@@ -58,6 +105,14 @@ export async function getLocaleFromRequest(
   }
   try {
     const h = await headers();
+    // Manual region pick (footer switcher) — persisted cookie beats IP geo.
+    const cookie = h.get("cookie") || "";
+    const picked = cookie.match(
+      /(?:^|;\s*)cosmiclan-locale=(default|id|ar|eu)(?:;|$)/,
+    );
+    if (picked && VALID_OVERRIDES.has(picked[1] as LocaleKey)) {
+      return picked[1] as LocaleKey;
+    }
     for (const key of COUNTRY_HEADERS) {
       const matched = localeFromCountry(h.get(key));
       if (matched) return matched;

@@ -41,6 +41,7 @@ export default async function Page({
 
   return (
     <CosmiclanLanding
+      locale={locale}
       copy={pick(LANDING_COPY, locale)}
       categoryLabels={pick(CATEGORY_LABELS, locale)}
       layoutLabels={pick(LAYOUT_LABELS, locale)}
