@@ -391,8 +391,8 @@ export const SOCIAL_LINKS_BY_LOCALE: L10n<
     { name: "X", handle: "@cosmiclan_", url: "https://x.com/cosmiclan_" },
     {
       name: "LinkedIn",
-      handle: "gabriel-antony",
-      url: "https://www.linkedin.com/in/gabriel-antony/",
+      handle: "cosmiclan",
+      url: "https://www.linkedin.com/company/cosmiclan/",
     },
   ],
   id: [
@@ -404,8 +404,8 @@ export const SOCIAL_LINKS_BY_LOCALE: L10n<
     { name: "X", handle: "@cosmiclan_", url: "https://x.com/cosmiclan_" },
     {
       name: "LinkedIn",
-      handle: "gabriel-antony",
-      url: "https://www.linkedin.com/in/gabriel-antony/",
+      handle: "cosmiclan",
+      url: "https://www.linkedin.com/company/cosmiclan/",
     },
   ],
   ar: [
@@ -417,8 +417,8 @@ export const SOCIAL_LINKS_BY_LOCALE: L10n<
     { name: "X", handle: "@cosmiclan_", url: "https://x.com/cosmiclan_" },
     {
       name: "LinkedIn",
-      handle: "gabriel-antony",
-      url: "https://www.linkedin.com/in/gabriel-antony/",
+      handle: "cosmiclan",
+      url: "https://www.linkedin.com/company/cosmiclan/",
     },
   ],
 };
