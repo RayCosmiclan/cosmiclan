@@ -574,6 +574,7 @@ export type WorkCategory = (typeof WORK_CATEGORIES)[number];
 export const PRODUCTS = [
   {
     slug: "marvis-infratech",
+    liveUrl: "https://marvis-infratech.vercel.app",
     name: "Marvis Infratech",
     type: "Infrastructure",
     category: "Landing" as WorkCategory,
@@ -582,6 +583,7 @@ export const PRODUCTS = [
   },
   {
     slug: "larinova",
+    liveUrl: "https://larinova.com",
     name: "Larinova",
     type: "Healthcare brand",
     category: "Landing" as WorkCategory,
@@ -590,6 +592,7 @@ export const PRODUCTS = [
   },
   {
     slug: "zencampus",
+    liveUrl: "https://zencampus.vercel.app",
     name: "Zencampus",
     type: "Education brand",
     category: "Landing" as WorkCategory,
@@ -598,6 +601,7 @@ export const PRODUCTS = [
   },
   {
     slug: "larinova-app",
+    liveUrl: "https://app.larinova.com",
     name: "Larinova App",
     type: "Healthcare app",
     category: "Apps" as WorkCategory,
@@ -606,6 +610,7 @@ export const PRODUCTS = [
   },
   {
     slug: "rax-tech",
+    liveUrl: "https://rax-tech.com",
     name: "Rax Tech",
     type: "Chennai / Europe / Gulf Connect",
     category: "Landing" as WorkCategory,
@@ -619,6 +624,7 @@ export const PRODUCTS = [
   },
   {
     slug: "tarqeem",
+    liveUrl: "https://tarqeem.vercel.app",
     name: "Tarqeem",
     type: "App",
     category: "Apps" as WorkCategory,
@@ -635,6 +641,7 @@ export const PRODUCTS = [
   },
   {
     slug: "medato",
+    liveUrl: "https://medato-admin.vercel.app",
     name: "Medato",
     type: "Healthcare app",
     category: "Apps" as WorkCategory,

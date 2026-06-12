@@ -21,6 +21,7 @@ type ProductWithMedia = Product & {
   screenshots?: string[];
   video?: string;
   poster?: string;
+  liveUrl?: string;
 };
 
 function getParallaxSpeed(index: number): number {
@@ -286,6 +287,16 @@ export function CosmiclanWorkPage({
         </span>
         <h1>{product.name}</h1>
         <p>{product.text}</p>
+        {mediaProduct.liveUrl ? (
+          <a
+            href={mediaProduct.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.visitLink}
+          >
+            View website <span aria-hidden="true">↗</span>
+          </a>
+        ) : null}
       </article>
 
       {videoSrc ? (

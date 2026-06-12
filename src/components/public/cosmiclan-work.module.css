@@ -184,6 +184,36 @@
   line-height: 1.55;
 }
 
+.visitLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 28px;
+  padding: 12px 20px;
+  border: 1px solid var(--line-strong);
+  color: var(--ivory);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition:
+    background 220ms ease,
+    color 220ms ease,
+    border-color 220ms ease;
+}
+
+.visitLink:hover {
+  background: var(--ivory);
+  border-color: var(--ivory);
+  color: var(--void);
+}
+
+.visitLink:focus-visible {
+  outline: 1px solid var(--line-strong);
+  outline-offset: 2px;
+}
+
 .backLink {
   color: var(--ivory);
   font-size: 14px;
