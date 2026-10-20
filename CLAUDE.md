@@ -1,5 +1,9 @@
 # Cosmiclan
 
+> **Historical description.** This directory is now the Cosmiclan brand site (routes `/`,
+> `/about`, `/blogs`, `/team`, `/work`). The mission-control app described below moved to
+> `apps/command/`; this text is not operative for either app.
+
 Mission control for Gabriel's 8-agent clan. Browser-first web app today, Tauri desktop (macOS `.dmg`) next year. You work with your clan here — send messages, triage inbox, participate in channels, watch consciousness — instead of just watching it.
 
 **Location:** `~/Documents/agents/landing/cosmiclan/`
@@ -143,7 +147,7 @@ WS base URL configurable via `NEXT_PUBLIC_WS_BASE_URL` (default `ws://localhost`
 
 ---
 
-## Key UI Rules (from `~/.claude/rules/ui-rules.md`)
+## Key UI Rules (formerly in the retired `~/.claude/rules/ui-rules.md`; `../../design-system/AGENTS.md` wins where they differ)
 
 - No search icons inside search bars
 - No back buttons — use browser back or Cancel/Close in context
